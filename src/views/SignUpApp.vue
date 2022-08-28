@@ -33,6 +33,7 @@ export default {
       createUserWithEmailAndPassword(auth, this.email, this.password)
         .then(
           //成功時の処理
+          alert("登録成功しました"),
           console.log("登録成功しました"),
           (this.email = ""),
           (this.password = "")
