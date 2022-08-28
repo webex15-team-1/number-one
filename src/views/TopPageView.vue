@@ -13,6 +13,7 @@
     </div>
     <h3>内部データ</h3>
     <div class="debug-area">
+      <div>現在の設定: {{ now }}</div>
       <input type="text" v-model="debug.input.year" style="width: 5em" /><span
         >年</span
       >
@@ -44,13 +45,18 @@
           </thead>
           <tbody>
             <tr>
+              <td>dawnPercent</td>
+              <td>0%: dawn ~ 100%: sunrise</td>
+              <td>{{ dawnPercent }}</td>
+            </tr>
+            <tr>
               <td>sunPercentAtRising</td>
               <td>0%: sunrise ~ 100%: sunriseEnd</td>
               <td>{{ sunPercentAtRising }}</td>
             </tr>
             <tr>
               <td>sunPercent</td>
-              <td>0%: sunriseEnd ~ 50%: 南中 ~ 100%: sunsetStart</td>
+              <td>0%: sunriseEnd ~ 100%: sunsetStart</td>
               <td>{{ sunPercent }}</td>
             </tr>
 
@@ -60,11 +66,25 @@
               <td>{{ sunPercentAtSetting }}</td>
             </tr>
             <tr>
+              <td>duskPercent</td>
+              <td>0%: sunset ~ 100%: dusk</td>
+              <td>{{ duskPercent }}</td>
+            </tr>
+            <tr>
               <td>sunTheta</td>
               <td>
-                単位円上を半径<i>radius</i>の太陽が動くとしたときの太陽の角度と状態
+                単位円上を半径<i>radius</i>の太陽が動くとしたときの太陽の角度
+                (rad)
               </td>
-              <td>{{ sunTheta.theta }} ({{ sunTheta.phase }})</td>
+              <td>{{ sunTheta }}</td>
+            </tr>
+            <tr>
+              <td>dayPhase</td>
+              <td>
+                nowが一日のどこに当たるか (night | dawn | rising | day | setting
+                | dusk)
+              </td>
+              <td>{{ dayPhase }}</td>
             </tr>
             <tr>
               <td>moonPercent</td>
@@ -261,6 +281,19 @@ export default {
         this.sun.sunset.getTime() - this.sun.sunsetStart.getTime()
       return (millisecondFromSunsetStart / sunsetLength) * 100
     },
+    dawnPercent() {
+      const nowMilliSecond = this.now.getTime()
+      const millisecondFromDawnStart = nowMilliSecond - this.sun.dawn.getTime()
+      const dawnLength = this.sun.sunrise.getTime() - this.sun.dawn.getTime()
+      return (millisecondFromDawnStart / dawnLength) * 100
+    },
+    duskPercent() {
+      const nowMilliSecond = this.now.getTime()
+      const millisecondFromDuskStart =
+        nowMilliSecond - this.sun.sunset.getTime()
+      const duskLength = this.sun.dusk.getTime() - this.sun.sunset.getTime()
+      return (millisecondFromDuskStart / duskLength) * 100
+    },
     moonPercent() {
       const nowMilliSecond = this.now.getTime()
       const millisecondFromMoonRise = nowMilliSecond - this.moon.rise.getTime()
@@ -272,33 +305,44 @@ export default {
     },
     sunTheta() {
       if (0 <= this.sunPercentAtRising && this.sunPercentAtRising <= 100) {
-        return {
-          phase: "rising",
-          theta:
-            Math.PI +
-            this.arcsineOfRadius -
-            2 * this.arcsineOfRadius * (this.sunPercentAtRising / 100),
-        }
+        return (
+          Math.PI +
+          this.arcsineOfRadius -
+          2 * this.arcsineOfRadius * (this.sunPercentAtRising / 100)
+        )
       } else if (0 <= this.sunPercent && this.sunPercent <= 100) {
-        return {
-          phase: "day",
-          theta:
-            Math.PI -
-            this.arcsineOfRadius +
-            (2 * this.arcsineOfRadius - Math.PI) * (this.sunPercent / 100),
-        }
+        return (
+          Math.PI -
+          this.arcsineOfRadius +
+          (2 * this.arcsineOfRadius - Math.PI) * (this.sunPercent / 100)
+        )
       } else if (
         0 <= this.sunPercentAtSetting &&
         this.sunPercentAtSetting <= 100
       ) {
-        return {
-          phase: "setting",
-          theta:
-            this.arcsineOfRadius -
-            2 * this.arcsineOfRadius * (this.sunPercentAtSetting / 100),
-        }
+        return (
+          this.arcsineOfRadius -
+          2 * this.arcsineOfRadius * (this.sunPercentAtSetting / 100)
+        )
       } else {
-        return { phase: "night", theta: -Math.PI / 2 }
+        return -Math.PI / 2
+      }
+    },
+    dayPhase() {
+      if (this.now < this.sun.dawn) {
+        return "night"
+      } else if (this.now < this.sun.sunrise) {
+        return "dawn"
+      } else if (this.now < this.sun.sunriseEnd) {
+        return "rising"
+      } else if (this.now < this.sun.sunsetStart) {
+        return "day"
+      } else if (this.now < this.sun.sunset) {
+        return "setting"
+      } else if (this.now < this.sun.dusk) {
+        return "dusk"
+      } else {
+        return "night"
       }
     },
   },
