@@ -15,10 +15,17 @@
     </tr>
   </table>
   <button v-on:click="login">ログインする</button>
+  <br />
+  <button v-on:click="googleLogin">googleでログイン</button>
 </template>
 
 <script>
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithRedirect,
+  GoogleAuthProvider,
+} from "firebase/auth"
 
 export default {
   data() {
@@ -39,6 +46,11 @@ export default {
           //エラー時処理
           alert("ログインできませんでした")
         )
+    },
+    googleLogin() {
+      const auth = getAuth()
+      const provider = new GoogleAuthProvider()
+      signInWithRedirect(auth, provider)
     },
   },
 }
