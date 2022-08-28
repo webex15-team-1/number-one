@@ -60,6 +60,13 @@
               <td>{{ sunPercentAtSetting }}</td>
             </tr>
             <tr>
+              <td>sunTheta</td>
+              <td>
+                単位円上を半径<i>radius</i>の太陽が動くとしたときの太陽の角度と状態
+              </td>
+              <td>{{ sunTheta.theta }} ({{ sunTheta.phase }})</td>
+            </tr>
+            <tr>
               <td>moonPercent</td>
               <td>0%: rise ~ 100%: set</td>
               <td>{{ moonPercent }}</td>
@@ -124,6 +131,9 @@ export default {
       },
       sun: {},
       moon: {},
+      sunFigure: {
+        radius: 0.1,
+      },
     }
   },
   methods: {
@@ -256,6 +266,40 @@ export default {
       const millisecondFromMoonRise = nowMilliSecond - this.moon.rise.getTime()
       const moonLength = this.moon.set.getTime() - this.moon.rise.getTime()
       return (millisecondFromMoonRise / moonLength) * 100
+    },
+    arcsineOfRadius() {
+      return Math.asin(this.sunFigure.radius)
+    },
+    sunTheta() {
+      if (0 <= this.sunPercentAtRising && this.sunPercentAtRising <= 100) {
+        return {
+          phase: "rising",
+          theta:
+            Math.PI +
+            this.arcsineOfRadius -
+            2 * this.arcsineOfRadius * (this.sunPercentAtRising / 100),
+        }
+      } else if (0 <= this.sunPercent && this.sunPercent <= 100) {
+        return {
+          phase: "day",
+          theta:
+            Math.PI -
+            this.arcsineOfRadius +
+            (2 * this.arcsineOfRadius - Math.PI) * (this.sunPercent / 100),
+        }
+      } else if (
+        0 <= this.sunPercentAtSetting &&
+        this.sunPercentAtSetting <= 100
+      ) {
+        return {
+          phase: "setting",
+          theta:
+            this.arcsineOfRadius -
+            2 * this.arcsineOfRadius * (this.sunPercentAtSetting / 100),
+        }
+      } else {
+        return { phase: "night", theta: -Math.PI / 2 }
+      }
     },
   },
 }
