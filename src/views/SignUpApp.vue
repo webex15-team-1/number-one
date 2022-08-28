@@ -25,22 +25,22 @@ export default {
     return {
       email: "",
       password: "",
+      auth: getAuth(),
     }
   },
   methods: {
     signUp() {
-      const auth = getAuth()
-      createUserWithEmailAndPassword(auth, this.email, this.password)
+      createUserWithEmailAndPassword(this.auth, this.email, this.password)
         .then(
           //成功時の処理
           alert("登録成功しました"),
-          console.log("登録成功しました"),
           (this.email = ""),
           (this.password = "")
         )
-        .catch
-        //エラー時処理
-        ()
+        .catch(
+          //エラー時処理
+          alert("登録できていません")
+        )
     },
   },
 }
