@@ -31,16 +31,14 @@ export default {
   methods: {
     signUp() {
       createUserWithEmailAndPassword(this.auth, this.email, this.password)
-        .then(
+        .then(() => {
           //成功時の処理
-          alert("登録成功しました"),
-          (this.email = ""),
-          (this.password = "")
-        )
-        .catch(
+          alert("登録成功しました"), (this.email = ""), (this.password = "")
+        })
+        .catch(() => {
           //エラー時処理
           alert("登録できていません")
-        )
+        })
     },
   },
 }

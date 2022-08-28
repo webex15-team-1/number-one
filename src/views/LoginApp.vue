@@ -15,9 +15,12 @@
     </tr>
   </table>
   <button v-on:click="login">ログインする</button>
+
   <br />
 
   <button v-on:click="googleLogin">googleでログイン</button>
+
+  <br />
 
   <button @click="logout">ログアウト</button>
 </template>
@@ -42,14 +45,14 @@ export default {
     login() {
       const auth = getAuth()
       signInWithEmailAndPassword(auth, this.email, this.password)
-        .then(
+        .then(() => {
           //成功時の処理
           alert("ログイン成功しました")
-        )
-        .catch(
+        })
+        .catch(() => {
           //エラー時処理
           alert("ログインできませんでした")
-        )
+        })
     },
     googleLogin() {
       const auth = getAuth()
