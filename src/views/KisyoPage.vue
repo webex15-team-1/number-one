@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <div class="janken">
+    <div class="janken" v-if="isJanken">
       <h2>今日の運試し</h2>
       <h3>勝てばポイント1.5倍！</h3>
       <div class="te__images">
@@ -45,8 +45,17 @@
         </button>
       </div>
       <h3 class="result__text">{{ resultText }}</h3>
+
+      <div v-if="countTime">
+        このウインドウは{{ remainTime }}秒後に閉じられます。
+      </div>
     </div>
 
+    <div class="jankenKakunin" v-if="buttonClicked">
+      <div>獲得ポイント1.5倍のチャンス！運試しする？</div>
+      <button class="kakuninButton" v-on:click="yesJanken">する</button>
+      <button class="kakuninButton" v-on:click="noJanken">しない</button>
+    </div>
     <div class="target">起床目標時間</div>
     <div class="targetTime">
       <input type="number" min="0" max="12" v-model="targetHour" />:<input
@@ -58,7 +67,7 @@
     </div>
     <button v-on:click="kisyoButton">起床</button>
     <div v-if="isLate">
-      <div class="timeLate">目標時間より{{ timeLate }}分です。</div>
+      <div class="timeLate">目標時間より{{ fixedtimeLate }}分です。</div>
       <div class="pointGet">{{ point }}ポイントを獲得しました！</div>
     </div>
   </div>
@@ -68,6 +77,10 @@
 export default {
   data() {
     return {
+      isJanken: false,
+      buttonClicked: true,
+      countTime: false,
+      remainTime: 5,
       player: "",
       pc: "",
       resultText: "　",
@@ -91,12 +104,22 @@ export default {
       targetMin10: 0,
       targetMin1: 0,
       timeLate: "",
+      fixedtimeLate: "",
       isLate: false,
       point: 0,
       i: 1,
     }
   },
   methods: {
+    //じゃんけんする
+    yesJanken: function () {
+      this.isJanken = true
+      this.buttonClicked = false
+    },
+    //じゃんけんしない
+    noJanken: function () {
+      this.buttonClicked = false
+    },
     kisyoButton: function () {
       //今の時間
       let now = new Date()
@@ -112,6 +135,11 @@ export default {
       this.timeLate = Math.floor(
         (now.getTime() - target.getTime()) / (1000 * 60)
       )
+      if (this.timeLate > 0) {
+        this.fixedtimeLate = "+" + this.timeLate
+      } else {
+        this.fixedtimeLate = this.timeLate
+      }
       this.isLate = true
 
       //ポイント処理
@@ -132,6 +160,15 @@ export default {
       this.player = choice.number
       this.result()
       this.buttonJanken = false
+      this.countTime = true
+      setTimeout(() => {
+        this.isJanken = false
+      }, 5000)
+      const remainTime = setInterval(() => {
+        this.remainTime -= 1
+        if (this.remainTime === 0) clearInterval(remainTime)
+      }, 1000)
+
       //選択した手がでるようにする
     },
     result() {
@@ -158,32 +195,32 @@ export default {
 .janken {
   border: 4px solid;
   box-sizing: border-box;
-  width: auto;
+  margin: 0 30%;
+  padding: 1% 0;
 }
 .te__images {
-  height: 20vw;
+  height: 24vw;
   position: relative;
 }
 
 .te {
-  width: 20%;
+  width: 60%;
   position: absolute;
-  left: 40%;
+  left: 20%;
 }
-
 .dwu__guu {
-  width: 20%;
+  width: 60%;
   position: absolute;
-  left: 40%;
+  left: 20%;
   animation-name: images;
   animation-duration: 0.3s;
   animation-iteration-count: infinite;
 }
 
 .dwu__tyoki {
-  width: 20%;
+  width: 60%;
   position: absolute;
-  left: 40%;
+  left: 20%;
   animation-name: images;
   animation-duration: 0.3s;
   animation-iteration-count: infinite;
@@ -191,9 +228,9 @@ export default {
 }
 
 .dwu__paa {
-  width: 20%;
+  width: 60%;
   position: absolute;
-  left: 40%;
+  left: 20%;
   animation-name: images;
   animation-duration: 0.3s;
   animation-iteration-count: infinite;
@@ -213,16 +250,8 @@ export default {
   }
 }
 
-.button__area {
-  margin: 0 auto;
-  width: 50%;
-  display: flex;
-  justify-content: space-around;
-}
-
 .janken__button {
-  font-size: 100%;
-  justify-content: space-around;
+  margin: 1%;
 }
 
 .pc__text {
@@ -231,5 +260,18 @@ export default {
 
 .result__text {
   text-align: center;
+}
+
+.jankenKakunin {
+  border: thick double red;
+  box-sizing: border-box;
+  width: fit-content;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 1%;
+}
+
+.kakuninButton {
+  margin: 1%;
 }
 </style>
