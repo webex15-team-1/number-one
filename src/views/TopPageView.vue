@@ -11,9 +11,23 @@
       </div>
       <img id="weather-img" :src="weather.image" alt="" />
     </div>
+    <div class="sun-wrap" :style="containerStyle">
+      <div class="sun" :style="sunStyle" v-show="isSunShineTime">
+        <div v-if="debug.showInternalData">
+          ({{ Math.round(sunX * 1000) / 1000 }},
+          {{ Math.round(sunY * 1000) / 1000 }})
+        </div>
+      </div>
+      <div class="horizon">
+        <div v-if="debug.showInternalData" style="font-size: 3em">
+          dayPhase: {{ dayPhase }}
+        </div>
+      </div>
+    </div>
     <div class="debug-area" v-if="debug.showInternalData">
       <h3>内部データ</h3>
-      <div>現在の設定: {{ now }}</div>
+      <div style="margin: 1em">現在の設定: {{ now }}</div>
+      時刻を指定する：
       <input type="text" v-model="debug.input.year" style="width: 5em" /><span
         >年</span
       >
@@ -36,36 +50,43 @@
         v-model="debug.input.seconds"
         style="width: 2em"
       /><span>秒</span>
-      <button @click="setTestDate">この時刻でテストする</button>
-
+      <button @click="setTestDate">この時刻でテストする</button> <br />
+      <span>またはスライダーで指定：</span>
+      <input
+        type="range"
+        min="14400"
+        max="72000"
+        step="1"
+        v-model="sliderInput"
+        style="width: 40em"
+      />
       <div class="internal-data">
         <table class="computed-data">
           <thead>
             <th colspan="3">computed パラメータ</th>
           </thead>
           <tbody>
-            <tr>
+            <tr v-if="dayPhase === 'dawn'">
               <td>dawnPercent</td>
               <td>0%: dawn ~ 100%: sunrise</td>
               <td>{{ dawnPercent }}</td>
             </tr>
-            <tr>
+            <tr v-if="dayPhase === 'rising'">
               <td>sunPercentAtRising</td>
               <td>0%: sunrise ~ 100%: sunriseEnd</td>
               <td>{{ sunPercentAtRising }}</td>
             </tr>
-            <tr>
+            <tr v-if="dayPhase === 'day'">
               <td>sunPercent</td>
               <td>0%: sunriseEnd ~ 100%: sunsetStart</td>
               <td>{{ sunPercent }}</td>
             </tr>
-
-            <tr>
+            <tr v-if="dayPhase === 'setting'">
               <td>sunPercentAtSetting</td>
               <td>0%: sunsetStart ~ 100%: sunset</td>
               <td>{{ sunPercentAtSetting }}</td>
             </tr>
-            <tr>
+            <tr v-if="dayPhase === 'dusk'">
               <td>duskPercent</td>
               <td>0%: sunset ~ 100%: dusk</td>
               <td>{{ duskPercent }}</td>
@@ -74,9 +95,30 @@
               <td>sunTheta</td>
               <td>
                 単位円上を半径<i>r</i> =
-                {{ sunFigure.radius }}の太陽が動くとしたときの太陽の角度 (rad)
+                {{ sunFigure.radius }}の太陽が動くときの太陽の角度 (rad)
               </td>
               <td>{{ sunTheta }}</td>
+            </tr>
+            <tr>
+              <td>sunX</td>
+              <td>
+                単位円上を半径<i>r</i> =
+                {{ sunFigure.radius }}の太陽が動くときの太陽のx座標
+              </td>
+              <td>{{ sunX }}</td>
+            </tr>
+            <tr>
+              <td>sunY</td>
+              <td>
+                単位円上を半径<i>r</i> =
+                {{ sunFigure.radius }}の太陽が動くときの太陽のy座標
+              </td>
+              <td>{{ sunY }}</td>
+            </tr>
+            <tr>
+              <td>sunStyle</td>
+              <td>太陽のStyle</td>
+              <td>{{ sunStyle }}</td>
             </tr>
             <tr>
               <td>dayPhase</td>
@@ -136,6 +178,7 @@ export default {
           seconds: "0",
         },
       },
+      sliderInput: 0,
       greet: "おはようございます",
       now: new Date(Date.now()),
       user: {
@@ -153,7 +196,10 @@ export default {
       sun: {},
       moon: {},
       sunFigure: {
-        radius: 0.1,
+        radius: 0.1, //containerに対する直径の比
+        orbitalFactor: 0.8, //containerに対する軌道直径の比 radius + orbitalFactor <= 1 にするとはみ出ない
+        containerWidth: 30, //em
+        containerHeight: 15, //em
       },
     }
   },
@@ -404,6 +450,12 @@ export default {
         return -Math.PI / 2
       }
     },
+    sunX() {
+      return Math.cos(this.sunTheta)
+    },
+    sunY() {
+      return Math.sin(this.sunTheta)
+    },
     /**
      * 現在時刻が一日のどの段階に当たるかを文字列で返す
      */
@@ -423,6 +475,51 @@ export default {
       } else {
         return "night" //夜
       }
+    },
+    isSunShineTime() {
+      return ["rising", "day", "setting"].includes(this.dayPhase)
+    },
+    containerStyle() {
+      return {
+        height: this.sunFigure.containerHeight + "em",
+        width: this.sunFigure.containerWidth + "em",
+      }
+    },
+    sunStyle() {
+      const sunSize =
+        Math.min(
+          this.sunFigure.containerHeight,
+          this.sunFigure.containerWidth
+        ) * this.sunFigure.radius
+      return {
+        height: sunSize + "em",
+        width: sunSize + "em",
+        transform:
+          "translateX(" +
+          ((this.sunX *
+            this.sunFigure.containerWidth *
+            this.sunFigure.orbitalFactor) /
+            2 -
+            sunSize / 2) +
+          "em) translateY(" +
+          ((-this.sunY *
+            this.sunFigure.containerHeight *
+            this.sunFigure.orbitalFactor) /
+            2 -
+            sunSize / 2) +
+          "em)",
+      }
+    },
+  },
+  watch: {
+    sliderInput(newSliderInput) {
+      const hours = Math.floor(newSliderInput / 3600)
+      const minutes = Math.floor((newSliderInput - hours * 3600) / 60)
+      const seconds = Math.floor(newSliderInput - hours * 3600 - minutes * 60)
+      this.debug.input.hours = hours
+      this.debug.input.minutes = minutes
+      this.debug.input.seconds = seconds
+      this.setTestDate()
     },
   },
 }
@@ -447,5 +544,29 @@ th {
 td {
   padding: 0.5em;
   border-bottom: 1px solid;
+}
+.sun-wrap {
+  position: relative;
+  margin: auto;
+  border: 1px solid black;
+}
+.sun {
+  /* width: 10%;
+  height: 10%; */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background-color: orange;
+  /* transform: translate(-50%, -50%); */
+}
+.horizon {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  width: 100%;
+  height: 50%;
+  background-color: green;
+  opacity: 0.5;
 }
 </style>
