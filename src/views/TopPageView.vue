@@ -12,17 +12,19 @@
       <img id="weather-img" :src="weather.image" alt="" />
     </div>
     <div class="sun-wrap" :style="containerStyle">
+      >
+      <div class="sky">
+        <div class="sky-data" v-if="debug.showInternalData">
+          dayPhase: {{ dayPhase }}
+        </div>
+      </div>
       <div class="sun" :style="sunStyle" v-show="isSunShineTime">
         <div v-if="debug.showInternalData">
           ({{ Math.round(sunX * 1000) / 1000 }},
           {{ Math.round(sunY * 1000) / 1000 }})
         </div>
       </div>
-      <div class="horizon">
-        <div v-if="debug.showInternalData" style="font-size: 3em">
-          dayPhase: {{ dayPhase }}
-        </div>
-      </div>
+      <div class="horizon"></div>
     </div>
     <div class="debug-area" v-if="debug.showInternalData">
       <h3>内部データ</h3>
@@ -559,6 +561,21 @@ td {
   border-radius: 50%;
   background-color: orange;
   /* transform: translate(-50%, -50%); */
+}
+.sky {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 50%;
+  background-color: paleturquoise;
+}
+.sky-data {
+  font-size: 2em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .horizon {
   position: absolute;
