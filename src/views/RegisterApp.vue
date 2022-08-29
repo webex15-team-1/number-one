@@ -1,19 +1,15 @@
 <template>
-  <h1>Let's Sign Up</h1>
-  <table>
-    <tr>
-      <th>メールアドレス：</th>
-    </tr>
-    <tr>
-      <td><input type="email" v-model="email" /></td>
-    </tr>
-    <tr>
-      <th>パスワード：</th>
-    </tr>
-    <tr>
-      <td><input type="password" v-model="password" /></td>
-    </tr>
-  </table>
+  <h1>Let's Register your account</h1>
+  <div>
+    <label>メールアドレス：</label>
+    <input type="email" v-model="email" />
+  </div>
+
+  <div>
+    <label>パスワード：</label>
+    <input type="password" v-model="password" />
+  </div>
+
   <button v-on:click="signUp">新規登録</button>
 </template>
 
@@ -34,6 +30,7 @@ export default {
         .then(() => {
           //成功時の処理
           alert("登録成功しました"), (this.email = ""), (this.password = "")
+          this.$router.push("/login")
         })
         .catch(() => {
           //エラー時処理

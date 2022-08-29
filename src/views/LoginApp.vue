@@ -1,34 +1,25 @@
 <template>
   <h1>Let's Login</h1>
-  <table>
-    <tr>
-      <th>メールアドレス：</th>
-    </tr>
-    <tr>
-      <td><input type="email" v-model="email" /></td>
-    </tr>
-    <tr>
-      <th>パスワード：</th>
-    </tr>
-    <tr>
-      <td><input type="password" v-model="password" /></td>
-    </tr>
-  </table>
+  <div>
+    <label>メールアドレス：</label>
+    <input type="email" v-model="email" />
+  </div>
+
+  <div>
+    <label>パスワード：</label>
+    <input type="password" v-model="password" />
+  </div>
   <button v-on:click="login">ログインする</button>
 
   <br />
-
-  <button v-on:click="googleLogin">googleでログイン</button>
-
-  <br />
-
-  <button @click="logout">ログアウト</button>
+  <div>
+    <button v-on:click="googleLogin">googleでログイン</button>
+  </div>
 </template>
 
 <script>
 import {
   getAuth,
-  signOut,
   signInWithEmailAndPassword,
   signInWithRedirect,
   GoogleAuthProvider,
@@ -48,6 +39,7 @@ export default {
         .then(() => {
           //成功時の処理
           alert("ログイン成功しました")
+          this.$router.push("/mypage")
         })
         .catch(() => {
           //エラー時処理
@@ -58,10 +50,6 @@ export default {
       const auth = getAuth()
       const provider = new GoogleAuthProvider()
       signInWithRedirect(auth, provider)
-    },
-    logout() {
-      const auth = getAuth()
-      signOut(auth)
     },
   },
 }

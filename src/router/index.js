@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router"
 import HomeView from "../views/HomeView.vue"
 import LoginApp from "@/views/LoginApp.vue"
-import SignUpApp from "@/views/SignUpApp.vue"
+import RegisterApp from "@/views/RegisterApp.vue"
+import MypageApp from "@/views/MypageApp.vue"
 
 const routes = [
   {
@@ -15,9 +16,14 @@ const routes = [
     component: LoginApp,
   },
   {
-    path: "/signup",
-    name: "SignUpApp",
-    component: SignUpApp,
+    path: "/register",
+    name: "RegisterApp",
+    component: RegisterApp,
+  },
+  {
+    path: "/mypage",
+    name: "MypageApp",
+    component: MypageApp,
   },
   {
     path: "/about",
