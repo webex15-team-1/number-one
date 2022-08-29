@@ -43,7 +43,7 @@ export default {
         })
         .catch(() => {
           //エラー時処理
-          alert("ログインできませんでした")
+          alert("Error!")
         })
     },
     googleLogin() {

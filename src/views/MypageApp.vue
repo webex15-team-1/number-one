@@ -17,11 +17,11 @@ export default {
         .then(() => {
           // Sign-out successful.
           alert("ログアウトしました")
-          this.$router.push("/login")
+          this.$router.push("/home")
         })
         .catch(() => {
           // An error happened.
-          alert("ログアウトできませんでした")
+          alert("Error!")
         })
     },
   },

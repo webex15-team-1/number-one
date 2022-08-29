@@ -34,7 +34,7 @@ export default {
         })
         .catch(() => {
           //エラー時処理
-          alert("登録できていません")
+          alert("Error!")
         })
     },
   },
