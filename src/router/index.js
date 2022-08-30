@@ -1,12 +1,32 @@
 import { createRouter, createWebHistory } from "vue-router"
-import HomeView from "../views/HomeView.vue"
-import TopPage from "../views/TopPageView.vue"
+import HomeView from "@/views/HomeView.vue"
+import TopPage from "@/views/TopPageView.vue"
+import KisyoPage from "@/views/KisyoPage.vue"
+import AsakatsuPage from "@/views/AsakatsuPage.vue"
+import LoginApp from "@/views/LoginApp.vue"
+import RegisterApp from "@/views/RegisterApp.vue"
+import MypageApp from "@/views/MypageApp.vue"
 
 const routes = [
   {
     path: "/",
     name: "home",
     component: HomeView,
+  },
+  {
+    path: "/login",
+    name: "LoginApp",
+    component: LoginApp,
+  },
+  {
+    path: "/register",
+    name: "RegisterApp",
+    component: RegisterApp,
+  },
+  {
+    path: "/mypage",
+    name: "MypageApp",
+    component: MypageApp,
   },
   {
     path: "/about",
@@ -17,10 +37,16 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
+  { path: "/top", name: "top-page", component: TopPage },
   {
-    path: "/top",
-    name: "top-page",
-    component: TopPage,
+    path: "/kisyo",
+    name: "kisyo",
+    component: KisyoPage,
+  },
+  {
+    path: "/asakatsu",
+    name: "asakatsu",
+    component: AsakatsuPage,
   },
 ]
 
