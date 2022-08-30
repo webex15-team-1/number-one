@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import { getAuth, signOut } from "firebase/auth"
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
 
 export default {
   data() {
@@ -17,13 +17,23 @@ export default {
         .then(() => {
           // Sign-out successful.
           alert("ログアウトしました")
-          this.$router.push("/home")
+          //this.$router.push("/home")
         })
         .catch(() => {
           // An error happened.
           alert("Error!")
         })
     },
+  },
+  mounted() {
+    const auth = getAuth()
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("ようこそ！")
+      } else {
+        this.$router.push("/login")
+      }
+    })
   },
 }
 </script>
