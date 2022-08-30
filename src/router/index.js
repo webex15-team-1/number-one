@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router"
 import HomeView from "@/views/HomeView.vue"
+import TopPage from "@/views/TopPageView.vue"
 import KisyoPage from "@/views/KisyoPage.vue"
 import AsakatsuPage from "@/views/AsakatsuPage.vue"
 import LoginApp from "@/views/LoginApp.vue"
@@ -36,6 +37,7 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
+  { path: "/top", name: "top-page", component: TopPage },
   {
     path: "/kisyo",
     name: "kisyo",
