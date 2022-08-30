@@ -1,9 +1,12 @@
 <template>
   <div class="asakatsu">
     <h1>朝活を始めよう！</h1>
-    <div class="circle"></div>
-    <div class="timer">
-      {{ hour }}:{{ min10 }}{{ min1 }}:{{ sec10 }}{{ sec1 }}
+    <div class="times">
+      <div class="timer">
+        {{ hour }}:{{ min10 }}{{ min1 }}:{{ sec10 }}{{ sec1 }}
+      </div>
+      <div class="minicircle"></div>
+      <div v-bind:class="circle"></div>
     </div>
     <button v-on:click="start" v-if="before">開始！</button>
     <button v-on:click="stop" v-if="!before && !after">終了！</button>
@@ -24,10 +27,12 @@ export default {
       after: false,
       timer: "",
       degree: 100,
+      circle: "circle",
     }
   },
   methods: {
     start: function () {
+      this.circle = "circle start"
       this.before = false
       this.timer = setInterval(() => {
         this.sec1 += 1
@@ -53,6 +58,7 @@ export default {
     stop: function () {
       clearInterval(this.timer)
       this.after = true
+      this.circle = "circle start stop"
     },
     again: function () {
       this.hour = 0
@@ -62,34 +68,62 @@ export default {
       this.sec1 = 0
       this.before = true
       this.after = false
+      this.circle = "circle"
     },
   },
 }
 </script>
 
 <style>
-.timer {
-  font-size: 1000%;
+.times {
+  position: relative;
+  z-index: -1;
+  width: 100%;
+  height: 30vw;
+  margin-bottom: 5%;
 }
-.circle {
-  margin: 0 auto;
-  width: 80vh;
-  height: 80vh;
+.timer {
+  font-size: 500%;
+  width: 50%;
+  line-height: 30vw;
+  position: absolute;
+  z-index: 100;
+  margin-left: 25%;
+}
+.minicircle {
+  position: absolute;
+  z-index: 3;
+  width: 20%;
+  height: 20vw;
+  margin-left: 40%;
+  margin-top: 5vw;
   border-radius: 50%;
   background: white;
+}
+.circle {
+  position: absolute;
+  z-index: 1;
+  width: 30%;
+  height: 30vw;
+  margin-left: 35%;
+  border-radius: 50%;
+  background: white;
+}
+.start {
   background-image: linear-gradient(
     to right,
     transparent 50%,
     rgb(118, 246, 118) 0
   );
 }
-.circle::before {
+.start::before {
+  z-index: 2;
   content: "";
   display: block;
   margin-left: 50%;
   height: 100%;
   border-radius: 0 100% 100% 0 / 50%;
-  background-color: inherit;
+  background-color: white;
   transform-origin: left;
   animation: spin 30s linear infinite, color 60s step-end infinite;
 }
@@ -102,5 +136,8 @@ export default {
   50% {
     background-color: rgb(118, 246, 118);
   }
+}
+.stop::before {
+  animation-play-state: paused;
 }
 </style>
