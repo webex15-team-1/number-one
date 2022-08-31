@@ -11,6 +11,7 @@
       </div>
       <img id="weather-img" :src="weather.image" alt="" />
     </div>
+    <Hamburger />
     <div class="sun-wrap" :style="containerStyle">
       >
       <div class="sky">
@@ -166,7 +167,11 @@
 
 <script>
 import SunCalc from "suncalc"
+import Hamburger from "@/components/HamburgerMenu.vue"
 export default {
+  components: {
+    Hamburger,
+  },
   data() {
     return {
       debug: {
