@@ -69,7 +69,6 @@ export default {
       gsap.to(el, {
         opacity: 0,
         duration: 0.3,
-        // y: -2 * el.dataset.index + "em",
         onComplete: done,
       })
     },
