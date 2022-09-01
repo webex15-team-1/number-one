@@ -6,6 +6,7 @@ import AsakatsuPage from "@/views/AsakatsuPage.vue"
 import LoginApp from "@/views/LoginApp.vue"
 import RegisterApp from "@/views/RegisterApp.vue"
 import MypageApp from "@/views/MypageApp.vue"
+import NameRegister from "@/views/nameRegister.vue"
 
 const routes = [
   {
@@ -47,6 +48,11 @@ const routes = [
     path: "/asakatsu",
     name: "asakatsu",
     component: AsakatsuPage,
+  },
+  {
+    path: "/name-register",
+    name: "name-register",
+    component: NameRegister,
   },
 ]
 
