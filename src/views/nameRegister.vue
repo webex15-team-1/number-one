@@ -20,10 +20,12 @@ export default {
   methods: {
     nameRegister() {
       const auth = getAuth()
-      auth.currentUser.displayName = this.name
-      alert("登録しました！")
-      this.name = ""
-      this.$router.push("/login")
+      this.$nextTick(() => {
+        auth.currentUser.displayName = this.name
+        alert("登録しました！")
+        this.name = ""
+        this.$router.push("/login")
+      })
     },
   },
 }
