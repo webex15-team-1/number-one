@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { getAuth } from "firebase/auth"
+import { getAuth, updateProfile } from "firebase/auth"
 
 export default {
   data() {
@@ -20,12 +20,17 @@ export default {
   methods: {
     nameRegister() {
       const auth = getAuth()
-      this.$nextTick(() => {
-        auth.currentUser.displayName = this.name
-        alert("登録しました！")
-        this.name = ""
-        this.$router.push("/login")
+      updateProfile(auth.currentUser, {
+        displayName: this.name,
       })
+        .then(() => {
+          alert("登録しました！")
+          this.name = ""
+          this.$router.push("/login")
+        })
+        .catch(() => {
+          alert("Error!")
+        })
     },
   },
 }
