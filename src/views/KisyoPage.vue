@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+    <!-- じゃんけん -->
     <div class="janken" v-if="isJanken">
       <h2>今日の運試し</h2>
       <h3>勝てばポイント1.5倍！</h3>
@@ -50,6 +51,7 @@
         このウインドウは{{ remainTime }}秒後に閉じられます。
       </div>
     </div>
+    <!-- じゃんけん -->
 
     <div class="jankenKakunin" v-if="buttonClicked">
       <div>獲得ポイント1.5倍のチャンス！運試しする？</div>
@@ -146,13 +148,19 @@ export default {
       if (this.timeLate >= -10 && this.timeLate <= 60) {
         if (this.timeLate <= 10) {
           this.point += 10 * this.i
+          alert("Perfect！いい調子です！")
         } else if (this.timeLate <= 20) {
           this.point += 7 * this.i
+          alert("Great！")
         } else if (this.timeLate <= 30) {
           this.point += 5 * this.i
+          alert("Good！")
         } else {
           this.point += 3 * this.i
+          alert("OK")
         }
+      } else {
+        alert("早く起きれるよう頑張りましょう...")
       }
     },
     choose(choice) {

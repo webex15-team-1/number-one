@@ -7,6 +7,7 @@ import LoginApp from "@/views/LoginApp.vue"
 import RegisterApp from "@/views/RegisterApp.vue"
 import MypageApp from "@/views/MypageApp.vue"
 import NameRegister from "@/views/nameRegister.vue"
+import ShopApp from "@/views/ShopApp.vue"
 
 const routes = [
   {
@@ -53,6 +54,11 @@ const routes = [
     path: "/name-register",
     name: "name-register",
     component: NameRegister,
+  },
+  {
+    path: "/shop",
+    name: "shop",
+    component: ShopApp,
   },
 ]
 
