@@ -1,5 +1,6 @@
 import { ref } from "vue"
 export const colorSettings = ref({
+  name: "デフォルト",
   accentColor: "#366273",
   textColor: "#202020",
   bannerColor: "#F2AE2E",

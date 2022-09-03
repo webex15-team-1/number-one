@@ -51,6 +51,7 @@ export default {
         { path: "kisyo", text: "起床" },
         { path: "asakatsu", text: "朝活" },
         { path: "about", text: "about" },
+        { path: "palette", text: "palette" },
       ],
       colorSettings: colorSettings,
     }
