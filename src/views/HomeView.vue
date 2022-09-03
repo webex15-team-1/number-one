@@ -1,26 +1,18 @@
 <template>
+  <ChangeableHeader />
   <div class="home">
     <router-link to="/login">ログインへ</router-link>
     <br />
     <router-link to="/register">新規登録へ</router-link>
   </div>
-  <Hamburger />
 </template>
 
 <script>
 // @ is an alias to /src
-import Hamburger from "@/components/HamburgerMenu.vue"
+import ChangeableHeader from "@/components/ChangeableHeader.vue"
 export default {
-  components: {
-    Hamburger,
-  },
+  components: { ChangeableHeader },
 }
 </script>
 
-<style>
-.hamburger-container {
-  position: absolute;
-  right: 5vw;
-  border: 1px solid black;
-}
-</style>
+<style></style>
