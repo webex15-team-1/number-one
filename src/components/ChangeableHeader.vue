@@ -48,11 +48,11 @@ export default {
 </script>
 <style scoped>
 .header {
-  position: absolute;
+  position: relative;
   width: 100%;
-  height: 5em;
+  height: 3em;
   top: 0%;
-  background-color: orange;
+
   text-align: center;
 }
 .header-title {
@@ -89,6 +89,6 @@ export default {
 .hamburger-container {
   position: absolute;
   right: 2%;
-  top: 1.5em;
+  top: 0.5em;
 }
 </style>

@@ -1,5 +1,4 @@
 <template>
-  <ChangeableHeader />
   <div class="home">
     <router-link to="/login">ログインへ</router-link>
     <br />
@@ -9,10 +8,6 @@
 
 <script>
 // @ is an alias to /src
-import ChangeableHeader from "@/components/ChangeableHeader.vue"
-export default {
-  components: { ChangeableHeader },
-}
 </script>
 
 <style></style>

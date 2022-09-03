@@ -5,10 +5,20 @@
     <router-link to="/login">Login</router-link>|
     <router-link to="/register">Register</router-link>
   </nav>
+  <ChangeableHeader />
   <router-view />
+  <ChangeableFooter />
 </template>
 <script>
-export default {}
+import ChangeableHeader from "./components/ChangeableHeader.vue"
+import ChangeableFooter from "./components/ChangeableFooter.vue"
+
+export default {
+  components: {
+    ChangeableHeader,
+    ChangeableFooter,
+  },
+}
 </script>
 <style>
 #app {
