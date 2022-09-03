@@ -6,7 +6,11 @@ import AsakatsuPage from "@/views/AsakatsuPage.vue"
 import LoginApp from "@/views/LoginApp.vue"
 import RegisterApp from "@/views/RegisterApp.vue"
 import MypageApp from "@/views/MypageApp.vue"
+<<<<<<< HEAD
 import ColorPallete from "@/components/ColorPalette.vue"
+=======
+import NameRegister from "@/views/nameRegister.vue"
+>>>>>>> origin/master
 
 const routes = [
   {
@@ -53,6 +57,11 @@ const routes = [
     path: "/palette",
     name: "palette",
     component: ColorPallete,
+  },
+  {
+    path: "/name-register",
+    name: "name-register",
+    component: NameRegister,
   },
 ]
 
