@@ -1,5 +1,5 @@
 <template>
-  <h1>ログイン成功！マイページへようこそ🎉</h1>
+  <h1>{{ name }}さん！マイページへようこそ🎉</h1>
   <button @click="logout">ログアウト</button>
 </template>
 
@@ -8,12 +8,14 @@ import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
 
 export default {
   data() {
-    return {}
+    return {
+      auth: getAuth(),
+      name: "",
+    }
   },
   methods: {
     logout() {
-      const auth = getAuth()
-      signOut(auth)
+      signOut(this.auth)
         .then(() => {
           // Sign-out successful.
           alert("ログアウトしました")
@@ -26,10 +28,9 @@ export default {
     },
   },
   mounted() {
-    const auth = getAuth()
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(this.auth, (user) => {
       if (user) {
-        console.log("ようこそ！")
+        this.name = this.auth.currentUser.displayName
       } else {
         this.$router.push("/login")
       }

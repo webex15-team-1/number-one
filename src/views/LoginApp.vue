@@ -13,7 +13,7 @@
 
   <br />
   <div>
-    <button v-on:click="googleLogin">googleでログイン</button>
+    <button v-on:click="googleLogin">Googleでログイン</button>
   </div>
 </template>
 
@@ -21,8 +21,8 @@
 import {
   getAuth,
   signInWithEmailAndPassword,
-  signInWithRedirect,
   GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth"
 
 export default {
@@ -30,26 +30,37 @@ export default {
     return {
       email: "",
       password: "",
+      auth: getAuth(),
     }
   },
   methods: {
     login() {
-      const auth = getAuth()
-      signInWithEmailAndPassword(auth, this.email, this.password)
+      signInWithEmailAndPassword(this.auth, this.email, this.password)
         .then(() => {
           //成功時の処理
-          alert("ログイン成功しました")
+          const name = this.auth.currentUser.displayName
+          alert(`ようこそ${name}さん`)
           this.$router.push("/mypage")
         })
+
         .catch(() => {
           //エラー時処理
           alert("Error!")
         })
     },
     googleLogin() {
-      const auth = getAuth()
       const provider = new GoogleAuthProvider()
-      signInWithRedirect(auth, provider)
+      signInWithPopup(this.auth, provider)
+        .then(() => {
+          //成功時の処理
+          const name = this.auth.currentUser.displayName
+          alert(`ようこそ${name}さん`)
+          this.$router.push("/mypage")
+        })
+        .catch(() => {
+          //エラー時処理
+          alert("Error!")
+        })
     },
   },
 }
