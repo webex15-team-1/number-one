@@ -1,36 +1,10 @@
 <template>
   <div class="header" :style="{ backgroundColor: colorSettings.bannerColor }">
     <span class="title header-title" :style="{ color: colorSettings.textColor }"
-      >めざせNo.1-朝活-</span
+      >Morening</span
     >
-    <div class="header-button-container">
-      <div
-        class="header-button"
-        :style="{
-          backgroundColor: colorSettings.buttonColor,
-        }"
-      >
-        <span :style="{ color: colorSettings.textColor }">1</span>
-      </div>
-      <div
-        class="header-button"
-        :style="{
-          backgroundColor: colorSettings.buttonColor,
-        }"
-      >
-        <span :style="{ color: colorSettings.textColor }">2</span>
-      </div>
-      <div
-        class="header-button"
-        :style="{
-          backgroundColor: colorSettings.buttonColor,
-        }"
-      >
-        <span :style="{ color: colorSettings.textColor }">3</span>
-      </div>
-    </div>
-    <hamburger-menu />
   </div>
+  <hamburger-menu />
 </template>
 <script>
 import HamburgerMenu from "./HamburgerMenu.vue"
@@ -48,11 +22,11 @@ export default {
 </script>
 <style scoped>
 .header {
-  position: relative;
-  width: 100%;
+  position: sticky;
+  width: 10%;
   height: 3em;
-  top: 0%;
-
+  top: 5%;
+  left: 5%;
   text-align: center;
 }
 .header-title {
@@ -87,8 +61,8 @@ export default {
   transform: translate(-50%, -50%);
 }
 .hamburger-container {
-  position: absolute;
-  right: 2%;
-  top: 0.5em;
+  position: sticky;
+  left: 90%;
+  top: 5%;
 }
 </style>
