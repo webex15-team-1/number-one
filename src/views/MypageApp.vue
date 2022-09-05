@@ -32,7 +32,7 @@ export default {
       if (user) {
         this.name = this.auth.currentUser.displayName
       } else {
-        this.$router.push("/login")
+        this.$router.push("/TopPage")
       }
     })
   },
