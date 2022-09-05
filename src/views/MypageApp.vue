@@ -2,11 +2,13 @@
   <h1>{{ name }}さん！マイページへようこそ🎉</h1>
   <button @click="logout">ログアウト</button>
   <MypagePoint :uid="uid" />
+  <MypageRanking />
 </template>
 
 <script>
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
 import MypagePoint from "@/components/MypagePoint.vue"
+import MypageRanking from "@/components/MypageRanking.vue"
 
 export default {
   data() {
@@ -40,6 +42,6 @@ export default {
       }
     })
   },
-  components: { MypagePoint },
+  components: { MypagePoint, MypageRanking },
 }
 </script>

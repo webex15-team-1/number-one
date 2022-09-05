@@ -1,6 +1,6 @@
 <template>
   <div class="point-container">
-    <h2>累計朝活ポイント {{ cumulativePoints }}P</h2>
+    <h2>累計朝活ポイント {{ Points }}P</h2>
     <h3>平均起床誤差: {{ averageWakeUpDiff }}</h3>
     <h3>平均朝活時間: {{ averageAsakatsuTime }}</h3>
   </div>
@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      cumulativePoints: 0,
+      Points: 0,
       averageWakeUpDiffSec: 0,
       averageAsakatsuTimeSec: 0,
     }
@@ -25,7 +25,7 @@ export default {
     if (docSnap.exists()) {
       const data = docSnap.data()
       console.log("Data of user " + this.uid + ": " + data)
-      this.cumulativePoints = data.cumulativePoints
+      this.Points = data.Points
       this.averageWakeUpDiffSec = data.averageWakeUpDiffSec
       this.averageAsakatsuTimeSec = data.averageAsakatsuTimeSec
     } else {
