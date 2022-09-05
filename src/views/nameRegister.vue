@@ -9,7 +9,12 @@
 </template>
 
 <script>
-import { getAuth, updateProfile } from "firebase/auth"
+import {
+  getAuth,
+  updateProfile,
+  onAuthStateChanged,
+  signInAnonymously,
+} from "firebase/auth"
 
 export default {
   data() {
@@ -32,6 +37,27 @@ export default {
           alert("Error!")
         })
     },
+    createFirestore() {
+      firebase.auth().onAuthStateChanged(async (user) => {
+  // 未ログイン時
+  if (!user) {
+    // 匿名ログインする
+    firebase.auth().signInAnonymously();
+  }
+  // ログイン時
+  else {
+    // ログイン済みのユーザー情報があるかをチェック
+    var userDoc = await firebase.firestore().collection('users').doc(user.uid).get();
+    if (!userDoc.exists) {
+      // Firestore にユーザー用のドキュメントが作られていなければ作る
+      await userDoc.ref.set({
+        screen_name: user.uid,
+        display_name: '名無しさん',
+        created_at: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    }
+  }
+});
   },
 }
 </script>
