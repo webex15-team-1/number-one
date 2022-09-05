@@ -214,9 +214,7 @@ export default {
   },
   mounted: function () {
     if (!this.auth.currentUser) {
-      setTimeout(() => {
-        this.$router.push("/toppage")
-      }, 2000)
+      this.$router.push("/toppage")
     }
   },
   methods: {
