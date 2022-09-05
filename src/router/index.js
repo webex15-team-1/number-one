@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router"
 import HomeView from "@/views/HomeView.vue"
-import TopPage from "@/views/TopPageView.vue"
 import KisyoPage from "@/views/KisyoPage.vue"
 import AsakatsuPage from "@/views/AsakatsuPage.vue"
 import MypageApp from "@/views/MypageApp.vue"
@@ -20,7 +19,6 @@ const routes = [
     name: "MypageApp",
     component: MypageApp,
   },
-  { path: "/top", name: "top-page", component: TopPage },
   {
     path: "/kisyo",
     name: "kisyo",
