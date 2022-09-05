@@ -9,7 +9,7 @@
         src="@/views/images/morning.mp4"
       ></video>
     </div>
-    <h1 class="title">朝活を<br />始めよう。</h1>
+    <h1 class="titleTop">朝活を<br />始めよう。</h1>
   </div>
   <div class="container">
     <div class="whatIs">
@@ -182,7 +182,7 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.title {
+.titleTop {
   position: absolute;
   color: white;
   text-align: left;
