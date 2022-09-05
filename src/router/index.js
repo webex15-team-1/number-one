@@ -3,7 +3,6 @@ import HomeView from "@/views/HomeView.vue"
 import TopPage from "@/views/TopPageView.vue"
 import KisyoPage from "@/views/KisyoPage.vue"
 import AsakatsuPage from "@/views/AsakatsuPage.vue"
-import LoginApp from "@/views/LoginApp.vue"
 import RegisterApp from "@/views/RegisterApp.vue"
 import MypageApp from "@/views/MypageApp.vue"
 import NameRegister from "@/views/nameRegister.vue"
@@ -16,11 +15,6 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/login",
-    name: "LoginApp",
-    component: LoginApp,
-  },
-  {
     path: "/register",
     name: "RegisterApp",
     component: RegisterApp,
@@ -29,15 +23,6 @@ const routes = [
     path: "/mypage",
     name: "MypageApp",
     component: MypageApp,
-  },
-  {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
   { path: "/top", name: "top-page", component: TopPage },
   {

@@ -51,9 +51,32 @@
       初めての方はこちらへ
       <Icon
         icon="bi:arrow-down-circle-fill"
-        :rotate="3"
+        :rotate="4"
         v-on:click="register"
       />
+    </div>
+    <div class="login" v-if="registerAccount">
+      <h2>Register Your Account</h2>
+      <div>
+        <input class="input" type="email" v-model="email" placeholder="email" />
+      </div>
+
+      <div>
+        <input
+          class="input"
+          type="password"
+          v-model="password"
+          placeholder="password"
+        />
+      </div>
+      <div>
+        <button class="googleButton" v-on:click="googleSignUp">
+          Googleで登録
+        </button>
+      </div>
+      <div>
+        <button class="loginButton" v-on:click="signUp">Register</button>
+      </div>
     </div>
   </div>
 </template>
@@ -61,6 +84,7 @@
 <script>
 import {
   getAuth,
+  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
@@ -71,7 +95,12 @@ export default {
     Icon,
   },
   data() {
-    return { email: "", password: "", auth: getAuth() }
+    return {
+      email: "",
+      password: "",
+      auth: getAuth(),
+      registerAccount: false,
+    }
   },
   methods: {
     login() {
@@ -99,7 +128,34 @@ export default {
         })
     },
     register() {
-      this.$router.push("/register")
+      this.registerAccount = true
+    },
+    signUp() {
+      createUserWithEmailAndPassword(this.auth, this.email, this.password)
+        .then(() => {
+          //成功時の処理
+          alert("登録成功しました")
+          this.email = ""
+          this.password = ""
+          this.$router.push("/name-register")
+        })
+        .catch(() => {
+          //エラー時処理
+          alert("Error!")
+        })
+    },
+    googleSignUp() {
+      const provider = new GoogleAuthProvider()
+      signInWithPopup(this.auth, provider)
+        .then(() => {
+          //成功時の処理
+          alert("登録成功しました")
+          this.$router.push("/name-register")
+        })
+        .catch(() => {
+          //エラー時処理
+          alert("Error!")
+        })
     },
   },
 }
