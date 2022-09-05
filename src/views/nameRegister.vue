@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { getAuth, updateProfile } from "firebase/auth"
+import { getAuth, updateProfile, onAuthStateChanged } from "firebase/auth"
 
 export default {
   data() {
@@ -26,13 +26,39 @@ export default {
         .then(() => {
           alert("登録しました！")
           this.name = ""
-          this.$router.push("/login")
+          this.$router.push("/top")
         })
         .catch(() => {
           alert("Error!")
         })
     },
-    createFirestore() {},
+    createFirestore() {
+      const auth = getAuth()
+      onAuthStateChanged(auth, async (user) => {
+        // 未ログイン時
+        if (!user) {
+          // topに飛ばしてログインさせる
+          this.$router.push("/top")
+        }
+        // ログイン時
+        else {
+          // ログイン済みのユーザー情報があるかをチェック
+          var userDoc = await firebase
+            .firestore()
+            .collection("users")
+            .doc(user.uid)
+            .get()
+          if (!userDoc.exists) {
+            // Firestore にユーザー用のドキュメントが作られていなければ作る
+            await userDoc.ref.set({
+              screen_name: user.uid,
+              display_name: "名無しさん",
+              created_at: firebase.firestore.FieldValue.serverTimestamp(),
+            })
+          }
+        }
+      })
+    },
   },
 }
 </script>
