@@ -1,7 +1,7 @@
 <template>
   <div class="point-container">
     <h2>累計朝活ポイント {{ cumulativePoints }}P</h2>
-    <h3>平均気象誤差: {{ averageWakeUpDiff }}</h3>
+    <h3>平均起床誤差: {{ averageWakeUpDiff }}</h3>
     <h3>平均朝活時間: {{ averageAsakatsuTime }}</h3>
   </div>
 </template>
@@ -15,8 +15,8 @@ export default {
   data() {
     return {
       cumulativePoints: 0,
-      averageWakeUpDiff: 0,
-      averageAsakatsuTime: 0,
+      averageWakeUpDiffSec: 0,
+      averageAsakatsuTimeSec: 0,
     }
   },
   async mounted() {
@@ -26,12 +26,38 @@ export default {
       const data = docSnap.data()
       console.log("Data of user " + this.uid + ": " + data)
       this.cumulativePoints = data.cumulativePoints
-      this.averageWakeUpDiff = data.averageWakeUpDiff
-      this.averageAsakatsuTime = data.averageAsakatsuTime
+      this.averageWakeUpDiffSec = data.averageWakeUpDiffSec
+      this.averageAsakatsuTimeSec = data.averageAsakatsuTimeSec
     } else {
       console.log("User " + this.uid + " not found.")
     }
   },
+  computed: {
+    averageWakeUpDiff() {
+      return this.secondToText(this.averageWakeUpDiffSec)
+    },
+    averageAsakatsuTime() {
+      return this.secondToText(this.averageAsakatsuTimeSec)
+    },
+  },
+  methods: {
+    secondToText(rawData) {
+      const hours = Math.floor(rawData / 3600)
+      const minutes = Math.floor((rawData - hours * 3600) / 60)
+      const seconds = rawData - hours * 3600 - minutes * 60
+      return (
+        (hours > 10 ? `${hours}時間 ` : ` ${hours}時間`) +
+        (minutes > 10 ? `${minutes}分 ` : ` ${minutes}分 `) +
+        (seconds > 10 ? `${seconds}秒` : ` ${seconds}秒`)
+      )
+    },
+  },
 }
 </script>
-<style></style>
+<style>
+.point-container {
+  display: inline-block;
+  border: 3px solid #048abf;
+  border-radius: 25px;
+}
+</style>
