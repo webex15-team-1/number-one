@@ -1,4 +1,7 @@
 <template>
+  <div class="loading">
+    <Loading />
+  </div>
   <div class="main">
     <div class="video-area">
       <video
@@ -89,10 +92,12 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth"
+import Loading from "@/components/LoadingPage.vue"
 import { Icon } from "@iconify/vue"
 export default {
   components: {
     Icon,
+    Loading,
   },
   data() {
     return {
@@ -100,6 +105,11 @@ export default {
       password: "",
       auth: getAuth(),
       registerAccount: false,
+    }
+  },
+  mounted: function () {
+    if (this.auth.currentUser) {
+      this.$router.push("/")
     }
   },
   methods: {
@@ -161,6 +171,22 @@ export default {
 }
 </script>
 <style>
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  animation: loading 1s ease-out 2s forwards;
+}
+@keyframes loading {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
 .main {
   height: 100vh;
   width: 100%;
