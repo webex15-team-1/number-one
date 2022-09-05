@@ -1,5 +1,8 @@
 <template>
-  <div class="hamburger-container">
+  <div
+    class="hamburger-container"
+    :style="{ backgroundColor: colorSettings.bannerColor }"
+  >
     <button
       class="hamburger-button"
       @click="toggleMenu"
@@ -21,6 +24,10 @@
           v-show="isOpened"
           tag="div"
           class="hamburger-nav-item"
+          :style="{
+            color: colorSettings.textColor,
+            'background-color': colorSettings.buttonColor,
+          }"
         >
           {{ nav.text }}
         </div>
@@ -31,6 +38,7 @@
 
 <script>
 import gsap from "gsap"
+import { colorSettings } from "@/store/colorSettings"
 export default {
   data() {
     return {
@@ -43,7 +51,9 @@ export default {
         { path: "kisyo", text: "起床" },
         { path: "asakatsu", text: "朝活" },
         { path: "about", text: "about" },
+        { path: "palette", text: "palette" },
       ],
+      colorSettings: colorSettings,
     }
   },
   methods: {
@@ -140,6 +150,6 @@ export default {
   height: 14em;
 }
 .hamburger-nav-item {
-  border-bottom: 1px solid black;
+  width: 100%;
 }
 </style>

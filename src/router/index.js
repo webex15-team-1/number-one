@@ -6,6 +6,7 @@ import AsakatsuPage from "@/views/AsakatsuPage.vue"
 import LoginApp from "@/views/LoginApp.vue"
 import RegisterApp from "@/views/RegisterApp.vue"
 import MypageApp from "@/views/MypageApp.vue"
+import ColorPallete from "@/components/ColorPalette.vue"
 import NameRegister from "@/views/nameRegister.vue"
 import ShopApp from "@/views/ShopApp.vue"
 
@@ -17,7 +18,7 @@ const routes = [
   },
   {
     path: "/login",
-    name: "LoginApp",
+    name: "LaoginApp",
     component: LoginApp,
   },
   {
@@ -49,6 +50,11 @@ const routes = [
     path: "/asakatsu",
     name: "asakatsu",
     component: AsakatsuPage,
+  },
+  {
+    path: "/palette",
+    name: "palette",
+    component: ColorPallete,
   },
   {
     path: "/name-register",
