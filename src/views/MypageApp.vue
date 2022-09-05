@@ -1,16 +1,19 @@
 <template>
   <h1>{{ name }}さん！マイページへようこそ🎉</h1>
   <button @click="logout">ログアウト</button>
+  <MypagePoint :uid="uid" />
 </template>
 
 <script>
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
+import MypagePoint from "@/components/MypagePoint.vue"
 
 export default {
   data() {
     return {
       auth: getAuth(),
       name: "",
+      uid: "",
     }
   },
   methods: {
@@ -31,10 +34,12 @@ export default {
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
         this.name = this.auth.currentUser.displayName
+        this.uid = this.auth.currentUser.uid
       } else {
         this.$router.push("/login")
       }
     })
   },
+  components: { MypagePoint },
 }
 </script>
