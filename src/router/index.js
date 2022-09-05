@@ -3,7 +3,6 @@ import HomeView from "@/views/HomeView.vue"
 import TopPage from "@/views/TopPageView.vue"
 import KisyoPage from "@/views/KisyoPage.vue"
 import AsakatsuPage from "@/views/AsakatsuPage.vue"
-import RegisterApp from "@/views/RegisterApp.vue"
 import MypageApp from "@/views/MypageApp.vue"
 import NameRegister from "@/views/nameRegister.vue"
 import Top from "@/views/TopPage.vue"
@@ -13,11 +12,6 @@ const routes = [
     path: "/",
     name: "home",
     component: HomeView,
-  },
-  {
-    path: "/register",
-    name: "RegisterApp",
-    component: RegisterApp,
   },
   {
     path: "/mypage",
