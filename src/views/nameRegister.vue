@@ -10,7 +10,7 @@
 
 <script>
 import { getAuth, updateProfile, onAuthStateChanged } from "firebase/auth"
-import { doc, setDoc, getDocs } from "firebase/firestore"
+import { doc, setDoc, getDocs, collection } from "firebase/firestore"
 import { db } from "@/firebase"
 
 export default {
@@ -22,7 +22,7 @@ export default {
   methods: {
     two() {
       this.nameRegister()
-      this.createDocument()
+      this.createFirestore()
     },
     nameRegister() {
       const auth = getAuth()
@@ -38,14 +38,8 @@ export default {
           alert("Error!")
         })
     },
-    test() {
-      setDoc(doc(db, "cities", "LA"), {
-        name: "Los Angeles",
-        state: "CA",
-        country: "USA",
-      })
-    },
-    createDocument() {
+
+    createFirestore() {
       const auth = getAuth()
       onAuthStateChanged(auth, async (user) => {
         // 未ログイン時
@@ -55,15 +49,16 @@ export default {
         }
         // ログイン時
         else {
-          //const uid = user.uid
+          const uid = user.uid
           // ログイン済みのユーザー情報があるかをチェック
-          //usersコレクションにuidの名前のドキュメントがあるか確認している
-          const docRef = doc(db, "users", "test")
-          const userDoc = await getDocs(docRef)
+          //usersコレクションで確認している
+          const userDoc = await getDocs(collection(db, "users"))
           if (!userDoc.exists) {
             // Firestore にユーザー用のドキュメントが作られていなければ作る
-            await setDoc(docRef, {
-              nickname: "テストです",
+            await setDoc(doc(db, "users", uid), {
+              //usersコレクションにユーザーID名のドキュメントを作る
+              userId: uid,
+              nickname: this.name,
             })
           }
         }
