@@ -3,7 +3,7 @@
     <Loading />
   </div>
   <div class="container">
-    <div class="greet">{{ greet }}、{{ user.nickName }}さん</div>
+    <div class="greet">{{ greet }}、{{ auth.currentUser.displayName }}さん</div>
     <div class="weather">
       <div
         class="weather-message"
@@ -22,6 +22,7 @@
         </div>
       </div>
       <div class="sun" :style="sunStyle" v-show="isSunShineTime">
+        <img src="@/views/images/sun.png" />
         <div v-if="debug.showInternalData">
           ({{ Math.round(sunX * 1000) / 1000 }},
           {{ Math.round(sunY * 1000) / 1000 }})
@@ -193,7 +194,6 @@ export default {
       user: {
         latitude: 35.03072421401453,
         longitude: 135.78485329143817,
-        nickName: "♰朝活マスター♰",
       },
       weather: {
         todayData: undefined,
