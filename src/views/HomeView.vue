@@ -28,7 +28,7 @@
           {{ Math.round(sunY * 1000) / 1000 }})
         </div>
       </div>
-      <div class="horizon"></div>
+      <img src="@/views/images/morning.png" />
     </div>
     <div class="debug-area" v-if="debug.showInternalData">
       <h3>内部データ</h3>
