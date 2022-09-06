@@ -3,32 +3,34 @@
     <Loading />
   </div>
   <div class="container">
-    <div class="greet">{{ greet }}、{{ auth.currentUser.displayName }}さん</div>
-    <div class="weather">
-      <div
-        class="weather-message"
-        v-for="(desc, index) in weather.descriptions"
-        :key="index"
-      >
-        今日の{{ desc.name }}の天気は{{ desc.forecast }}です。
-      </div>
-      <img id="weather-img" :src="weather.image" alt="" />
-    </div>
-    <div class="sun-wrap" :style="containerStyle">
-      >
-      <div class="sky">
-        <div class="sky-data" v-if="debug.showInternalData">
-          dayPhase: {{ dayPhase }}
+    <div class="greet">{{ greet }}</div>
+    <div class="main">
+      <div class="weather">
+        <div
+          class="weather-message"
+          v-for="(desc, index) in weather.descriptions"
+          :key="index"
+        >
+          今日の{{ desc.name }}の天気は{{ desc.forecast }}です。
         </div>
+        <img id="weather-img" :src="weather.image" alt="" />
       </div>
-      <div class="sun" :style="sunStyle" v-show="isSunShineTime">
-        <img src="@/views/images/sun.png" />
-        <div v-if="debug.showInternalData">
-          ({{ Math.round(sunX * 1000) / 1000 }},
-          {{ Math.round(sunY * 1000) / 1000 }})
+      <div class="sun-wrap" :style="containerStyle">
+        >
+        <div class="sky">
+          <div class="sky-data" v-if="debug.showInternalData">
+            dayPhase: {{ dayPhase }}
+          </div>
         </div>
+        <div class="sun" :style="sunStyle" v-show="isSunShineTime">
+          <img src="@/views/images/sun.png" />
+          <div v-if="debug.showInternalData">
+            ({{ Math.round(sunX * 1000) / 1000 }},
+            {{ Math.round(sunY * 1000) / 1000 }})
+          </div>
+        </div>
+        <img class="town" src="@/views/images/morning.png" />
       </div>
-      <img src="@/views/images/morning.png" />
     </div>
     <div class="debug-area" v-if="debug.showInternalData">
       <h3>内部データ</h3>
@@ -556,6 +558,14 @@ export default {
     visibility: hidden;
   }
 }
+.main {
+  width: 100vw;
+  height: 100vh;
+}
+.town {
+  align-items: flex-end;
+  width: 100%;
+}
 .internal-data {
   display: flex;
   flex-wrap: wrap;
@@ -578,7 +588,6 @@ td {
 .sun-wrap {
   position: relative;
   margin: auto;
-  border: 1px solid black;
 }
 .sun {
   /* width: 10%;
@@ -586,17 +595,12 @@ td {
   position: absolute;
   top: 50%;
   left: 50%;
-  border-radius: 50%;
-  background-color: orange;
   /* transform: translate(-50%, -50%); */
 }
 .sky {
   position: absolute;
-  top: 0%;
-  left: 0%;
   width: 100%;
-  height: 50%;
-  background-color: paleturquoise;
+  height: 100%;
 }
 .sky-data {
   font-size: 2em;
@@ -604,14 +608,5 @@ td {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-.horizon {
-  position: absolute;
-  top: 50%;
-  left: 0%;
-  width: 100%;
-  height: 50%;
-  background-color: green;
-  opacity: 0.5;
 }
 </style>
