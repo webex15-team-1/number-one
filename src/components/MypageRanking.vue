@@ -25,9 +25,10 @@ export default {
     querySnapshot.forEach((doc) => {
       this.ranking.push(doc.data().name)
     })
-    for (let i = 0; i < 3 - this.ranking.length; i++) {
-      this.ranking.push("")
-    }
+    console.log(this.ranking)
+    // for (let i = 0; i < 3 - this.ranking.length; i++) {
+    //   this.ranking.push("")
+    // }
   },
 }
 </script>
