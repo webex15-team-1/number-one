@@ -10,7 +10,7 @@
 
 <script>
 import { getAuth, updateProfile, onAuthStateChanged } from "firebase/auth"
-import { doc, setDoc, getDocs, collection } from "firebase/firestore"
+import { doc, setDoc, getDoc } from "firebase/firestore"
 import { db } from "@/firebase"
 
 export default {
@@ -25,6 +25,8 @@ export default {
       this.createFirestore()
     },
     nameRegister() {
+      //firebaseに保存させるよう変更する
+      //mypageも編集する
       const auth = getAuth()
       updateProfile(auth.currentUser, {
         displayName: this.name,
@@ -38,7 +40,6 @@ export default {
           alert("Error!")
         })
     },
-
     createFirestore() {
       const auth = getAuth()
       onAuthStateChanged(auth, async (user) => {
@@ -52,10 +53,11 @@ export default {
           const uid = user.uid
           // ログイン済みのユーザー情報があるかをチェック
           //usersコレクションで確認している
-          const userDoc = await getDocs(collection(db, "users"))
-          if (!userDoc.exists) {
+          const docRef = doc(db, "users", uid)
+          const userDoc = await getDoc(docRef)
+          if (!userDoc.exists()) {
             // Firestore にユーザー用のドキュメントが作られていなければ作る
-            await setDoc(doc(db, "users", uid), {
+            await setDoc(docRef, {
               //usersコレクションにユーザーID名のドキュメントを作る
               userId: uid,
               nickname: this.name,
