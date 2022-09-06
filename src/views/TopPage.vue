@@ -59,7 +59,7 @@
       />
     </div>
     <div class="login" v-if="registerAccount">
-      <h2>Register Your Account</h2>
+      <h2>Register</h2>
       <div>
         <input class="input" type="email" v-model="email" placeholder="email" />
       </div>
