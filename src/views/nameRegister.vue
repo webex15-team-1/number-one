@@ -4,12 +4,14 @@
     <input type="text" v-model="name" />
   </div>
   <div>
-    <button v-on:click="nameRegister">登録</button>
+    <button v-on:click="two">登録</button>
   </div>
 </template>
 
 <script>
-import { getAuth, updateProfile } from "firebase/auth"
+import { getAuth, updateProfile, onAuthStateChanged } from "firebase/auth"
+import { doc, setDoc, getDoc } from "firebase/firestore"
+import { db } from "@/firebase"
 
 export default {
   data() {
@@ -18,7 +20,13 @@ export default {
     }
   },
   methods: {
+    two() {
+      this.nameRegister()
+      this.createFirestore()
+    },
     nameRegister() {
+      //firebaseに保存させるよう変更する
+      //mypageも編集する
       const auth = getAuth()
       updateProfile(auth.currentUser, {
         displayName: this.name,
@@ -26,11 +34,37 @@ export default {
         .then(() => {
           alert("登録しました！")
           this.name = ""
-          this.$router.push("/login")
+          this.$router.push("/mypage")
         })
         .catch(() => {
           alert("Error!")
         })
+    },
+    createFirestore() {
+      const auth = getAuth()
+      onAuthStateChanged(auth, async (user) => {
+        // 未ログイン時
+        if (!user) {
+          // topに飛ばしてログインさせる
+          this.$router.push("/toppage")
+        }
+        // ログイン時
+        else {
+          const uid = user.uid
+          // ログイン済みのユーザー情報があるかをチェック
+          //usersコレクションで確認している
+          const docRef = doc(db, "users", uid)
+          const userDoc = await getDoc(docRef)
+          if (!userDoc.exists()) {
+            // Firestore にユーザー用のドキュメントが作られていなければ作る
+            await setDoc(docRef, {
+              //usersコレクションにユーザーID名のドキュメントを作る
+              userId: uid,
+              nickname: this.name,
+            })
+          }
+        }
+      })
     },
   },
 }

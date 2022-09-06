@@ -5,6 +5,7 @@ import AsakatsuPage from "@/views/AsakatsuPage.vue"
 import MypageApp from "@/views/MypageApp.vue"
 import ColorPallete from "@/components/ColorPalette.vue"
 import NameRegister from "@/views/nameRegister.vue"
+import ShopApp from "@/views/ShopApp.vue"
 import Top from "@/views/TopPage.vue"
 
 const routes = [
@@ -37,6 +38,11 @@ const routes = [
     path: "/name-register",
     name: "name-register",
     component: NameRegister,
+  },
+  {
+    path: "/shop",
+    name: "shop",
+    component: ShopApp,
   },
   {
     path: "/toppage",
