@@ -45,12 +45,9 @@ export default {
       isOpened: false,
       navData: [
         { path: "/", text: "HOME" },
-        { path: "login", text: "ログイン" },
-        { path: "register", text: "登録" },
         { path: "top", text: "top" },
         { path: "kisyo", text: "起床" },
         { path: "asakatsu", text: "朝活" },
-        { path: "about", text: "about" },
         { path: "palette", text: "palette" },
       ],
       colorSettings: colorSettings,

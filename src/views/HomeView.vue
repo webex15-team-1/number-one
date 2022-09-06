@@ -15,22 +15,23 @@
         </div>
         <img id="weather-img" :src="weather.image" alt="" />
       </div>
-      <div class="sun-wrap" :style="containerStyle">
-        >
-        <div class="sky">
+      <!-- <div class="sun-wrap" :style="containerStyle"> -->
+      <!-- <div class="sky">
           <div class="sky-data" v-if="debug.showInternalData">
             dayPhase: {{ dayPhase }}
           </div>
+        </div> -->
+      <div class="sun" :style="sunStyle" v-show="isSunShineTime">
+        <img src="@/views/images/sun.png" />
+        <div v-if="debug.showInternalData">
+          ({{ Math.round(sunX * 1000) / 1000 }},
+          {{ Math.round(sunY * 1000) / 1000 }})
         </div>
-        <div class="sun" :style="sunStyle" v-show="isSunShineTime">
-          <img src="@/views/images/sun.png" />
-          <div v-if="debug.showInternalData">
-            ({{ Math.round(sunX * 1000) / 1000 }},
-            {{ Math.round(sunY * 1000) / 1000 }})
-          </div>
-        </div>
-        <img class="town" src="@/views/images/morning.png" />
       </div>
+      <div class="town">
+        <img class="townimage" src="@/views/images/morning.png" />
+      </div>
+      <!-- </div> -->
     </div>
     <div class="debug-area" v-if="debug.showInternalData">
       <h3>内部データ</h3>
@@ -216,7 +217,7 @@ export default {
   },
   mounted: function () {
     if (!this.auth.currentUser) {
-      this.$router.push("/toppage")
+      this.$router.push("/top")
     }
   },
   methods: {
@@ -563,8 +564,9 @@ export default {
   height: 100vh;
 }
 .town {
-  align-items: flex-end;
-  width: 100%;
+  bottom: 0;
+  width: 30%;
+  margin: auto;
 }
 .internal-data {
   display: flex;
@@ -585,28 +587,28 @@ td {
   padding: 0.5em;
   border-bottom: 1px solid;
 }
-.sun-wrap {
+/* .sun-wrap {
   position: relative;
   margin: auto;
-}
+  width: 100%;
+  border: 1px solid black;
+} */
 .sun {
   /* width: 10%;
   height: 10%; */
   position: absolute;
-  top: 50%;
-  left: 50%;
   /* transform: translate(-50%, -50%); */
 }
-.sky {
+/* .sky {
   position: absolute;
   width: 100%;
   height: 100%;
-}
-.sky-data {
+} */
+/* .sky-data {
   font-size: 2em;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
+} */
 </style>

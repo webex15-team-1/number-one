@@ -3,7 +3,7 @@ import HomeView from "@/views/HomeView.vue"
 import KisyoPage from "@/views/KisyoPage.vue"
 import AsakatsuPage from "@/views/AsakatsuPage.vue"
 import MypageApp from "@/views/MypageApp.vue"
-import ColorPallete from "@/components/ColorPalette.vue"
+import ColorPallete from "@/views/ColorPalette.vue"
 import NameRegister from "@/views/nameRegister.vue"
 import Top from "@/views/TopPage.vue"
 
@@ -39,8 +39,8 @@ const routes = [
     component: NameRegister,
   },
   {
-    path: "/toppage",
-    name: "toppage",
+    path: "/top",
+    name: "top",
     component: Top,
   },
 ]
