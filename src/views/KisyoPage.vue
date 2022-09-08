@@ -76,6 +76,10 @@
 </template>
 
 <script>
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { doc, updateDoc, getDoc } from "firebase/firestore"
+import { db } from "@/firebase"
+
 export default {
   data() {
     return {
@@ -113,16 +117,20 @@ export default {
     }
   },
   methods: {
+    two() {
+      this.kisyoButton()
+      this.pointRegister()
+    },
     //じゃんけんする
-    yesJanken: function () {
+    yesJanken() {
       this.isJanken = true
       this.buttonClicked = false
     },
     //じゃんけんしない
-    noJanken: function () {
+    noJanken() {
       this.buttonClicked = false
     },
-    kisyoButton: function () {
+    kisyoButton() {
       //今の時間
       let now = new Date()
       //目標時間
@@ -195,6 +203,29 @@ export default {
           this.resultText = "おめでとう！勝ちです🎉ポイント1.5倍！！"
           this.i = 1.5
       }
+    },
+    pointRegister() {
+      const auth = getAuth()
+      onAuthStateChanged(auth, async (user) => {
+        // 未ログイン時
+        if (!user) {
+          // topに飛ばしてログインさせる
+          this.$router.push("/top")
+        }
+        // ログイン時
+        else {
+          const uid = user.uid
+          // ログイン済みのユーザー情報があるかをチェック
+          //usersコレクションで確認している
+          const docRef = doc(db, "users", uid)
+          const userDoc = await getDoc(docRef)
+          if (userDoc.exists()) {
+            await updateDoc(docRef, {
+              getupPoints: this.point,
+            })
+          }
+        }
+      })
     },
   },
 }
