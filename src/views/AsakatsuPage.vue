@@ -19,7 +19,7 @@
 
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth"
-import { doc, setDoc, getDoc } from "firebase/firestore"
+import { doc, updateDoc, getDoc } from "firebase/firestore"
 import { db } from "@/firebase"
 
 export default {
@@ -122,10 +122,8 @@ export default {
           //usersコレクションで確認している
           const docRef = doc(db, "users", uid)
           const userDoc = await getDoc(docRef)
-          if (!userDoc.exists()) {
-            // Firestore にユーザー用のドキュメントが作られていなければ作る
-            await setDoc(docRef, {
-              //usersコレクションにユーザーID名のドキュメントを作る
+          if (userDoc.exists()) {
+            await updateDoc(docRef, {
               timePoints: this.point,
             })
           }

@@ -83,7 +83,7 @@ export default {
       this.jumpToMyPage()
     },
     jumpToMyPage() {
-      this.$router.push("/")
+      this.$router.push("/mypage")
     },
     createFirestore() {
       const auth = getAuth()
