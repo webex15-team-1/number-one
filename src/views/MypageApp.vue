@@ -38,7 +38,7 @@ export default {
         this.name = this.auth.currentUser.displayName
         this.uid = this.auth.currentUser.uid
       } else {
-        this.$router.push("/login")
+        this.$router.push("/top")
       }
     })
   },

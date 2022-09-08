@@ -10,6 +10,9 @@
     </div>
     <button v-on:click="start" v-if="before">開始！</button>
     <button v-on:click="stop" v-if="!before && !after">終了！</button>
+    <p v-if="after">{{ asakatsuTime }}分朝活をしました！！</p>
+    <p v-if="after && this.point > 0">{{ point }}ポイントを獲得しました！</p>
+    <p v-if="fight">{{ fightMessage }}</p>
     <button v-on:click="again" v-if="after">もう一度</button>
   </div>
 </template>
@@ -28,6 +31,9 @@ export default {
       timer: "",
       degree: 100,
       circle: "circle",
+      asakatsuTime: "",
+      fight: false,
+      fightMessage: "朝活を5分以上できるよう頑張りましょう",
     }
   },
   methods: {
@@ -59,6 +65,27 @@ export default {
       clearInterval(this.timer)
       this.after = true
       this.circle = "circle start stop"
+      this.asakatsuTime = this.hour * 60 + this.min10 * 10 + this.min1
+      //分に直す👆
+
+      //ポイント処理
+      if (this.asakatsuTime >= 5) {
+        if (this.asakatsuTime < 10) {
+          this.point += 2
+        } else if (this.asakatsuTime < 20) {
+          this.point += 5
+        } else if (this.asakatsuTime < 30) {
+          this.point += 8
+        } else if (this.asakatsuTime < 45) {
+          this.point += 12
+        } else if (this.asakatsuTime < 60) {
+          this.point += 16
+        } else {
+          this.point += 20
+        }
+      } else {
+        this.fight = true
+      }
     },
     again: function () {
       this.hour = 0
@@ -69,6 +96,7 @@ export default {
       this.before = true
       this.after = false
       this.circle = "circle"
+      this.fight = false
     },
   },
 }
