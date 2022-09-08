@@ -106,6 +106,7 @@ export default {
       this.after = false
       this.circle = "circle"
       this.fight = false
+      this.point = 0
     },
     pointRegister() {
       const auth = getAuth()
