@@ -23,7 +23,7 @@ export default {
     return {
       hour: 0,
       min10: 0,
-      min1: 0,
+      min1: 5,
       sec10: 0,
       sec1: 0,
       before: true,
@@ -34,6 +34,7 @@ export default {
       asakatsuTime: "",
       fight: false,
       fightMessage: "朝活を5分以上できるよう頑張りましょう",
+      point: 0,
     }
   },
   methods: {
@@ -90,7 +91,7 @@ export default {
     again: function () {
       this.hour = 0
       this.min10 = 0
-      this.min1 = 0
+      this.min1 = 5
       this.sec10 = 0
       this.sec1 = 0
       this.before = true
