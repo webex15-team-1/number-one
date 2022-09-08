@@ -1,11 +1,13 @@
 <template>
-  <h1>{{ name }}さん！マイページへようこそ🎉</h1>
+  <h1>{{ nickname }}さん！マイページへようこそ🎉</h1>
   <button @click="logout">ログアウト</button>
   <MypagePoint :uid="uid" />
   <MypageRanking />
 </template>
 
 <script>
+import { doc, getDoc } from "firebase/firestore"
+import { db } from "@/firebase"
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
 import MypagePoint from "@/components/MypagePoint.vue"
 import MypageRanking from "@/components/MypageRanking.vue"
@@ -14,7 +16,7 @@ export default {
   data() {
     return {
       auth: getAuth(),
-      name: "",
+      nickname: "",
       uid: "",
     }
   },
@@ -33,11 +35,16 @@ export default {
     },
   },
   mounted() {
-    onAuthStateChanged(this.auth, (user) => {
+    onAuthStateChanged(this.auth, async (user) => {
       if (user) {
-        this.name = this.auth.currentUser.displayName
+        // ログイン時, ニックネームをfirestoreから取り出す
         this.uid = this.auth.currentUser.uid
+        const docRef = doc(db, "users", this.uid)
+        const docSnap = await getDoc(docRef)
+        const data = docSnap.data()
+        this.nickname = data.nickname
       } else {
+        // ログアウト時
         this.$router.push("/top")
       }
     })

@@ -1,6 +1,6 @@
 <template>
   <div class="point-container">
-    <h2>累計朝活ポイント {{ Points }}P</h2>
+    <h2>累計朝活ポイント {{ points }}P</h2>
     <h3>平均起床誤差: {{ averageWakeUpDiff }}</h3>
     <h3>平均朝活時間: {{ averageAsakatsuTime }}</h3>
   </div>
@@ -14,18 +14,19 @@ export default {
   },
   data() {
     return {
-      Points: 0,
+      points: 0,
       averageWakeUpDiffSec: 0,
       averageAsakatsuTimeSec: 0,
     }
   },
   async mounted() {
+    console.log("MypagePoint: " + this.uid)
     const docRef = doc(collection(db, "users"), this.uid)
     const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
       const data = docSnap.data()
       console.log("Data of user " + this.uid + ": " + data)
-      this.Points = data.Points
+      this.points = data.points
       this.averageWakeUpDiffSec = data.averageWakeUpDiffSec
       this.averageAsakatsuTimeSec = data.averageAsakatsuTimeSec
     } else {
