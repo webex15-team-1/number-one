@@ -150,13 +150,13 @@ export default {
           this.point += 10 * this.i
           alert("Perfect！いい調子です！")
         } else if (this.timeLate <= 20) {
-          this.point += 7 * this.i
+          this.point += 8 * this.i
           alert("Great！")
         } else if (this.timeLate <= 30) {
-          this.point += 5 * this.i
+          this.point += 6 * this.i
           alert("Good！")
         } else {
-          this.point += 3 * this.i
+          this.point += 4 * this.i
           alert("OK")
         }
       } else {

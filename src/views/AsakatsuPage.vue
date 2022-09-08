@@ -9,7 +9,7 @@
       <div v-bind:class="circle"></div>
     </div>
     <button v-on:click="start" v-if="before">開始！</button>
-    <button v-on:click="stop" v-if="!before && !after">終了！</button>
+    <button v-on:click="two" v-if="!before && !after">終了！</button>
     <p v-if="after">{{ asakatsuTime }}分朝活をしました！！</p>
     <p v-if="after && this.point > 0">{{ point }}ポイントを獲得しました！</p>
     <p v-if="fight">{{ fightMessage }}</p>
@@ -18,6 +18,10 @@
 </template>
 
 <script>
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { doc, setDoc, getDoc } from "firebase/firestore"
+import { db } from "@/firebase"
+
 export default {
   data() {
     return {
@@ -38,7 +42,11 @@ export default {
     }
   },
   methods: {
-    start: function () {
+    two() {
+      this.stop()
+      this.pointRegister()
+    },
+    start() {
       this.circle = "circle start"
       this.before = false
       this.timer = setInterval(() => {
@@ -62,7 +70,7 @@ export default {
         }
       }, 1000)
     },
-    stop: function () {
+    stop() {
       clearInterval(this.timer)
       this.after = true
       this.circle = "circle start stop"
@@ -72,11 +80,11 @@ export default {
       //ポイント処理
       if (this.asakatsuTime >= 5) {
         if (this.asakatsuTime < 10) {
-          this.point += 2
+          this.point += 3
         } else if (this.asakatsuTime < 20) {
-          this.point += 5
+          this.point += 6
         } else if (this.asakatsuTime < 30) {
-          this.point += 8
+          this.point += 9
         } else if (this.asakatsuTime < 45) {
           this.point += 12
         } else if (this.asakatsuTime < 60) {
@@ -88,7 +96,7 @@ export default {
         this.fight = true
       }
     },
-    again: function () {
+    again() {
       this.hour = 0
       this.min10 = 0
       this.min1 = 5
@@ -98,6 +106,31 @@ export default {
       this.after = false
       this.circle = "circle"
       this.fight = false
+    },
+    pointRegister() {
+      const auth = getAuth()
+      onAuthStateChanged(auth, async (user) => {
+        // 未ログイン時
+        if (!user) {
+          // topに飛ばしてログインさせる
+          this.$router.push("/top")
+        }
+        // ログイン時
+        else {
+          const uid = user.uid
+          // ログイン済みのユーザー情報があるかをチェック
+          //usersコレクションで確認している
+          const docRef = doc(db, "users", uid)
+          const userDoc = await getDoc(docRef)
+          if (!userDoc.exists()) {
+            // Firestore にユーザー用のドキュメントが作られていなければ作る
+            await setDoc(docRef, {
+              //usersコレクションにユーザーID名のドキュメントを作る
+              timePoints: this.point,
+            })
+          }
+        }
+      })
     },
   },
 }
