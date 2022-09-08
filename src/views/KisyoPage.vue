@@ -60,14 +60,14 @@
     </div>
     <div class="target">起床目標時間</div>
     <div class="targetTime">
-      <input type="number" min="0" max="12" v-model="targetHour" />:<input
+      <input type="number" min="0" max="24" v-model="targetHour" />:<input
         type="number"
         min="0"
         max="5"
         v-model="targetMin10"
       /><input type="number" min="0" max="9" v-model="targetMin1" />
     </div>
-    <button v-on:click="kisyoButton">起床</button>
+    <button v-on:click="two">起床</button>
     <div v-if="isLate">
       <div class="timeLate">目標時間より{{ fixedtimeLate }}分です。</div>
       <div class="pointGet">{{ point }}ポイントを獲得しました！</div>
@@ -77,7 +77,7 @@
 
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth"
-import { doc, updateDoc, getDoc } from "firebase/firestore"
+import { doc, updateDoc, getDoc, increment } from "firebase/firestore"
 import { db } from "@/firebase"
 
 export default {
@@ -221,7 +221,7 @@ export default {
           const userDoc = await getDoc(docRef)
           if (userDoc.exists()) {
             await updateDoc(docRef, {
-              getupPoints: this.point,
+              getupPoints: increment(this.point),
             })
           }
         }

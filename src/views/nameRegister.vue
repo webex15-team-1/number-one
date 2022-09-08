@@ -108,6 +108,8 @@ export default {
               nickname: this.name,
               prefecture: this.prefecture,
               prefectureCode: this.prefectureCode,
+              timePoints: 0,
+              getupPoints: 0,
             })
           }
         }
