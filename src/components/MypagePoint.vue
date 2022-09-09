@@ -19,20 +19,6 @@ export default {
       averageAsakatsuTimeSec: 0,
     }
   },
-  async mounted() {
-    console.log("MypagePoint: " + this.uid)
-    const docRef = doc(collection(db, "users"), this.uid)
-    const docSnap = await getDoc(docRef)
-    if (docSnap.exists()) {
-      const data = docSnap.data()
-      console.log("Data of user " + this.uid + ": " + data)
-      this.points = data.points
-      this.averageWakeUpDiffSec = data.averageWakeUpDiffSec
-      this.averageAsakatsuTimeSec = data.averageAsakatsuTimeSec
-    } else {
-      console.log("User " + this.uid + " not found.")
-    }
-  },
   computed: {
     averageWakeUpDiff() {
       return this.secondToText(this.averageWakeUpDiffSec)
@@ -51,6 +37,22 @@ export default {
         (minutes > 10 ? `${minutes}分 ` : ` ${minutes}分 `) +
         (seconds > 10 ? `${seconds}秒` : ` ${seconds}秒`)
       )
+    },
+  },
+  watch: {
+    uid: async function () {
+      console.log("MypagePoint: " + this.uid)
+      const docRef = doc(collection(db, "users"), this.uid)
+      const docSnap = await getDoc(docRef)
+      if (docSnap.exists()) {
+        const data = docSnap.data()
+        console.log("Data of user " + this.uid + ": " + data)
+        this.points = data.getupPoints + data.timePoints
+        this.averageWakeUpDiffSec = data.averageWakeUpDiffSec
+        this.averageAsakatsuTimeSec = data.averageAsakatsuTimeSec
+      } else {
+        console.log("User " + this.uid + " not found.")
+      }
     },
   },
 }
