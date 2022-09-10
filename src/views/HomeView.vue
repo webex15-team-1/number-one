@@ -3,31 +3,30 @@
     <Loading />
   </div>
   <div class="container">
-    <div class="greet">{{ greet }}、{{ user.nickName }}さん</div>
+    <div class="greet">{{ greet }}</div>
     <div class="weather">
-      <div
-        class="weather-message"
-        v-for="(desc, index) in weather.descriptions"
-        :key="index"
-      >
-        今日の{{ desc.name }}の天気は{{ desc.forecast }}です。
+      <div class="weather-message">
+        今日の{{ prefecture }}の天気は{{ weather.todayData }}です
       </div>
       <img id="weather-img" :src="weather.image" alt="" />
     </div>
     <div class="sun-wrap" :style="containerStyle">
-      >
       <div class="sky">
         <div class="sky-data" v-if="debug.showInternalData">
           dayPhase: {{ dayPhase }}
         </div>
+        <div>
+          <img class="townImg" src="@/views/images/morning.png" />
+        </div>
       </div>
       <div class="sun" :style="sunStyle" v-show="isSunShineTime">
+        <img class="sunImg" src="@/views/images/sun.png" />
         <div v-if="debug.showInternalData">
           ({{ Math.round(sunX * 1000) / 1000 }},
           {{ Math.round(sunY * 1000) / 1000 }})
         </div>
       </div>
-      <div class="horizon"></div>
+      <!-- <div class="horizon"></div> -->
     </div>
     <div class="debug-area" v-if="debug.showInternalData">
       <h3>内部データ</h3>
@@ -170,7 +169,10 @@
 <script>
 import SunCalc from "suncalc"
 import Loading from "@/components/LoadingPage.vue"
-import { getAuth } from "firebase/auth"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { doc, getDoc } from "firebase/firestore"
+import { db } from "@/firebase"
+
 export default {
   components: { Loading },
   data() {
@@ -187,28 +189,24 @@ export default {
           seconds: "0",
         },
       },
+      prefecture: "",
       sliderInput: 0,
-      greet: "おはようございます",
       now: new Date(Date.now()),
       user: {
         latitude: 35.03072421401453,
         longitude: 135.78485329143817,
-        nickName: "♰朝活マスター♰",
       },
       weather: {
         todayData: undefined,
-        spot: "京都",
-        spotID: "260000",
-        descriptions: [],
-        image: "",
+        spotID: "",
       },
       sun: {},
       moon: {},
       sunFigure: {
-        radius: 0.1, //containerに対する直径の比
+        radius: 0.2, //containerに対する直径の比
         orbitalFactor: 0.8, //containerに対する軌道直径の比 radius + orbitalFactor <= 1 にするとはみ出ない
-        containerWidth: 30, //em
-        containerHeight: 15, //em
+        containerWidth: 100, //vw
+        containerHeight: 50, //vw
       },
     }
   },
@@ -222,23 +220,25 @@ export default {
      * 天気予報を取得する
      * @param {String} spotID 気象庁の都道府県を示す6桁ID
      */
-    async fetchWeather(spotID) {
+    async fetchWeather() {
       try {
-        const rawData = await fetch(
-          `https://www.jma.go.jp/bosai/forecast/data/forecast/${spotID}.json`
-        )
-        if (!rawData.ok) {
-          throw new Error("Weather API failed.")
-        }
-        const jsonData = await rawData.json()
-        this.weather.todayData = jsonData[0].timeSeries[0]
-        this.weather.descriptions = this.weather.todayData.areas.map(
-          (value) => ({
-            name: value.area.name,
-            forecast: value.weathers[0],
-            forecastCode: value.weatherCodes[0],
-          })
-        )
+        onAuthStateChanged(this.auth, async (user) => {
+          const uid = user.uid
+          const docRef = doc(db, "users", uid)
+          const userDoc = await getDoc(docRef)
+          this.weather.spotID = userDoc.data().prefectureCode
+          this.prefecture = userDoc.data().prefecture
+
+          const rawData = await fetch(
+            `https://www.jma.go.jp/bosai/forecast/data/forecast/${this.weather.spotID}.json`
+          )
+          if (!rawData.ok) {
+            throw new Error("Weather API failed.")
+          }
+          const jsonData = await rawData.json()
+          this.weather.todayData =
+            jsonData[0].timeSeries[0].areas[0].weathers[0]
+        })
       } catch (error) {
         console.error(error)
         this.weather.descriptions = [{ name: "（不明）", forecast: "（不明）" }]
@@ -322,7 +322,7 @@ export default {
     },
   },
   created() {
-    this.fetchWeather(this.weather.spotID)
+    this.fetchWeather()
     this.updateSunData(this.now)
     this.updateMoonData(this.now)
   },
@@ -495,8 +495,8 @@ export default {
     },
     containerStyle() {
       return {
-        height: this.sunFigure.containerHeight + "em",
-        width: this.sunFigure.containerWidth + "em",
+        height: this.sunFigure.containerHeight + "vw",
+        width: this.sunFigure.containerWidth + "vw",
       }
     },
     sunStyle() {
@@ -506,8 +506,8 @@ export default {
           this.sunFigure.containerWidth
         ) * this.sunFigure.radius
       return {
-        height: sunSize + "em",
-        width: sunSize + "em",
+        height: sunSize + "vw",
+        width: sunSize + "vw",
         transform:
           "translateX(" +
           ((this.sunX *
@@ -515,16 +515,27 @@ export default {
             this.sunFigure.orbitalFactor) /
             2 -
             sunSize / 2) +
-          "em) translateY(" +
-          ((-this.sunY *
+          "vw) translateY(" +
+          (-this.sunY *
             this.sunFigure.containerHeight *
-            this.sunFigure.orbitalFactor) /
-            2 -
+            this.sunFigure.orbitalFactor -
             sunSize / 2) +
-          "em)",
+          "vw)",
+      }
+    },
+    greet() {
+      if (this.now < this.sun.sunrise) {
+        return "こんばんは"
+      } else if (this.now.getHours() < 12) {
+        return "おはようございます"
+      } else if (this.now < this.sun.sunset) {
+        return "こんにちは"
+      } else {
+        return "こんばんは"
       }
     },
   },
+
   watch: {
     sliderInput(newSliderInput) {
       const hours = Math.floor(newSliderInput / 3600)
@@ -556,6 +567,10 @@ export default {
     visibility: hidden;
   }
 }
+.greet,
+.weather-message {
+  font-size: 3em;
+}
 .internal-data {
   display: flex;
   flex-wrap: wrap;
@@ -577,26 +592,40 @@ td {
 }
 .sun-wrap {
   position: relative;
+  width: 100%;
+  height: 90vh;
   margin: auto;
-  border: 1px solid black;
+  /*   border: 1px solid black; */
 }
 .sun {
   /* width: 10%;
   height: 10%; */
   position: absolute;
-  top: 50%;
+  top: 100%;
   left: 50%;
-  border-radius: 50%;
-  background-color: orange;
+  /*   border-radius: 50%;
+  background-color: orange; */
   /* transform: translate(-50%, -50%); */
+}
+.sunImg {
+  width: 100%;
+}
+.townImg {
+  position: absolute;
+  width: 30vw;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  -webkit-transform: translate(-50%, -100%);
+  -ms-transform: translate(-50%, -100%);
 }
 .sky {
   position: absolute;
-  top: 0%;
-  left: 0%;
+  /*   top: 0%;
+  left: 0%; */
   width: 100%;
-  height: 50%;
-  background-color: paleturquoise;
+  height: 100%;
+  /* background-color: paleturquoise; */
 }
 .sky-data {
   font-size: 2em;
@@ -605,13 +634,13 @@ td {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.horizon {
+/* .horizon {
   position: absolute;
   top: 50%;
   left: 0%;
   width: 100%;
-  height: 50%;
+  height: 0%;
   background-color: green;
   opacity: 0.5;
-}
+} */
 </style>
