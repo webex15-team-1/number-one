@@ -173,7 +173,7 @@
 <script>
 import SunCalc from "suncalc"
 import Loading from "@/components/LoadingPage.vue"
-import { getAuth } from "firebase/auth"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { doc, getDoc } from "firebase/firestore"
 import { db } from "@/firebase"
 
@@ -193,6 +193,7 @@ export default {
           seconds: "0",
         },
       },
+      prefecture: "",
       sliderInput: 0,
       now: new Date(Date.now()),
       user: {
@@ -201,8 +202,7 @@ export default {
       },
       weather: {
         todayData: undefined,
-        spot: "京都",
-        spotID: "260000",
+        spotID: "",
         descriptions: [],
         image: "",
       },
@@ -226,17 +226,17 @@ export default {
      * 天気予報を取得する
      * @param {String} spotID 気象庁の都道府県を示す6桁ID
      */
-    async fetchWeather(spotID) {
+    async fetchWeather() {
       try {
-        const uid = this.auth.user.uid
-        // ログイン済みのユーザー情報があるかをチェック
-        //usersコレクションで確認している
-        const docRef = doc(db, "users", uid)
-        const userDoc = await getDoc(docRef)
-        console.log(userDoc)
-        this.prefecture = "埼玉"
+        await onAuthStateChanged(this.auth, async (user) => {
+          const uid = user.uid
+          const docRef = doc(db, "users", uid)
+          const userDoc = await getDoc(docRef)
+          this.weather.spotID = userDoc.data().prefectureCode
+          this.prefecture = userDoc.data().prefecture
+        })
         const rawData = await fetch(
-          `https://www.jma.go.jp/bosai/forecast/data/forecast/${spotID}.json`
+          `https://www.jma.go.jp/bosai/forecast/data/forecast/${this.weather.spotID}.json`
         )
         if (!rawData.ok) {
           throw new Error("Weather API failed.")
@@ -333,7 +333,7 @@ export default {
     },
   },
   created() {
-    this.fetchWeather(this.weather.spotID)
+    this.fetchWeather()
     this.updateSunData(this.now)
     this.updateMoonData(this.now)
   },
