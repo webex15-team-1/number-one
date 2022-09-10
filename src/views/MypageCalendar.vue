@@ -94,29 +94,36 @@ export default {
       while (dayNumber <= lastDay) {
         let weekData = []
         for (let i = 0; i <= 6; i++) {
+          let day = dayNumber
+          let kisyoTime = ""
+          let asakatsuTime = ""
           if (calendar.length == 0 && i < firstWeekDay) {
-            weekData[i] = ""
+            day = ""
           } else if (lastDay < dayNumber) {
-            weekData[i] = ""
+            day = ""
           } else {
             let day = this.year + "/" + this.month + "/" + dayNumber
             for (let j = 0; j < this.kisyo.length; j++) {
               if (this.kisyo[j].date === day) {
-                let kisyoTime = this.kisyo[j].getupCurrentTime
-                weekData[i] = { day: dayNumber, kisyo: kisyoTime }
-              } else {
-                weekData[i] = { day: dayNumber, kisyo: "" }
+                let kisyoTimeFirebase = this.kisyo[j].getupCurrentTime
+                kisyoTime = kisyoTimeFirebase
               }
             }
             for (let k = 0; k < this.asakatsu.length; k++) {
               if (this.asakatsu[k].date === day) {
-                let asakatsuTime = this.asakatsu[k].time
-                weekData[i].asakatsu = asakatsuTime + "min"
-              } else {
-                weekData[i].asakatsu = ""
+                let asakatsuTimeFirebase = this.asakatsu[k].time
+                asakatsuTime += asakatsuTimeFirebase
               }
             }
             dayNumber++
+          }
+          if (asakatsuTime) {
+            asakatsuTime += "min"
+          }
+          weekData[i] = {
+            day: day,
+            kisyo: kisyoTime,
+            asakatsu: asakatsuTime,
           }
         }
         calendar.push(weekData)
