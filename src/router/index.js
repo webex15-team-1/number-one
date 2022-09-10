@@ -7,6 +7,7 @@ import ColorPallete from "@/components/ColorPalette.vue"
 import NameRegister from "@/views/nameRegister.vue"
 import ShopApp from "@/views/ShopApp.vue"
 import Top from "@/views/TopPage.vue"
+import Calendar from "@/views/MypageCalendar.vue"
 
 const routes = [
   {
@@ -48,6 +49,11 @@ const routes = [
     path: "/toppage",
     name: "toppage",
     component: Top,
+  },
+  {
+    path: "/calendar",
+    name: "calendar",
+    component: Calendar,
   },
 ]
 
