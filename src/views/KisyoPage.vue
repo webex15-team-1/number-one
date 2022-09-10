@@ -60,14 +60,14 @@
     </div>
     <div class="target">起床目標時間</div>
     <div class="targetTime">
-      <input type="number" min="0" max="12" v-model="targetHour" />:<input
+      <input type="number" min="0" max="24" v-model="targetHour" />:<input
         type="number"
         min="0"
         max="5"
         v-model="targetMin10"
       /><input type="number" min="0" max="9" v-model="targetMin1" />
     </div>
-    <button v-on:click="kisyoButton">起床</button>
+    <button v-on:click="two">起床</button>
     <div v-if="isLate">
       <div class="timeLate">目標時間より{{ fixedtimeLate }}分です。</div>
       <div class="pointGet">{{ point }}ポイントを獲得しました！</div>
@@ -76,6 +76,16 @@
 </template>
 
 <script>
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+import {
+  doc,
+  updateDoc,
+  getDoc,
+  increment,
+  arrayUnion,
+} from "firebase/firestore"
+import { db } from "@/firebase"
+
 export default {
   data() {
     return {
@@ -113,16 +123,20 @@ export default {
     }
   },
   methods: {
+    two() {
+      this.kisyoButton()
+      this.pointRegister()
+    },
     //じゃんけんする
-    yesJanken: function () {
+    yesJanken() {
       this.isJanken = true
       this.buttonClicked = false
     },
     //じゃんけんしない
-    noJanken: function () {
+    noJanken() {
       this.buttonClicked = false
     },
-    kisyoButton: function () {
+    kisyoButton() {
       //今の時間
       let now = new Date()
       //目標時間
@@ -150,13 +164,13 @@ export default {
           this.point += 10 * this.i
           alert("Perfect！いい調子です！")
         } else if (this.timeLate <= 20) {
-          this.point += 7 * this.i
+          this.point += 8 * this.i
           alert("Great！")
         } else if (this.timeLate <= 30) {
-          this.point += 5 * this.i
+          this.point += 6 * this.i
           alert("Good！")
         } else {
-          this.point += 3 * this.i
+          this.point += 4 * this.i
           alert("OK")
         }
       } else {
@@ -195,6 +209,34 @@ export default {
           this.resultText = "おめでとう！勝ちです🎉ポイント1.5倍！！"
           this.i = 1.5
       }
+    },
+    pointRegister() {
+      const auth = getAuth()
+      onAuthStateChanged(auth, async (user) => {
+        // 未ログイン時
+        if (!user) {
+          // topに飛ばしてログインさせる
+          this.$router.push("/top")
+        }
+        // ログイン時
+        else {
+          const uid = user.uid
+          // ログイン済みのユーザー情報があるかをチェック
+          //usersコレクションで確認している
+          const docRef = doc(db, "users", uid)
+          const userDoc = await getDoc(docRef)
+          if (userDoc.exists()) {
+            await updateDoc(docRef, {
+              getupPoints: increment(this.point),
+              kisyo: arrayUnion({
+                date: new Date().toLocaleDateString(),
+                getupDiff: this.fixedtimeLate,
+                getupCurrentTime: new Date().toLocaleTimeString(),
+              }),
+            })
+          }
+        }
+      })
     },
   },
 }
