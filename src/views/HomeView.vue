@@ -228,28 +228,29 @@ export default {
      */
     async fetchWeather() {
       try {
-        await onAuthStateChanged(this.auth, async (user) => {
+        onAuthStateChanged(this.auth, async (user) => {
           const uid = user.uid
           const docRef = doc(db, "users", uid)
           const userDoc = await getDoc(docRef)
           this.weather.spotID = userDoc.data().prefectureCode
           this.prefecture = userDoc.data().prefecture
+
+          const rawData = await fetch(
+            `https://www.jma.go.jp/bosai/forecast/data/forecast/${this.weather.spotID}.json`
+          )
+          if (!rawData.ok) {
+            throw new Error("Weather API failed.")
+          }
+          const jsonData = await rawData.json()
+          this.weather.todayData = jsonData[0].timeSeries[0]
+          this.weather.descriptions = this.weather.todayData.areas.map(
+            (value) => ({
+              name: value.area.name,
+              forecast: value.weathers[0],
+              forecastCode: value.weatherCodes[0],
+            })
+          )
         })
-        const rawData = await fetch(
-          `https://www.jma.go.jp/bosai/forecast/data/forecast/${this.weather.spotID}.json`
-        )
-        if (!rawData.ok) {
-          throw new Error("Weather API failed.")
-        }
-        const jsonData = await rawData.json()
-        this.weather.todayData = jsonData[0].timeSeries[0]
-        this.weather.descriptions = this.weather.todayData.areas.map(
-          (value) => ({
-            name: value.area.name,
-            forecast: value.weathers[0],
-            forecastCode: value.weatherCodes[0],
-          })
-        )
       } catch (error) {
         console.error(error)
         this.weather.descriptions = [{ name: "（不明）", forecast: "（不明）" }]
