@@ -5,12 +5,8 @@
   <div class="container">
     <div class="greet">{{ greet }}</div>
     <div class="weather">
-      <div
-        class="weather-message"
-        v-for="(desc, index) in weather.descriptions"
-        :key="index"
-      >
-        今日の{{ prefecture }}の天気は{{ desc.forecast }}です。
+      <div class="weather-message">
+        今日の{{ prefecture }}の天気は{{ weather.todayData }}です
       </div>
       <img id="weather-img" :src="weather.image" alt="" />
     </div>
@@ -203,8 +199,6 @@ export default {
       weather: {
         todayData: undefined,
         spotID: "",
-        descriptions: [],
-        image: "",
       },
       sun: {},
       moon: {},
@@ -218,7 +212,7 @@ export default {
   },
   mounted: function () {
     if (!this.auth.currentUser) {
-      this.$router.push("/toppage")
+      this.$router.push("/top")
     }
   },
   methods: {
@@ -228,28 +222,23 @@ export default {
      */
     async fetchWeather() {
       try {
-        await onAuthStateChanged(this.auth, async (user) => {
+        onAuthStateChanged(this.auth, async (user) => {
           const uid = user.uid
           const docRef = doc(db, "users", uid)
           const userDoc = await getDoc(docRef)
           this.weather.spotID = userDoc.data().prefectureCode
           this.prefecture = userDoc.data().prefecture
+
+          const rawData = await fetch(
+            `https://www.jma.go.jp/bosai/forecast/data/forecast/${this.weather.spotID}.json`
+          )
+          if (!rawData.ok) {
+            throw new Error("Weather API failed.")
+          }
+          const jsonData = await rawData.json()
+          this.weather.todayData =
+            jsonData[0].timeSeries[0].areas[0].weathers[0]
         })
-        const rawData = await fetch(
-          `https://www.jma.go.jp/bosai/forecast/data/forecast/${this.weather.spotID}.json`
-        )
-        if (!rawData.ok) {
-          throw new Error("Weather API failed.")
-        }
-        const jsonData = await rawData.json()
-        this.weather.todayData = jsonData[0].timeSeries[0]
-        this.weather.descriptions = this.weather.todayData.areas.map(
-          (value) => ({
-            name: value.area.name,
-            forecast: value.weathers[0],
-            forecastCode: value.weatherCodes[0],
-          })
-        )
       } catch (error) {
         console.error(error)
         this.weather.descriptions = [{ name: "（不明）", forecast: "（不明）" }]
@@ -536,13 +525,13 @@ export default {
     },
     greet() {
       if (this.now < this.sun.sunrise) {
-        return "こんばんは。"
+        return "こんばんは"
       } else if (this.now.getHours() < 12) {
-        return "おはようございます。"
+        return "おはようございます"
       } else if (this.now < this.sun.sunset) {
-        return "こんにちは。"
+        return "こんにちは"
       } else {
-        return "こんばんは。"
+        return "こんばんは"
       }
     },
   },
@@ -577,6 +566,10 @@ export default {
     opacity: 0;
     visibility: hidden;
   }
+}
+.greet,
+.weather-message {
+  font-size: 3em;
 }
 .internal-data {
   display: flex;
