@@ -3,6 +3,7 @@
   <button @click="logout">ログアウト</button>
   <MypagePoint :uid="uid" />
   <MypageRanking />
+  <MypageTweet :uid="uid" />
 </template>
 
 <script>
@@ -11,6 +12,7 @@ import { db } from "@/firebase"
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
 import MypagePoint from "@/components/MypagePoint.vue"
 import MypageRanking from "@/components/MypageRanking.vue"
+import MypageTweet from "@/components/MypageTweet.vue"
 
 export default {
   data() {
@@ -49,7 +51,7 @@ export default {
       }
     })
   },
-  components: { MypagePoint, MypageRanking },
+  components: { MypagePoint, MypageRanking, MypageTweet },
 }
 </script>
 <style>
