@@ -5,14 +5,7 @@
 
 <script>
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
-import {
-  doc,
-  getDoc,
-  getDocs,
-  collection,
-  query,
-  where,
-} from "firebase/firestore"
+import { doc, getDoc } from "firebase/firestore"
 import { db } from "@/firebase"
 
 export default {
@@ -52,14 +45,9 @@ export default {
         const docRef = doc(db, "users", uid)
         const userDoc = await getDoc(docRef)
         if (userDoc.exists()) {
-          const q = query(
-            collection(db, "users"),
-            where("nickname", "!=", true)
-          )
-          const queryName = await getDocs(q)
-          queryName.forEach((doc) => {
-            console.log(doc.id, " => ", doc.data())
-          })
+          const data = userDoc.data()
+          console.log(`${data.nickname}さんがログインしました`)
+          this.name = data.nickname
         }
       }
     })
