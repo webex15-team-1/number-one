@@ -29,7 +29,7 @@ export default {
         })
     },
   },
-  created() {
+  mounted() {
     const auth = getAuth()
     onAuthStateChanged(auth, async (user) => {
       // 未ログイン時
@@ -46,7 +46,6 @@ export default {
         const userDoc = await getDoc(docRef)
         if (userDoc.exists()) {
           const data = userDoc.data()
-          console.log(`${data.nickname}さんがログインしました`)
           this.name = data.nickname
         }
       }

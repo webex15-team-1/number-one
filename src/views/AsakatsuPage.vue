@@ -132,7 +132,7 @@ export default {
           if (userDoc.exists()) {
             await updateDoc(docRef, {
               timePoints: increment(this.point),
-              asakaysu: arrayUnion({
+              asakatsu: arrayUnion({
                 date: new Date().toLocaleDateString(),
                 time: this.asakatsuTime,
                 currentTime: new Date().toLocaleTimeString(),
