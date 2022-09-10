@@ -20,7 +20,13 @@
             v-for="(columnNumber, columnNumberIndex) in rowNumber"
             :key="columnNumberIndex"
           >
-            {{ columnNumber }}
+            <div class="day">
+              {{ columnNumber.day }}
+            </div>
+            <div class="kisyo">
+              {{ columnNumber.kisyo }}
+            </div>
+            <div class="asakatsu">{{ columnNumber.asakatsu }}</div>
           </td>
         </tr>
       </tbody>
@@ -28,20 +34,40 @@
   </div>
 </template>
 <script>
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { doc, getDoc } from "firebase/firestore"
+import { db } from "@/firebase"
 export default {
   data() {
     return {
+      auth: getAuth(),
       weekDays: ["日", "月", "火", "水", "木", "金", "土"],
       now: new Date(),
       month: "",
       year: "",
+      kisyo: [],
+      asakatsu: [],
     }
   },
   created() {
     this.month = this.now.getMonth() + 1
     this.year = this.now.getFullYear()
+    this.kisyoAsakatsuTimes()
   },
   methods: {
+    kisyoAsakatsuTimes() {
+      try {
+        onAuthStateChanged(this.auth, async (user) => {
+          const uid = user.uid
+          const docRef = doc(db, "users", uid)
+          const userDoc = await getDoc(docRef)
+          this.kisyo = userDoc.data().kisyo
+          this.asakatsu = userDoc.data().asakatsu
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
     prev() {
       this.month -= 1
       if (this.month < 1) {
@@ -73,7 +99,23 @@ export default {
           } else if (lastDay < dayNumber) {
             weekData[i] = ""
           } else {
-            weekData[i] = dayNumber
+            let day = this.year + "/" + this.month + "/" + dayNumber
+            for (let j = 0; j < this.kisyo.length; j++) {
+              if (this.kisyo[j].date === day) {
+                let kisyoTime = this.kisyo[j].getupCurrentTime
+                weekData[i] = { day: dayNumber, kisyo: kisyoTime }
+              } else {
+                weekData[i] = { day: dayNumber, kisyo: "" }
+              }
+            }
+            for (let k = 0; k < this.asakatsu.length; k++) {
+              if (this.asakatsu[k].date === day) {
+                let asakatsuTime = this.asakatsu[k].time
+                weekData[i].asakatsu = asakatsuTime + "min"
+              } else {
+                weekData[i].asakatsu = ""
+              }
+            }
             dayNumber++
           }
         }
@@ -92,11 +134,25 @@ export default {
 }
 .main-cal {
   border-collapse: collapse;
-  table-layout: fixed;
-  width: 100%;
+  width: 70%;
+  margin: auto;
+}
+table {
+  font-size: 1.5em;
+}
+table td {
+  position: relative;
+  width: 10%;
+}
+.day {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  padding-left: 1%;
 }
 table tr {
   height: 10vh;
+  top: 0%;
 }
 table th:nth-of-type(1) {
   color: red;
