@@ -9,7 +9,7 @@
       <div v-bind:class="circle"></div>
     </div>
     <button v-on:click="start" v-if="before">開始！</button>
-    <button v-on:click="stop" v-if="!before && !after">終了！</button>
+    <button v-on:click="two" v-if="!before && !after">終了！</button>
     <p v-if="after">{{ asakatsuTime }}分朝活をしました！！</p>
     <p v-if="after && this.point > 0">{{ point }}ポイントを獲得しました！</p>
     <p v-if="fight">{{ fightMessage }}</p>
@@ -18,12 +18,22 @@
 </template>
 
 <script>
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+import {
+  doc,
+  updateDoc,
+  getDoc,
+  increment,
+  arrayUnion,
+} from "firebase/firestore"
+import { db } from "@/firebase"
+
 export default {
   data() {
     return {
       hour: 0,
       min10: 0,
-      min1: 0,
+      min1: 5,
       sec10: 0,
       sec1: 0,
       before: true,
@@ -34,10 +44,15 @@ export default {
       asakatsuTime: "",
       fight: false,
       fightMessage: "朝活を5分以上できるよう頑張りましょう",
+      point: 0,
     }
   },
   methods: {
-    start: function () {
+    two() {
+      this.stop()
+      this.pointRegister()
+    },
+    start() {
       this.circle = "circle start"
       this.before = false
       this.timer = setInterval(() => {
@@ -61,7 +76,7 @@ export default {
         }
       }, 1000)
     },
-    stop: function () {
+    stop() {
       clearInterval(this.timer)
       this.after = true
       this.circle = "circle start stop"
@@ -71,11 +86,11 @@ export default {
       //ポイント処理
       if (this.asakatsuTime >= 5) {
         if (this.asakatsuTime < 10) {
-          this.point += 2
+          this.point += 3
         } else if (this.asakatsuTime < 20) {
-          this.point += 5
+          this.point += 6
         } else if (this.asakatsuTime < 30) {
-          this.point += 8
+          this.point += 9
         } else if (this.asakatsuTime < 45) {
           this.point += 12
         } else if (this.asakatsuTime < 60) {
@@ -87,16 +102,45 @@ export default {
         this.fight = true
       }
     },
-    again: function () {
+    again() {
       this.hour = 0
       this.min10 = 0
-      this.min1 = 0
+      this.min1 = 5
       this.sec10 = 0
       this.sec1 = 0
       this.before = true
       this.after = false
       this.circle = "circle"
       this.fight = false
+      this.point = 0
+    },
+    pointRegister() {
+      const auth = getAuth()
+      onAuthStateChanged(auth, async (user) => {
+        // 未ログイン時
+        if (!user) {
+          // topに飛ばしてログインさせる
+          this.$router.push("/top")
+        }
+        // ログイン時
+        else {
+          const uid = user.uid
+          // ログイン済みのユーザー情報があるかをチェック
+          //usersコレクションで確認している
+          const docRef = doc(db, "users", uid)
+          const userDoc = await getDoc(docRef)
+          if (userDoc.exists()) {
+            await updateDoc(docRef, {
+              timePoints: increment(this.point),
+              asakatsu: arrayUnion({
+                date: new Date().toLocaleDateString(),
+                time: this.asakatsuTime,
+                currentTime: new Date().toLocaleTimeString(),
+              }),
+            })
+          }
+        }
+      })
     },
   },
 }
@@ -118,7 +162,7 @@ export default {
   z-index: 100;
   margin-left: 25%;
 }
-.minicircle {
+/* .minicircle {
   position: absolute;
   z-index: 3;
   width: 20%;
@@ -167,5 +211,5 @@ export default {
 }
 .stop::before {
   animation-play-state: paused;
-}
+} */
 </style>
