@@ -77,7 +77,13 @@
 
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth"
-import { doc, updateDoc, getDoc, increment } from "firebase/firestore"
+import {
+  doc,
+  updateDoc,
+  getDoc,
+  increment,
+  arrayUnion,
+} from "firebase/firestore"
 import { db } from "@/firebase"
 
 export default {
@@ -222,6 +228,11 @@ export default {
           if (userDoc.exists()) {
             await updateDoc(docRef, {
               getupPoints: increment(this.point),
+              kisyo: arrayUnion({
+                date: new Date().toLocaleDateString(),
+                getupDiff: this.fixedtimeLate,
+                getupCurrentTime: new Date().toLocaleTimeString(),
+              }),
             })
           }
         }

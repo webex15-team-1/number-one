@@ -99,6 +99,7 @@ export default {
           // ログイン済みのユーザー情報があるかをチェック
           //usersコレクションで確認している
           const docRef = doc(db, "users", uid)
+          // サブコレ const mypageRef = doc(db, "users", uid, "mypage")
           const userDoc = await getDoc(docRef)
           if (!userDoc.exists()) {
             // Firestore にユーザー用のドキュメントが作られていなければ作る
@@ -110,6 +111,8 @@ export default {
               prefectureCode: this.prefectureCode,
               timePoints: 0,
               getupPoints: 0,
+              kisyo: [],
+              asakatsu: [],
             })
           }
         }

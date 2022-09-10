@@ -5,6 +5,15 @@
 
 <script>
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
+import {
+  doc,
+  getDoc,
+  getDocs,
+  collection,
+  query,
+  where,
+} from "firebase/firestore"
+import { db } from "@/firebase"
 
 export default {
   data() {
@@ -27,12 +36,31 @@ export default {
         })
     },
   },
-  mounted() {
-    onAuthStateChanged(this.auth, (user) => {
-      if (user) {
-        this.name = this.auth.currentUser.displayName
-      } else {
+  created() {
+    const auth = getAuth()
+    onAuthStateChanged(auth, async (user) => {
+      // 未ログイン時
+      if (!user) {
+        // topに飛ばしてログインさせる
         this.$router.push("/top")
+      }
+      // ログイン時
+      else {
+        const uid = user.uid
+        // ログイン済みのユーザー情報があるかをチェック
+        //usersコレクションで確認している
+        const docRef = doc(db, "users", uid)
+        const userDoc = await getDoc(docRef)
+        if (userDoc.exists()) {
+          const q = query(
+            collection(db, "users"),
+            where("nickname", "!=", true)
+          )
+          const queryName = await getDocs(q)
+          queryName.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data())
+          })
+        }
       }
     })
   },
