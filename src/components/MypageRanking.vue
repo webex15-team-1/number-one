@@ -17,8 +17,11 @@ export default {
     }
   },
   async mounted() {
+    // firebaseからデータを取得
     const q = query(collection(db, "users"))
     const querySnapshot = await getDocs(q)
+
+    //合計点を算出 ただし未定義の得点は0点とみなす
     querySnapshot.forEach((doc) => {
       const data = doc.data()
       const getupPoints =
@@ -30,6 +33,7 @@ export default {
         points: getupPoints + timePoints,
       })
     })
+    // 上位3人の名前を取り出す
     this.totalPoints.sort((a, b) => {
       return b.points - a.points
     })
