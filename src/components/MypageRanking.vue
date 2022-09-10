@@ -1,9 +1,11 @@
 <template>
   <div class="rank-container">
     <h2>ランキング</h2>
-    <h3 v-for="(name, index) in ranking" :key="index">
-      {{ index + 1 }}位 {{ name }}
-    </h3>
+    <div class="names">
+      <h3 v-for="(name, index) in ranking" :key="index">
+        {{ index + 1 }}位 {{ name }}
+      </h3>
+    </div>
   </div>
 </template>
 <script>
@@ -41,4 +43,21 @@ export default {
   },
 }
 </script>
-<style lang=""></style>
+<style scoped>
+.rank-container {
+  display: inline-block;
+  width: auto;
+  background: #022340;
+  border-radius: 24px;
+}
+.names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+h2,
+h3 {
+  color: #ffffff;
+}
+</style>

@@ -52,3 +52,8 @@ export default {
   components: { MypagePoint, MypageRanking },
 }
 </script>
+<style>
+* {
+  font-family: "Zen Maru Gothic";
+}
+</style>
