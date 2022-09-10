@@ -4,34 +4,33 @@
   </div>
   <div class="container">
     <div class="greet">{{ greet }}</div>
-    <div class="main">
-      <div class="weather">
-        <div
-          class="weather-message"
-          v-for="(desc, index) in weather.descriptions"
-          :key="index"
-        >
-          今日の{{ desc.name }}の天気は{{ desc.forecast }}です。
-        </div>
-        <img id="weather-img" :src="weather.image" alt="" />
+    <div class="weather">
+      <div
+        class="weather-message"
+        v-for="(desc, index) in weather.descriptions"
+        :key="index"
+      >
+        今日の{{ prefecture }}の天気は{{ desc.forecast }}です。
       </div>
-      <!-- <div class="sun-wrap" :style="containerStyle"> -->
-      <!-- <div class="sky">
-          <div class="sky-data" v-if="debug.showInternalData">
-            dayPhase: {{ dayPhase }}
-          </div>
-        </div> -->
+      <img id="weather-img" :src="weather.image" alt="" />
+    </div>
+    <div class="sun-wrap" :style="containerStyle">
+      <div class="sky">
+        <div class="sky-data" v-if="debug.showInternalData">
+          dayPhase: {{ dayPhase }}
+        </div>
+        <div>
+          <img class="townImg" src="@/views/images/morning.png" />
+        </div>
+      </div>
       <div class="sun" :style="sunStyle" v-show="isSunShineTime">
-        <img src="@/views/images/sun.png" />
+        <img class="sunImg" src="@/views/images/sun.png" />
         <div v-if="debug.showInternalData">
           ({{ Math.round(sunX * 1000) / 1000 }},
           {{ Math.round(sunY * 1000) / 1000 }})
         </div>
       </div>
-      <div class="town">
-        <img class="townimage" src="@/views/images/morning.png" />
-      </div>
-      <!-- </div> -->
+      <!-- <div class="horizon"></div> -->
     </div>
     <div class="debug-area" v-if="debug.showInternalData">
       <h3>内部データ</h3>
@@ -175,6 +174,9 @@
 import SunCalc from "suncalc"
 import Loading from "@/components/LoadingPage.vue"
 import { getAuth } from "firebase/auth"
+import { doc, getDoc } from "firebase/firestore"
+import { db } from "@/firebase"
+
 export default {
   components: { Loading },
   data() {
@@ -192,7 +194,6 @@ export default {
         },
       },
       sliderInput: 0,
-      greet: "おはようございます",
       now: new Date(Date.now()),
       user: {
         latitude: 35.03072421401453,
@@ -208,16 +209,16 @@ export default {
       sun: {},
       moon: {},
       sunFigure: {
-        radius: 0.1, //containerに対する直径の比
+        radius: 0.2, //containerに対する直径の比
         orbitalFactor: 0.8, //containerに対する軌道直径の比 radius + orbitalFactor <= 1 にするとはみ出ない
-        containerWidth: 30, //em
-        containerHeight: 15, //em
+        containerWidth: 100, //vw
+        containerHeight: 50, //vw
       },
     }
   },
   mounted: function () {
     if (!this.auth.currentUser) {
-      this.$router.push("/top")
+      this.$router.push("/toppage")
     }
   },
   methods: {
@@ -227,6 +228,13 @@ export default {
      */
     async fetchWeather(spotID) {
       try {
+        const uid = this.auth.user.uid
+        // ログイン済みのユーザー情報があるかをチェック
+        //usersコレクションで確認している
+        const docRef = doc(db, "users", uid)
+        const userDoc = await getDoc(docRef)
+        console.log(userDoc)
+        this.prefecture = "埼玉"
         const rawData = await fetch(
           `https://www.jma.go.jp/bosai/forecast/data/forecast/${spotID}.json`
         )
@@ -498,8 +506,8 @@ export default {
     },
     containerStyle() {
       return {
-        height: this.sunFigure.containerHeight + "em",
-        width: this.sunFigure.containerWidth + "em",
+        height: this.sunFigure.containerHeight + "vw",
+        width: this.sunFigure.containerWidth + "vw",
       }
     },
     sunStyle() {
@@ -509,8 +517,8 @@ export default {
           this.sunFigure.containerWidth
         ) * this.sunFigure.radius
       return {
-        height: sunSize + "em",
-        width: sunSize + "em",
+        height: sunSize + "vw",
+        width: sunSize + "vw",
         transform:
           "translateX(" +
           ((this.sunX *
@@ -518,16 +526,27 @@ export default {
             this.sunFigure.orbitalFactor) /
             2 -
             sunSize / 2) +
-          "em) translateY(" +
-          ((-this.sunY *
+          "vw) translateY(" +
+          (-this.sunY *
             this.sunFigure.containerHeight *
-            this.sunFigure.orbitalFactor) /
-            2 -
+            this.sunFigure.orbitalFactor -
             sunSize / 2) +
-          "em)",
+          "vw)",
+      }
+    },
+    greet() {
+      if (this.now < this.sun.sunrise) {
+        return "こんばんは。"
+      } else if (this.now.getHours() < 12) {
+        return "おはようございます。"
+      } else if (this.now < this.sun.sunset) {
+        return "こんにちは。"
+      } else {
+        return "こんばんは。"
       }
     },
   },
+
   watch: {
     sliderInput(newSliderInput) {
       const hours = Math.floor(newSliderInput / 3600)
@@ -559,15 +578,6 @@ export default {
     visibility: hidden;
   }
 }
-.main {
-  width: 100vw;
-  height: 100vh;
-}
-.town {
-  bottom: 0;
-  width: 30%;
-  margin: auto;
-}
 .internal-data {
   display: flex;
   flex-wrap: wrap;
@@ -587,28 +597,57 @@ td {
   padding: 0.5em;
   border-bottom: 1px solid;
 }
-/* .sun-wrap {
+.sun-wrap {
   position: relative;
-  margin: auto;
   width: 100%;
-  border: 1px solid black;
-} */
+  height: 90vh;
+  margin: auto;
+  /*   border: 1px solid black; */
+}
 .sun {
   /* width: 10%;
   height: 10%; */
   position: absolute;
+  top: 100%;
+  left: 50%;
+  /*   border-radius: 50%;
+  background-color: orange; */
   /* transform: translate(-50%, -50%); */
 }
-/* .sky {
+.sunImg {
+  width: 100%;
+}
+.townImg {
   position: absolute;
+  width: 30vw;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  -webkit-transform: translate(-50%, -100%);
+  -ms-transform: translate(-50%, -100%);
+}
+.sky {
+  position: absolute;
+  /*   top: 0%;
+  left: 0%; */
   width: 100%;
   height: 100%;
-} */
-/* .sky-data {
+  /* background-color: paleturquoise; */
+}
+.sky-data {
   font-size: 2em;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+/* .horizon {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  width: 100%;
+  height: 0%;
+  background-color: green;
+  opacity: 0.5;
 } */
 </style>
