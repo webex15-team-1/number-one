@@ -162,7 +162,7 @@ export default {
   z-index: 100;
   margin-left: 25%;
 }
-.minicircle {
+/* .minicircle {
   position: absolute;
   z-index: 3;
   width: 20%;
@@ -211,5 +211,5 @@ export default {
 }
 .stop::before {
   animation-play-state: paused;
-}
+} */
 </style>
