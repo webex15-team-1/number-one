@@ -63,10 +63,9 @@ export default {
         color: this.color,
         iconNumber: this.iconNumber,
       }
-      addDoc(collection(db, "tweets"), tweet).then((ref) => {
-        console.log(ref.id)
+      addDoc(collection(db, "tweets"), tweet).then(() => {
+        this.message = ""
       })
-      this.message = ""
     },
   },
   mounted() {
@@ -78,7 +77,6 @@ export default {
     this.unsubscribeTweet = onSnapshot(ref, (snapshot) => {
       let tweets = []
       snapshot.forEach((doc) => {
-        console.dir(doc.data())
         tweets.push({
           text: doc.get("text"),
           nickname: doc.get("nickname"),
