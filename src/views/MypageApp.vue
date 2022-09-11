@@ -20,7 +20,6 @@ import MypageRanking from "@/components/MypageRanking.vue"
 import MypageTweet from "@/components/MypageTweet.vue"
 import MypageSettings from "@/components/MypageSettings.vue"
 
-
 export default {
   data() {
     return {
@@ -45,6 +44,7 @@ export default {
     },
   },
   mounted() {
+    this.auth = getAuth()
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
         // ログイン時, ニックネームをfirestoreから取り出す
@@ -57,10 +57,9 @@ export default {
           })
         }
       } else {
-        // ログアウト時
         this.$router.push("/top")
       }
-    }
+    })
   },
   unmounted() {
     this.unsubscribeUser()
