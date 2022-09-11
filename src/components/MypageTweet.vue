@@ -38,6 +38,7 @@ export default {
       message: "",
       color: "",
       nickname: "",
+      iconNumber: 0,
       sendReady: false,
       iconList: iconList,
     }
@@ -49,6 +50,7 @@ export default {
         createdAt: serverTimestamp(),
         nickname: this.nickname,
         color: this.color,
+        iconNumber: this.iconNumber,
       }
       addDoc(collection(db, "tweets"), tweet).then((ref) => {
         console.log(ref.id)
@@ -90,6 +92,7 @@ export default {
         const data = docSnap.data()
         this.color = data.color ? data.color : "#F2C48D"
         this.nickname = data.nickname
+        this.iconNumber = data.iconNumber
         this.sendReady = true
       } else {
         console.error(this.uid + "does not exist on firestore!")
