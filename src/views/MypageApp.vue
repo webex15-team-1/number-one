@@ -1,9 +1,13 @@
 <template>
-  <h1>{{ nickname }}さん！マイページへようこそ🎉</h1>
+  <!-- <h1>{{ nickname }}さん！マイページへようこそ🎉</h1> -->
   <button @click="logout">ログアウト</button>
+  <!-- 累計ポイントと平均時間の表示 -->
   <MypagePoint :uid="uid" />
+  <!-- ランキング -->
   <MypageRanking />
+  <!-- ツイートの表示と送信 -->
   <MypageTweet :uid="uid" />
+  <!-- プロフィールの更新 -->
   <MypageSettings :uid="uid" />
 </template>
 

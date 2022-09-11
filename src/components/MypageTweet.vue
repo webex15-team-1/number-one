@@ -10,8 +10,15 @@
         <div class="tweet-text">{{ tweet.text }}</div>
       </div>
     </div>
-    <input type="text" v-model="message" />
-    <button @click="postTweet" v-show="sendReady">送信</button>
+    <input
+      type="text"
+      v-model="message"
+      @keydown.enter="postTweet"
+      :disabled="!sendReady"
+    />
+    <button class="tweet-button" @click="postTweet" v-show="sendReady">
+      <Icon icon="akar-icons:send" color="white"></Icon>
+    </button>
   </div>
 </template>
 <script>
@@ -28,6 +35,8 @@ import {
 } from "firebase/firestore"
 import { db } from "@/firebase"
 import { iconList } from "@/store/iconList"
+import { Icon } from "@iconify/vue"
+
 export default {
   props: {
     uid: String,
@@ -93,17 +102,22 @@ export default {
       const docRef = doc(collection(db, "users"), this.uid)
       const docSnap = await getDoc(docRef)
       if (docSnap.exists()) {
+        // userが存在するときユーザーデータの更新に追随するためonSnapshotを設定する
         this.unsubscribeUser = onSnapshot(docRef, (doc) => {
           const data = doc.data()
           this.color = data.color ? data.color : "#F2C48D"
           this.nickname = data.nickname
           this.iconNumber = data.iconNumber
         })
+        // ユーザーデータを受信できたのでツイートを可能にする
         this.sendReady = true
       } else {
         console.error(this.uid + "does not exist on firestore!")
       }
     },
+  },
+  components: {
+    Icon,
   },
 }
 </script>
@@ -111,6 +125,7 @@ export default {
 .tweet-container {
   width: 25%;
   background: #d0ecf2;
+  display: inline-block;
 }
 .tweets {
   display: flex;
@@ -138,5 +153,18 @@ export default {
   display: inline;
   width: fit-content;
   font-size: 16px;
+}
+.tweet-button {
+  background: #048abf;
+  vertical-align: middle;
+  text-align: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 2em;
+  height: 2em;
+  text-align: center;
+  border: none;
+  border-radius: 50%;
+  margin: 0.5em;
 }
 </style>
