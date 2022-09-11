@@ -4,6 +4,7 @@
   <MypagePoint :uid="uid" />
   <MypageRanking />
   <MypageTweet :uid="uid" />
+  <MypageSettings :uid="uid" />
 </template>
 
 <script>
@@ -13,6 +14,7 @@ import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
 import MypagePoint from "@/components/MypagePoint.vue"
 import MypageRanking from "@/components/MypageRanking.vue"
 import MypageTweet from "@/components/MypageTweet.vue"
+import MypageSettings from "@/components/MypageSettings.vue"
 
 export default {
   data() {
@@ -51,7 +53,7 @@ export default {
       }
     })
   },
-  components: { MypagePoint, MypageRanking, MypageTweet },
+  components: { MypagePoint, MypageRanking, MypageTweet, MypageSettings },
 }
 </script>
 <style>
