@@ -80,7 +80,6 @@ export default {
       snapshot.forEach((doc) => {
         console.dir(doc.data())
         tweets.push({
-          time: new Date(doc.get("createdAt").seconds * 1000),
           text: doc.get("text"),
           nickname: doc.get("nickname"),
           color: doc.get("color"),

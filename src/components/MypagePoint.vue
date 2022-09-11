@@ -18,6 +18,7 @@ export default {
       avgGetupDiffSec: 0,
       avgAsakatsuTimeSec: 0,
       unsubscribeUser: null,
+      data: null,
     }
   },
   computed: {
@@ -53,20 +54,25 @@ export default {
       if (docSnap.exists()) {
         this.unsubscribeUser = onSnapshot(docRef, (doc) => {
           const data = doc.data()
+          this.data = data
           // ポイントを合計する
-          this.points = data.getupPoints + data.timePoints
-          // 起床誤差の平均をとる(秒)
-          const sumGetupDiffSec =
-            data.kisyo
-              .map((value) => Number(value.getupDiff))
-              .reduce((prev, current) => prev + current) * 60
-          this.avgGetupDiffSec = sumGetupDiffSec / data.kisyo.length
-          // 朝活時間の平均をとる(秒)
-          const sumAsakatsuTimeSec =
-            data.asakaysu
-              .map((value) => Number(value.time))
-              .reduce((prev, current) => prev + current) * 60
-          this.avgAsakatsuTimeSec = sumAsakatsuTimeSec / data.asakaysu.length
+          this.points = data.getupPoints + data.timePoints || 0
+          if (typeof data.kisyo !== "undefined") {
+            // 起床誤差の平均をとる(秒)
+            const sumGetupDiffSec =
+              data.kisyo
+                .map((value) => Number(value.getupDiff))
+                .reduce((prev, current) => prev + current) * 60
+            this.avgGetupDiffSec = sumGetupDiffSec / data.kisyo.length
+          }
+          if (typeof data.asakaysu !== "undefined") {
+            // 朝活時間の平均をとる(秒)
+            const sumAsakatsuTimeSec =
+              data.asakaysu
+                .map((value) => Number(value.time))
+                .reduce((prev, current) => prev + current) * 60
+            this.avgAsakatsuTimeSec = sumAsakatsuTimeSec / data.asakaysu.length
+          }
         })
       } else {
         console.error("User " + this.uid + " not found.")
