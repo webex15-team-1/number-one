@@ -20,6 +20,7 @@ import MypageRanking from "@/components/MypageRanking.vue"
 import MypageTweet from "@/components/MypageTweet.vue"
 import MypageSettings from "@/components/MypageSettings.vue"
 
+
 export default {
   data() {
     return {
@@ -59,7 +60,7 @@ export default {
         // ログアウト時
         this.$router.push("/top")
       }
-    })
+    }
   },
   unmounted() {
     this.unsubscribeUser()

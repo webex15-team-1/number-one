@@ -83,7 +83,7 @@ export default {
       this.jumpToMyPage()
     },
     jumpToMyPage() {
-      this.$router.push("/")
+      this.$router.push("/mypage")
     },
     createFirestore() {
       const auth = getAuth()
@@ -99,6 +99,7 @@ export default {
           // ログイン済みのユーザー情報があるかをチェック
           //usersコレクションで確認している
           const docRef = doc(db, "users", uid)
+          // サブコレ const mypageRef = doc(db, "users", uid, "mypage")
           const userDoc = await getDoc(docRef)
           if (!userDoc.exists()) {
             // Firestore にユーザー用のドキュメントが作られていなければ作る
@@ -108,6 +109,10 @@ export default {
               nickname: this.name,
               prefecture: this.prefecture,
               prefectureCode: this.prefectureCode,
+              timePoints: 0,
+              getupPoints: 0,
+              kisyo: [],
+              asakatsu: [],
             })
           }
         }

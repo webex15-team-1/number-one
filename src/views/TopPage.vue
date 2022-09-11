@@ -91,6 +91,7 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  getAdditionalUserInfo,
 } from "firebase/auth"
 import Loading from "@/components/LoadingPage.vue"
 import { Icon } from "@iconify/vue"
@@ -128,9 +129,15 @@ export default {
     googleLogin() {
       const provider = new GoogleAuthProvider()
       signInWithPopup(this.auth, provider)
-        .then(() => {
+        .then((result) => {
           //成功時の処理
-          this.$router.push("/mypage")
+          const isNewUser = getAdditionalUserInfo(result).isNewUser
+          console.log(isNewUser)
+          if (isNewUser) {
+            this.$router.push("/name-register")
+          } else {
+            this.$router.push("/mypage")
+          }
         })
         .catch(() => {
           //エラー時処理
