@@ -61,8 +61,12 @@ export default {
           const uid = user.uid
           const docRef = doc(db, "users", uid)
           const userDoc = await getDoc(docRef)
-          this.kisyo = userDoc.data().kisyo
-          this.asakatsu = userDoc.data().asakatsu
+          if (userDoc.data().kisyo) {
+            this.kisyo = userDoc.data().kisyo
+          }
+          if (userDoc.data().asakatsu) {
+            this.asakatsu = userDoc.data().asakatsu
+          }
         })
       } catch (error) {
         console.error(error)
