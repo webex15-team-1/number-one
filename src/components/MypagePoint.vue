@@ -57,20 +57,24 @@ export default {
           // ポイントを合計する
           this.points = data.getupPoints + data.timePoints || 0
           if (typeof data.kisyo !== "undefined") {
-            // 起床誤差の平均をとる(秒)
+            // 起床誤差を合計してから平均をとる(秒)
             const sumGetupDiffSec =
               data.kisyo
                 .map((value) => Number(value.getupDiff))
-                .reduce((prev, current) => prev + current) * 60
-            this.avgGetupDiffSec = sumGetupDiffSec / data.kisyo.length
+                .reduce((prev, current) => prev + current, 0) * 60
+            this.avgGetupDiffSec =
+              data.kisyo.length > 0 ? sumGetupDiffSec / data.kisyo.length : 0
           }
-          if (typeof data.asakaysu !== "undefined") {
-            // 朝活時間の平均をとる(秒)
+          if (typeof data.asakatsu !== "undefined") {
+            // 朝活時間を合計してから平均をとる(秒)
             const sumAsakatsuTimeSec =
-              data.asakaysu
+              data.asakatsu
                 .map((value) => Number(value.time))
-                .reduce((prev, current) => prev + current) * 60
-            this.avgAsakatsuTimeSec = sumAsakatsuTimeSec / data.asakaysu.length
+                .reduce((prev, current) => prev + current, 0) * 60
+            this.avgAsakatsuTimeSec =
+              data.asakatsu.length > 0
+                ? sumAsakatsuTimeSec / data.asakatsu.length
+                : 0
           }
         })
       } else {
