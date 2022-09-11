@@ -47,7 +47,6 @@ export default {
   watch: {
     // uidが変更されるとポイント, 起床時間, 朝活時間のデータを取りにいく
     uid: async function () {
-      console.log("MypagePoint: " + this.uid)
       // userのデータをとってくる
       const docRef = doc(collection(db, "users"), this.uid)
       const docSnap = await getDoc(docRef)
