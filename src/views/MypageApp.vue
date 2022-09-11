@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { doc, getDoc } from "firebase/firestore"
+import { doc, getDoc, onSnapshot } from "firebase/firestore"
 import { db } from "@/firebase"
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
 import MypagePoint from "@/components/MypagePoint.vue"
@@ -22,6 +22,7 @@ export default {
       auth: getAuth(),
       nickname: "",
       uid: "",
+      unsubscribeUser: null,
     }
   },
   methods: {
@@ -45,13 +46,20 @@ export default {
         this.uid = this.auth.currentUser.uid
         const docRef = doc(db, "users", this.uid)
         const docSnap = await getDoc(docRef)
-        const data = docSnap.data()
-        this.nickname = data.nickname
+        if (docSnap.exists()) {
+          this.unsubscribeUser = onSnapshot(docRef, (doc) => {
+            this.nickname = doc.get("nickname")
+          })
+        }
       } else {
         // ログアウト時
         this.$router.push("/top")
       }
     })
+  },
+  unmounted() {
+    this.unsubscribeUser()
+    this.unsubscribeUser = null
   },
   components: { MypagePoint, MypageRanking, MypageTweet, MypageSettings },
 }

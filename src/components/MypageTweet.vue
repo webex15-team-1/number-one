@@ -41,6 +41,8 @@ export default {
       iconNumber: 0,
       sendReady: false,
       iconList: iconList,
+      unsubscribeTweet: null,
+      unsubscribeUser: null,
     }
   },
   methods: {
@@ -64,7 +66,7 @@ export default {
       orderBy("createdAt"),
       limitToLast(3)
     )
-    this.unsubscribe = onSnapshot(ref, (snapshot) => {
+    this.unsubscribeTweet = onSnapshot(ref, (snapshot) => {
       let tweets = []
       snapshot.forEach((doc) => {
         console.dir(doc.data())
@@ -80,19 +82,23 @@ export default {
     })
   },
   unmounted() {
-    this.unsubscribe()
-    this.unsubscribe = null
+    this.unsubscribeTweet()
+    this.unsubscribeUser()
+    this.unsubscribeTweet = null
+    this.unsubscribeUser = null
   },
   watch: {
     uid: async function () {
-      // nicknameとcolorが必要なのでuserのデータをとってくる
+      // nickname, color, iconNumberが必要なのでuserのデータをとってくる
       const docRef = doc(collection(db, "users"), this.uid)
       const docSnap = await getDoc(docRef)
       if (docSnap.exists()) {
-        const data = docSnap.data()
-        this.color = data.color ? data.color : "#F2C48D"
-        this.nickname = data.nickname
-        this.iconNumber = data.iconNumber
+        this.unsubscribeUser = onSnapshot(docRef, (doc) => {
+          const data = doc.data()
+          this.color = data.color ? data.color : "#F2C48D"
+          this.nickname = data.nickname
+          this.iconNumber = data.iconNumber
+        })
         this.sendReady = true
       } else {
         console.error(this.uid + "does not exist on firestore!")

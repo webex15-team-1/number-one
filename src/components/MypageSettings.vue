@@ -7,12 +7,7 @@
     <div class="icon">
       <h3>icon:</h3>
       <select @change="changeIcon" v-model="iconNumber">
-        <option
-          v-for="(icon, index) in iconList"
-          :key="index"
-          :value="index"
-          :selected="index === iconNumber"
-        >
+        <option v-for="(icon, index) in iconList" :key="index" :value="index">
           {{ icon.name }}
         </option>
       </select>
@@ -22,7 +17,13 @@
   </div>
 </template>
 <script>
-import { collection, doc, getDoc, updateDoc } from "firebase/firestore"
+import {
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore"
 import { db } from "@/firebase"
 import { iconList } from "@/store/iconList"
 export default {
@@ -35,6 +36,7 @@ export default {
       iconNumber: 0,
       editReady: false,
       iconList: iconList,
+      unsubscribeUser: null,
     }
   },
   methods: {
@@ -55,14 +57,20 @@ export default {
       const docRef = doc(collection(db, "users"), this.uid)
       const docSnap = await getDoc(docRef)
       if (docSnap.exists()) {
-        const data = docSnap.data()
-        this.nickname = data.nickname
-        this.iconNumber = data.iconNumber || 0
+        this.unsubscribeUser = onSnapshot(docRef, (doc) => {
+          const data = doc.data()
+          this.nickname = data.nickname
+          this.iconNumber = data.iconNumber || 0
+        })
         this.editReady = true
       } else {
         console.error(this.uid + "does not exist on firestore!")
       }
     },
+  },
+  unmounted() {
+    this.unsubscribeUser()
+    this.unsubscribeUser = null
   },
 }
 </script>

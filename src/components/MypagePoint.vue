@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-import { collection, doc, getDoc } from "firebase/firestore"
+import { collection, doc, getDoc, onSnapshot } from "firebase/firestore"
 import { db } from "@/firebase"
 export default {
   props: {
@@ -17,6 +17,7 @@ export default {
       points: 0,
       avgGetupDiffSec: 0,
       avgAsakatsuTimeSec: 0,
+      unsubscribeUser: null,
     }
   },
   computed: {
@@ -50,26 +51,31 @@ export default {
       const docRef = doc(collection(db, "users"), this.uid)
       const docSnap = await getDoc(docRef)
       if (docSnap.exists()) {
-        const data = docSnap.data()
-        console.dir(data)
-        // ポイントを合計する
-        this.points = data.getupPoints + data.timePoints
-        // 起床誤差の平均をとる(秒)
-        const sumGetupDiffSec =
-          data.kisyo
-            .map((value) => Number(value.getupDiff))
-            .reduce((prev, current) => prev + current) * 60
-        this.avgGetupDiffSec = sumGetupDiffSec / data.kisyo.length
-        // 朝活時間の平均をとる(秒)
-        const sumAsakatsuTimeSec =
-          data.asakaysu
-            .map((value) => Number(value.time))
-            .reduce((prev, current) => prev + current) * 60
-        this.avgAsakatsuTimeSec = sumAsakatsuTimeSec / data.asakaysu.length
+        this.unsubscribeUser = onSnapshot(docRef, (doc) => {
+          const data = doc.data()
+          // ポイントを合計する
+          this.points = data.getupPoints + data.timePoints
+          // 起床誤差の平均をとる(秒)
+          const sumGetupDiffSec =
+            data.kisyo
+              .map((value) => Number(value.getupDiff))
+              .reduce((prev, current) => prev + current) * 60
+          this.avgGetupDiffSec = sumGetupDiffSec / data.kisyo.length
+          // 朝活時間の平均をとる(秒)
+          const sumAsakatsuTimeSec =
+            data.asakaysu
+              .map((value) => Number(value.time))
+              .reduce((prev, current) => prev + current) * 60
+          this.avgAsakatsuTimeSec = sumAsakatsuTimeSec / data.asakaysu.length
+        })
       } else {
         console.error("User " + this.uid + " not found.")
       }
     },
+  },
+  unmounted() {
+    this.unsubscribeUser()
+    this.unsubscribeUser = null
   },
 }
 </script>
