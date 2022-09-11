@@ -132,10 +132,10 @@ export default {
           if (userDoc.exists()) {
             await updateDoc(docRef, {
               timePoints: increment(this.point),
-              asakatsu: arrayUnion({
-                date: new Date().toLocaleDateString(),
+              asakaysu: arrayUnion({
                 time: this.asakatsuTime,
-                currentTime: new Date().toLocaleTimeString(),
+                date: new Date().toLocaleDateString(),
+                CurrentTime: new Date().toLocaleTimeString(),
               }),
             })
           }
@@ -162,7 +162,7 @@ export default {
   z-index: 100;
   margin-left: 25%;
 }
-/* .minicircle {
+.minicircle {
   position: absolute;
   z-index: 3;
   width: 20%;
@@ -211,5 +211,5 @@ export default {
 }
 .stop::before {
   animation-play-state: paused;
-} */
+}
 </style>
