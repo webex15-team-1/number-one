@@ -4,10 +4,7 @@
     <div class="tweets">
       <div v-for="(tweet, index) in tweets" :key="index" class="tweet">
         <div class="nickname">
-          <div
-            class="color-icon"
-            :style="{ backgroundColor: tweet.color }"
-          ></div>
+          <img class="color-icon" :src="iconList[tweet.iconNumber].path" />
           {{ tweet.nickname }}
         </div>
         <div class="tweet-text">{{ tweet.text }}</div>
@@ -30,6 +27,7 @@ import {
   getDoc,
 } from "firebase/firestore"
 import { db } from "@/firebase"
+import { iconList } from "@/store/iconList"
 export default {
   props: {
     uid: String,
@@ -41,6 +39,7 @@ export default {
       color: "",
       nickname: "",
       sendReady: false,
+      iconList: iconList,
     }
   },
   methods: {
@@ -66,12 +65,13 @@ export default {
     this.unsubscribe = onSnapshot(ref, (snapshot) => {
       let tweets = []
       snapshot.forEach((doc) => {
-        console.dir(doc)
+        console.dir(doc.data())
         tweets.push({
           time: new Date(doc.get("createdAt").seconds * 1000),
           text: doc.get("text"),
           nickname: doc.get("nickname"),
           color: doc.get("color"),
+          iconNumber: doc.get("iconNumber") || 0,
         })
       })
       this.tweets = tweets
@@ -91,6 +91,8 @@ export default {
         this.color = data.color ? data.color : "#F2C48D"
         this.nickname = data.nickname
         this.sendReady = true
+      } else {
+        console.error(this.uid + "does not exist on firestore!")
       }
     },
   },
@@ -115,6 +117,8 @@ export default {
   height: 36px;
   display: inline-block;
   border-radius: 50%;
+  background-color: white;
+  border: 1px solid #048abf;
 }
 .nickname {
   display: inline;
