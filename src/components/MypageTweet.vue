@@ -13,7 +13,7 @@
     <input
       type="text"
       v-model="message"
-      @keydown.enter="postTweet"
+      @keydown="postTweet"
       :disabled="!sendReady"
     />
     <button class="tweet-button" @click="postTweet" v-show="sendReady">
@@ -55,17 +55,19 @@ export default {
     }
   },
   methods: {
-    postTweet() {
-      const tweet = {
-        text: this.message,
-        createdAt: serverTimestamp(),
-        nickname: this.nickname,
-        color: this.color,
-        iconNumber: this.iconNumber,
+    postTweet(e) {
+      if (e.keyCode === 13) {
+        const tweet = {
+          text: this.message,
+          createdAt: serverTimestamp(),
+          nickname: this.nickname,
+          color: this.color,
+          iconNumber: this.iconNumber,
+        }
+        addDoc(collection(db, "tweets"), tweet).then(() => {
+          this.message = ""
+        })
       }
-      addDoc(collection(db, "tweets"), tweet).then(() => {
-        this.message = ""
-      })
     },
   },
   mounted() {
