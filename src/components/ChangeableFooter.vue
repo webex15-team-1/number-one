@@ -2,8 +2,8 @@
   <footer
     class="footer"
     :style="{
-      backgroundColor: colorSettings.bannerColor,
-      color: colorSettings.textColor,
+      backgroundColor: colorSet.generalBackgroundColor,
+      color: colorSet.generalTextColor,
     }"
   >
     <div>
@@ -23,6 +23,11 @@ export default {
     return {
       colorSettings: colorSettings,
     }
+  },
+  computed: {
+    colorSet() {
+      return this.colorSettings.colors[this.colorSettings.activeColorSet]
+    },
   },
 }
 </script>

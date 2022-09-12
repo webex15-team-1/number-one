@@ -1,9 +1,38 @@
 import { ref } from "vue"
 export const colorSettings = ref({
-  name: "デフォルト",
-  accentColor: "#366273",
-  textColor: "#202020",
-  bannerColor: "#F2AE2E",
-  buttonColor: "#D9663D",
-  backgroundColor: "#F2B263",
+  colors: [
+    {
+      name: "いつもの朝",
+      // タイトル(左上)
+      titleBackgroundColor: "#F2C48D",
+      titleColor: "#022340",
+      // タイトル以外の文字色
+      generalTextColor: "#022340",
+      // フッター,ハンバーガーボタンの色
+      generalBackgroundColor: "#F2C48D",
+      // ハンバーガーメニューのタイトル文字
+      hamburgerTitleColor: "#022340",
+      // ハンバーガーメニューの背景色
+      hamburgerBackgroundColor: "#F3D8B7",
+    },
+    {
+      name: "夕暮れの空",
+      // タイトル(左上)
+      titleBackgroundColor: "#F5F5F5",
+      titleColor: "#F28B50",
+      // タイトル以外の文字色
+      generalTextColor: "#FFFFFF",
+      // フッター,ハンバーガーボタンの色
+      generalBackgroundColor: "#F28B50",
+      // ハンバーガーメニューのタイトル文字
+      hamburgerTitleColor: "#FFFFFF",
+      // ハンバーガーメニューの背景色
+      hamburgerBackgroundColor: "rgba(242, 139, 80, 0.8)",
+    },
+    // {
+    //   name:"あけぼのの海",
+
+    // }
+  ],
+  activeColorSet: 0,
 })

@@ -1,33 +1,37 @@
 <template>
-  <div class="header" :style="{ backgroundColor: colorSettings.bannerColor }">
-    <span class="title header-title" :style="{ color: colorSettings.textColor }"
-      >Morening</span
+  <div
+    class="header"
+    :style="{ backgroundColor: colorSet.titleBackgroundColor }"
+  >
+    <span class="title header-title" :style="{ color: colorSet.titleColor }"
+      >Morening☀️</span
     >
   </div>
-  <hamburger-menu />
 </template>
 <script>
-import HamburgerMenu from "./HamburgerMenu.vue"
 import { colorSettings } from "@/store/colorSettings"
 export default {
-  components: {
-    HamburgerMenu,
-  },
   data() {
     return {
       colorSettings: colorSettings,
     }
   },
+  computed: {
+    colorSet() {
+      return this.colorSettings.colors[this.colorSettings.activeColorSet]
+    },
+  },
 }
 </script>
 <style scoped>
 .header {
-  position: sticky;
-  width: 10%;
+  position: fixed;
+  width: 15%;
   height: 3em;
   top: 5%;
   left: 5%;
   text-align: center;
+  display: inline-block;
 }
 .header-title {
   display: inline-block;
@@ -35,6 +39,9 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  height: 1.5em;
+  width: 100%;
+  font-size: 1.5em;
 }
 .header-button-container {
   position: absolute;
