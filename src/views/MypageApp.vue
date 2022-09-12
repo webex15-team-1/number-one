@@ -1,18 +1,32 @@
 <template>
-  <h1>{{ name }}さん！マイページへようこそ🎉</h1>
+  <!-- <h1>{{ nickname }}さん！マイページへようこそ🎉</h1> -->
   <button @click="logout">ログアウト</button>
+  <!-- 累計ポイントと平均時間の表示 -->
+  <MypagePoint :uid="uid" />
+  <!-- ランキング -->
+  <MypageRanking />
+  <!-- ツイートの表示と送信 -->
+  <MypageTweet :uid="uid" />
+  <!-- プロフィールの更新 -->
+  <MypageSettings :uid="uid" />
 </template>
 
 <script>
-import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
-import { doc, getDoc } from "firebase/firestore"
+import { doc, getDoc, onSnapshot } from "firebase/firestore"
 import { db } from "@/firebase"
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
+import MypagePoint from "@/components/MypagePoint.vue"
+import MypageRanking from "@/components/MypageRanking.vue"
+import MypageTweet from "@/components/MypageTweet.vue"
+import MypageSettings from "@/components/MypageSettings.vue"
 
 export default {
   data() {
     return {
       auth: getAuth(),
-      name: "",
+      nickname: "",
+      uid: "",
+      unsubscribeUser: null,
     }
   },
   methods: {
@@ -30,26 +44,32 @@ export default {
     },
   },
   mounted() {
-    const auth = getAuth()
-    onAuthStateChanged(auth, async (user) => {
-      // 未ログイン時
-      if (!user) {
-        // topに飛ばしてログインさせる
-        this.$router.push("/top")
-      }
-      // ログイン時
-      else {
-        const uid = user.uid
-        // ログイン済みのユーザー情報があるかをチェック
-        //usersコレクションで確認している
-        const docRef = doc(db, "users", uid)
-        const userDoc = await getDoc(docRef)
-        if (userDoc.exists()) {
-          const data = userDoc.data()
-          this.name = data.nickname
+    this.auth = getAuth()
+    onAuthStateChanged(this.auth, async (user) => {
+      if (user) {
+        // ログイン時, ニックネームをfirestoreから取り出す
+        this.uid = this.auth.currentUser.uid
+        const docRef = doc(db, "users", this.uid)
+        const docSnap = await getDoc(docRef)
+        if (docSnap.exists()) {
+          this.unsubscribeUser = onSnapshot(docRef, (doc) => {
+            this.nickname = doc.get("nickname")
+          })
         }
+      } else {
+        this.$router.push("/top")
       }
     })
   },
+  unmounted() {
+    this.unsubscribeUser()
+    this.unsubscribeUser = null
+  },
+  components: { MypagePoint, MypageRanking, MypageTweet, MypageSettings },
 }
 </script>
+<style>
+* {
+  font-family: "Zen Maru Gothic";
+}
+</style>
