@@ -228,6 +228,7 @@ export default {
           if (userDoc.exists()) {
             await updateDoc(docRef, {
               getupPoints: increment(this.point),
+              shopPoints: increment(this.point),
               kisyo: arrayUnion({
                 date: new Date().toLocaleDateString(),
                 getupDiff: this.fixedtimeLate,
