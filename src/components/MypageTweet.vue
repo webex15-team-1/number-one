@@ -56,7 +56,11 @@ export default {
   },
   methods: {
     postTweet(e) {
-      if (e.keyCode === 13) {
+      if (
+        e.keyCode === 13 ||
+        e.target.nodeName === "svg" ||
+        e.target.nodeName === "BUTTON"
+      ) {
         const tweet = {
           text: this.message,
           createdAt: serverTimestamp(),
@@ -106,7 +110,7 @@ export default {
           const data = doc.data()
           this.color = data.color ? data.color : "#F2C48D"
           this.nickname = data.nickname
-          this.iconNumber = data.iconNumber
+          this.iconNumber = data.iconNumber || 0
         })
         // ユーザーデータを受信できたのでツイートを可能にする
         this.sendReady = true
