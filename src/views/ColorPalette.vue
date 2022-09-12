@@ -14,6 +14,7 @@
   </div>
 </template>
 <script>
+import { getAuth } from "firebase/auth"
 import { colorSettings } from "@/store/colorSettings"
 export default {
   data() {
@@ -40,6 +41,12 @@ export default {
       ],
       colorSettings: colorSettings,
       userPoint: 42,
+    }
+  },
+  mounted: function () {
+    const auth = getAuth()
+    if (!auth.currentUser) {
+      this.$router.push("/top")
     }
   },
   methods: {

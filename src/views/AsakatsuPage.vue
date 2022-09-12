@@ -47,6 +47,12 @@ export default {
       point: 0,
     }
   },
+  mounted: function () {
+    const auth = getAuth()
+    if (!auth.currentUser) {
+      this.$router.push("/top")
+    }
+  },
   methods: {
     two() {
       this.stop()
