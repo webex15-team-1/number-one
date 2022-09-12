@@ -3,6 +3,7 @@ export const colorSettings = ref({
   colors: [
     {
       name: "いつもの朝",
+      price: 0,
       // タイトル(左上)
       titleBackgroundColor: "#F2C48D",
       titleColor: "#022340",
@@ -17,6 +18,7 @@ export const colorSettings = ref({
     },
     {
       name: "夕暮れの空",
+      price: 10,
       // タイトル(左上)
       titleBackgroundColor: "#F5F5F5",
       titleColor: "#F28B50",
