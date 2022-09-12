@@ -80,7 +80,7 @@ export default {
   left: 125%;
   width: 25%;
   height: 100%;
-  transition: all 1s ease-out;
+  transition: all 0.5s ease-in-out;
   z-index: 10000;
 }
 .hamburger-container.active {
@@ -95,6 +95,7 @@ export default {
   z-index: 20000;
   margin: 0;
   padding: 0;
+  transition: background-color 0.5s ease-in-out;
   border: none;
   border-radius: 0;
   background: transparent;
@@ -108,7 +109,7 @@ export default {
 /* https://coco-factory.jp/ugokuweb/move01/5-2-1/ */
 .hamburger-button span {
   display: inline-block;
-  transition: all 0.4s;
+  transition: all 0.5s;
   position: absolute;
   width: 75%;
   left: 12.5%;
