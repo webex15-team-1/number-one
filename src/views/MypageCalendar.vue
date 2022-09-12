@@ -100,7 +100,7 @@ export default {
         for (let i = 0; i <= 6; i++) {
           let day = dayNumber
           let kisyoTime = ""
-          let asakatsuTime = ""
+          let asakatsuTime = 0
           if (calendar.length == 0 && i < firstWeekDay) {
             day = ""
           } else if (lastDay < dayNumber) {
@@ -115,7 +115,8 @@ export default {
             }
             for (let k = 0; k < this.asakatsu.length; k++) {
               if (this.asakatsu[k].date === day) {
-                let asakatsuTimeFirebase = this.asakatsu[k].time
+                let asakatsuTimeFirebase = Number(this.asakatsu[k].time)
+                console.log(asakatsuTimeFirebase)
                 asakatsuTime += asakatsuTimeFirebase
               }
             }
@@ -123,6 +124,8 @@ export default {
           }
           if (asakatsuTime) {
             asakatsuTime += "min"
+          } else {
+            asakatsuTime = ""
           }
           weekData[i] = {
             day: day,
