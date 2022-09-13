@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { colorSettings } from "@/store/colorSettings"
 import { Icon } from "@iconify/vue"
 export default {
@@ -43,15 +44,9 @@ export default {
   },
   data() {
     return {
+      auth: null,
+      login: false,
       isOpened: false,
-      navData: [
-        { path: "/", text: "Home" },
-        { path: "kisyo", text: "起床" },
-        { path: "asakatsu", text: "朝活" },
-        { path: "mypage", text: "マイページ" },
-        { path: "palette", text: "Shop" },
-        { path: "logout", text: "ログアウト" },
-      ],
       colorSettings: colorSettings,
     }
   },
@@ -69,6 +64,28 @@ export default {
         ? this.colorSet.hamburgerBackgroundColor
         : this.colorSet.generalBackgroundColor
     },
+    navData() {
+      return this.login
+        ? [
+            { path: "/", text: "Home" },
+            { path: "kisyo", text: "起床" },
+            { path: "asakatsu", text: "朝活" },
+            { path: "mypage", text: "マイページ" },
+            { path: "palette", text: "Shop" },
+            { path: "logout", text: "ログアウト" },
+          ]
+        : [{ path: "/top", text: "Top" }]
+    },
+  },
+  created() {
+    this.auth = getAuth()
+    onAuthStateChanged(this.auth, async (user) => {
+      if (!user) {
+        this.login = false
+      } else {
+        this.login = true
+      }
+    })
   },
 }
 </script>
