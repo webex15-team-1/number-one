@@ -23,6 +23,7 @@ import {
   // increment,
   arrayUnion,
   onSnapshot,
+  increment,
 } from "firebase/firestore"
 import { db } from "@/firebase"
 import { colorSettings } from "@/store/colorSettings"
@@ -74,6 +75,7 @@ export default {
         if (userDoc.exists()) {
           await updateDoc(docRef, {
             purchasedColor: arrayUnion(colorIndex),
+            shopPoints: increment(-colorPrice),
           })
           this.colorSettings.activeColorSet = colorIndex
           this.shopPoints -= colorPrice
@@ -119,7 +121,7 @@ export default {
 </script>
 <style>
 .button_container {
-  height: 10em;
+  height: 20em;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
