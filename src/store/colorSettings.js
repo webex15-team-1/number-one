@@ -137,5 +137,19 @@ export const colorSettings = ref({
       hamburgerBackgroundColor: "#022340",
     },
   ],
-  activeColorSet: 0,
+})
+export const currentSetting = ref({
+  name: "デフォルト",
+  price: 0,
+  // タイトル(左上)
+  titleBackgroundColor: "#F2C48D",
+  titleColor: "#022340",
+  // タイトル以外の文字色
+  generalTextColor: "#022340",
+  // フッター,ハンバーガーボタンの色
+  generalBackgroundColor: "#F2C48D",
+  // ハンバーガーメニューのタイトル文字
+  hamburgerTitleColor: "#022340",
+  // ハンバーガーメニューの背景色
+  hamburgerBackgroundColor: "#F3D8B7",
 })

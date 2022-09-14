@@ -1,25 +1,23 @@
 <template>
   <div
     class="header"
-    :style="{ backgroundColor: colorSet.titleBackgroundColor }"
+    :style="{ backgroundColor: currentSetting.titleBackgroundColor }"
   >
-    <span class="title header-title" :style="{ color: colorSet.titleColor }"
+    <span
+      class="title header-title"
+      :style="{ color: currentSetting.titleColor }"
       >Morening☀️</span
     >
   </div>
+  <div style="top: 20em: padding:5em">{{ currentSetting }}</div>
 </template>
 <script>
-import { colorSettings } from "@/store/colorSettings"
+import { currentSetting } from "@/store/colorSettings"
 export default {
   data() {
     return {
-      colorSettings: colorSettings,
+      currentSetting: currentSetting,
     }
-  },
-  computed: {
-    colorSet() {
-      return this.colorSettings.colors[this.colorSettings.activeColorSet]
-    },
   },
 }
 </script>

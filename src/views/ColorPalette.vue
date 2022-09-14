@@ -13,6 +13,7 @@
       </button>
     </div>
   </div>
+  <div>{{ currentSetting }}</div>
 </template>
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth"
@@ -26,11 +27,12 @@ import {
   increment,
 } from "firebase/firestore"
 import { db } from "@/firebase"
-import { colorSettings } from "@/store/colorSettings"
+import { colorSettings, currentSetting } from "@/store/colorSettings"
 export default {
   data() {
     return {
       colorSettings: colorSettings,
+      currentSetting: currentSetting,
       shopPoints: 0,
       unsubscribeUser: null,
       purchasedColor: [0],
@@ -43,15 +45,26 @@ export default {
      * @param {Number} colorIndex
      */
     price(colorIndex) {
-      console.log(this.purchasedColor)
-      console.log(colorIndex)
-      console.log(
-        this.purchasedColor.findIndex((value) => value === colorIndex)
-      )
+      // console.log(this.purchasedColor)
+      // console.log(colorIndex)
+      // console.log(
+      //   this.purchasedColor.findIndex((value) => value === colorIndex)
+      // )
       return this.purchasedColor.findIndex((value) => value === colorIndex) !==
         -1
         ? "(購入済み)"
         : "(" + this.colorSettings.colors[colorIndex].price + "pt)"
+    },
+    copyColorSetting(colorIndex) {
+      console.log(colorIndex)
+      console.log(this.currentSetting)
+      console.log(this.colorSettings.colors[colorIndex])
+      this.currentSetting.name = this.colorSettings.colors[colorIndex].name
+      this.currentSetting.price = this.colorSettings.colors[colorIndex].price
+      this.currentSetting.titleBackgroundColor =
+        this.colorSettings.colors[colorIndex].titleBackgroundColor
+      this.currentSetting.titleColor =
+        this.colorSettings.colors[colorIndex].titleColor
     },
     /**
      * 色を変更する
@@ -60,7 +73,7 @@ export default {
      */
     updateColorSettings(colorIndex) {
       if (this.price(colorIndex) === "(購入済み)") {
-        this.colorSettings.activeColorSet = colorIndex
+        this.copyColorSetting(colorIndex)
       } else {
         this.purchaseColorSet(colorIndex)
       }

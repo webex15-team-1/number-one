@@ -5,14 +5,14 @@
     :class="{ active: isOpened }"
     :style="{ backgroundColor: hamburgerButtonColor }"
   >
-    <span :style="{ backgroundColor: colorSet.generalTextColor }"></span
-    ><span :style="{ backgroundColor: colorSet.generalTextColor }"></span
-    ><span :style="{ backgroundColor: colorSet.generalTextColor }"></span>
+    <span :style="{ backgroundColor: currentSetting.generalTextColor }"></span
+    ><span :style="{ backgroundColor: currentSetting.generalTextColor }"></span
+    ><span :style="{ backgroundColor: currentSetting.generalTextColor }"></span>
   </button>
   <div
     class="hamburger-container"
     :class="{ active: isOpened }"
-    :style="{ backgroundColor: colorSet.hamburgerBackgroundColor }"
+    :style="{ backgroundColor: currentSetting.hamburgerBackgroundColor }"
   >
     <div class="hamburger-title"><span>Morening☀️</span></div>
     <div class="nav-items">
@@ -20,15 +20,17 @@
         class="nav-item"
         v-for="(item, index) in navData"
         :key="index"
-        :style="{ color: colorSet.generalTextColor }"
+        :style="{ color: currentSetting.generalTextColor }"
       >
         <Icon
           icon="akar-icons:circle-triangle-right-fill"
           width="1.2em"
-          :color="colorSet.generalTextColor"
-        /><a :href="item.path" :style="{ color: colorSet.generalTextColor }">{{
-          item.text
-        }}</a>
+          :color="currentSetting.generalTextColor"
+        /><a
+          :href="item.path"
+          :style="{ color: currentSetting.generalTextColor }"
+          >{{ item.text }}</a
+        >
       </div>
     </div>
   </div>
@@ -36,7 +38,7 @@
 
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth"
-import { colorSettings } from "@/store/colorSettings"
+import { colorSettings, currentSetting } from "@/store/colorSettings"
 import { Icon } from "@iconify/vue"
 export default {
   components: {
@@ -48,6 +50,7 @@ export default {
       login: false,
       isOpened: false,
       colorSettings: colorSettings,
+      currentSetting: currentSetting,
     }
   },
   methods: {
@@ -56,13 +59,10 @@ export default {
     },
   },
   computed: {
-    colorSet() {
-      return this.colorSettings.colors[this.colorSettings.activeColorSet]
-    },
     hamburgerButtonColor() {
       return this.isOpened
-        ? this.colorSet.hamburgerBackgroundColor
-        : this.colorSet.generalBackgroundColor
+        ? this.currentSetting.hamburgerBackgroundColor
+        : this.currentSetting.generalBackgroundColor
     },
     navData() {
       return this.login

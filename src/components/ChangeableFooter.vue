@@ -2,8 +2,8 @@
   <footer
     class="footer"
     :style="{
-      backgroundColor: colorSet.generalBackgroundColor,
-      color: colorSet.generalTextColor,
+      backgroundColor: currentSetting.generalBackgroundColor,
+      color: currentSetting.generalTextColor,
     }"
   >
     <div>
@@ -17,17 +17,13 @@
   </footer>
 </template>
 <script>
-import { colorSettings } from "@/store/colorSettings"
+import { colorSettings, currentSetting } from "@/store/colorSettings"
 export default {
   data() {
     return {
       colorSettings: colorSettings,
+      currentSetting: currentSetting,
     }
-  },
-  computed: {
-    colorSet() {
-      return this.colorSettings.colors[this.colorSettings.activeColorSet]
-    },
   },
 }
 </script>
