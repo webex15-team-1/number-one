@@ -43,6 +43,11 @@ export default {
      * @param {Number} colorIndex
      */
     price(colorIndex) {
+      console.log(this.purchasedColor)
+      console.log(colorIndex)
+      console.log(
+        this.purchasedColor.findIndex((value) => value === colorIndex)
+      )
       return this.purchasedColor.findIndex((value) => value === colorIndex) !==
         -1
         ? "(購入済み)"
@@ -65,7 +70,7 @@ export default {
      * @param {Number} colorIndex
      */
     async purchaseColorSet(colorIndex) {
-      const colorPrice = this.colorSettings.colors[colorIndex].price
+      const colorPrice = colorSettings.colors[colorIndex].price
       if (colorPrice <= this.shopPoints) {
         // 残高が足りているので購入手続き
         // 購入済みリストに買った色の番号を加え,
@@ -78,7 +83,6 @@ export default {
             shopPoints: increment(-colorPrice),
           })
           this.colorSettings.activeColorSet = colorIndex
-          this.shopPoints -= colorPrice
         }
       } else {
         alert("ポイントが不足しています！")

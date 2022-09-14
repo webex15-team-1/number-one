@@ -18,7 +18,7 @@ export const colorSettings = ref({
     },
     {
       name: "朝焼け",
-      price: 10,
+      price: 30,
       // タイトル(左上)
       titleBackgroundColor: "#FFFFFF",
       titleColor: "#F28B50",
@@ -33,7 +33,7 @@ export const colorSettings = ref({
     },
     {
       name: "base3",
-      price: 10,
+      price: 30,
       // タイトル(左上)
       titleBackgroundColor: "#FFFFFF",
       titleColor: "#04B2D9",
@@ -48,7 +48,7 @@ export const colorSettings = ref({
     },
     {
       name: "base4",
-      price: 10,
+      price: 30,
       // タイトル(左上)
       titleBackgroundColor: "#048ABF",
       titleColor: "#FFFFFF",
@@ -63,7 +63,7 @@ export const colorSettings = ref({
     },
     {
       name: "base5",
-      price: 10,
+      price: 30,
       // タイトル(左上)
       titleBackgroundColor: "#8A86A6",
       titleColor: "#FFFFFF",
@@ -78,7 +78,7 @@ export const colorSettings = ref({
     },
     {
       name: "base6",
-      price: 10,
+      price: 60,
       // タイトル(左上)
       titleBackgroundColor: "#425B8C",
       titleColor: "#F2C1B6",
@@ -93,7 +93,7 @@ export const colorSettings = ref({
     },
     {
       name: "base7",
-      price: 10,
+      price: 60,
       // タイトル(左上)
       titleBackgroundColor: "#D0ECF2",
       titleColor: "#D9958F",
@@ -108,7 +108,7 @@ export const colorSettings = ref({
     },
     {
       name: "base8",
-      price: 10,
+      price: 60,
       // タイトル(左上)
       titleBackgroundColor: "#EDF2C2",
       titleColor: "#023E73",
@@ -123,7 +123,7 @@ export const colorSettings = ref({
     },
     {
       name: "base9",
-      price: 10,
+      price: 60,
       // タイトル(左上)
       titleBackgroundColor: "#022340",
       titleColor: "#FED56B",
