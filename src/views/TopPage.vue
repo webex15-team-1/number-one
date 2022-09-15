@@ -85,6 +85,8 @@
 </template>
 
 <script>
+import { doc, getDoc } from "firebase/firestore"
+import { db } from "@/firebase"
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -117,10 +119,9 @@ export default {
     login() {
       signInWithEmailAndPassword(this.auth, this.email, this.password)
         .then(() => {
-          //成功時の処理
+          this.loadColorSet(this.auth.currentUser.uid)
           this.$router.push("/mypage")
         })
-
         .catch(() => {
           //エラー時処理
           alert("Error!")
@@ -136,6 +137,7 @@ export default {
           if (isNewUser) {
             this.$router.push("/name-register")
           } else {
+            this.loadColorSet(this.auth.currentUser.uid)
             this.$router.push("/mypage")
           }
         })
@@ -173,6 +175,16 @@ export default {
           //エラー時処理
           alert("Error!")
         })
+    },
+    async loadColorSet(uid) {
+      const docRef = doc(db, "users", uid)
+      const userDoc = await getDoc(docRef)
+      if (userDoc.exists()) {
+        const colorIndex = userDoc.get("activeColorSet")
+        this.$store.commit("updateColorSet", {
+          colorIndex: colorIndex || 0,
+        })
+      }
     },
   },
 }

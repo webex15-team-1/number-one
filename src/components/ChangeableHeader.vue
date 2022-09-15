@@ -14,9 +14,11 @@
 <script>
 export default {
   computed: {
+    activeColorSet() {
+      return this.$store.state.activeColorSet
+    },
     currentSetting() {
-      const colorIndex = this.$store.state.activeColorSet
-      return this.$store.state.colors[colorIndex]
+      return this.$store.state.colors[this.activeColorSet]
     },
   },
 }
