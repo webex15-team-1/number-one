@@ -2,6 +2,7 @@
   <div
     class="header"
     :style="{ backgroundColor: currentSetting.titleBackgroundColor }"
+    @click="backHome()"
   >
     <span
       class="title header-title"
@@ -20,6 +21,11 @@ export default {
       return this.$store.state.colors[this.activeColorSet]
     },
   },
+  methods: {
+    backHome() {
+      this.$router.push("/")
+    },
+  },
 }
 </script>
 <style scoped>
@@ -31,6 +37,7 @@ export default {
   left: 5%;
   text-align: center;
   display: inline-block;
+  z-index: 20000;
 }
 .header-title {
   display: inline-block;

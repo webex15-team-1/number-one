@@ -47,6 +47,14 @@ export default {
       point: 0,
     }
   },
+  mounted: function () {
+    const auth = getAuth()
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        this.$router.push("/top")
+      }
+    })
+  },
   methods: {
     two() {
       this.stop()
@@ -134,9 +142,9 @@ export default {
               timePoints: increment(this.point),
               shopPoints: increment(this.point),
               asakatsu: arrayUnion({
-                date: new Date().toLocaleDateString(),
                 time: this.asakatsuTime,
-                currentTime: new Date().toLocaleTimeString(),
+                date: new Date().toLocaleDateString(),
+                CurrentTime: new Date().toLocaleTimeString(),
               }),
             })
           }
@@ -163,7 +171,7 @@ export default {
   z-index: 100;
   margin-left: 25%;
 }
-/* .minicircle {
+.minicircle {
   position: absolute;
   z-index: 3;
   width: 20%;
@@ -212,5 +220,5 @@ export default {
 }
 .stop::before {
   animation-play-state: paused;
-} */
+}
 </style>

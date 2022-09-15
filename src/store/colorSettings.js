@@ -18,7 +18,7 @@ export const colorSettings = createStore({
           // ハンバーガーメニューのタイトル文字
           hamburgerTitleColor: "#022340",
           // ハンバーガーメニューの背景色
-          hamburgerBackgroundColor: "#F3D8B7",
+          hamburgerBackgroundColor: "#F2C48D",
         },
         {
           name: "朝焼け",

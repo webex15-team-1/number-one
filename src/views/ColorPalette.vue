@@ -128,7 +128,7 @@ export default {
             }
           })
         } else {
-          console.error("User " + this.uid + " does not exist!")
+          this.$router.push("/top")
         }
       }
     })

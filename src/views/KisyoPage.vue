@@ -122,6 +122,14 @@ export default {
       i: 1,
     }
   },
+  mounted: function () {
+    const auth = getAuth()
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        this.$router.push("/top")
+      }
+    })
+  },
   methods: {
     two() {
       this.kisyoButton()
