@@ -38,7 +38,6 @@
 
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth"
-import { colorSettings, currentSetting } from "@/store/colorSettings"
 import { Icon } from "@iconify/vue"
 export default {
   components: {
@@ -49,8 +48,6 @@ export default {
       auth: null,
       login: false,
       isOpened: false,
-      colorSettings: colorSettings,
-      currentSetting: currentSetting,
     }
   },
   methods: {
@@ -59,6 +56,10 @@ export default {
     },
   },
   computed: {
+    currentSetting() {
+      const colorIndex = this.$store.state.activeColorSet
+      return this.$store.state.colors[colorIndex]
+    },
     hamburgerButtonColor() {
       return this.isOpened
         ? this.currentSetting.hamburgerBackgroundColor

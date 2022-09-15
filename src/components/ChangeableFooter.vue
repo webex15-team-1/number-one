@@ -17,13 +17,12 @@
   </footer>
 </template>
 <script>
-import { colorSettings, currentSetting } from "@/store/colorSettings"
 export default {
-  data() {
-    return {
-      colorSettings: colorSettings,
-      currentSetting: currentSetting,
-    }
+  computed: {
+    currentSetting() {
+      const colorIndex = this.$store.state.activeColorSet
+      return this.$store.state.colors[colorIndex]
+    },
   },
 }
 </script>

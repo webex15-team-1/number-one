@@ -4,9 +4,9 @@
     <h4>現在の所持ポイント: {{ shopPoints }}pt</h4>
     <div class="button_container">
       <button
-        v-for="(colorSet, index) in colorSettings.colors"
+        v-for="(colorSet, index) in colors"
         :key="index"
-        :disabled="colorSettings.activeColorSet === index"
+        :disabled="activeColorSet === index"
         @click="updateColorSettings(index)"
       >
         {{ colorSet.name }} {{ price(index) }}
@@ -27,12 +27,9 @@ import {
   increment,
 } from "firebase/firestore"
 import { db } from "@/firebase"
-import { colorSettings, currentSetting } from "@/store/colorSettings"
 export default {
   data() {
     return {
-      colorSettings: colorSettings,
-      currentSetting: currentSetting,
       shopPoints: 0,
       unsubscribeUser: null,
       purchasedColor: [0],
@@ -53,27 +50,23 @@ export default {
       return this.purchasedColor.findIndex((value) => value === colorIndex) !==
         -1
         ? "(購入済み)"
-        : "(" + this.colorSettings.colors[colorIndex].price + "pt)"
-    },
-    copyColorSetting(colorIndex) {
-      console.log(colorIndex)
-      console.log(this.currentSetting)
-      console.log(this.colorSettings.colors[colorIndex])
-      this.currentSetting.name = this.colorSettings.colors[colorIndex].name
-      this.currentSetting.price = this.colorSettings.colors[colorIndex].price
-      this.currentSetting.titleBackgroundColor =
-        this.colorSettings.colors[colorIndex].titleBackgroundColor
-      this.currentSetting.titleColor =
-        this.colorSettings.colors[colorIndex].titleColor
+        : "(" + this.colors[colorIndex].price + "pt)"
     },
     /**
      * 色を変更する
      * 未購入の色だった場合は購入手続きに移る
      * @param {Number} colorIndex
      */
-    updateColorSettings(colorIndex) {
+    async updateColorSettings(colorIndex) {
       if (this.price(colorIndex) === "(購入済み)") {
-        this.copyColorSetting(colorIndex)
+        const docRef = doc(db, "users", this.uid)
+        const userDoc = await getDoc(docRef)
+        if (userDoc.exists()) {
+          await updateDoc(docRef, {
+            activeColorSet: colorIndex,
+          })
+        }
+        this.$store.commit("updateColorSet", { colorIndex: colorIndex })
       } else {
         this.purchaseColorSet(colorIndex)
       }
@@ -83,7 +76,7 @@ export default {
      * @param {Number} colorIndex
      */
     async purchaseColorSet(colorIndex) {
-      const colorPrice = colorSettings.colors[colorIndex].price
+      const colorPrice = this.colors[colorIndex].price
       if (colorPrice <= this.shopPoints) {
         // 残高が足りているので購入手続き
         // 購入済みリストに買った色の番号を加え,
@@ -94,15 +87,27 @@ export default {
           await updateDoc(docRef, {
             purchasedColor: arrayUnion(colorIndex),
             shopPoints: increment(-colorPrice),
+            activeColorSet: colorIndex,
           })
-          this.colorSettings.activeColorSet = colorIndex
+          this.$store.commit("updateColorSet", { colorIndex: colorIndex })
         }
       } else {
         alert("ポイントが不足しています！")
       }
     },
   },
-
+  computed: {
+    activeColorSet() {
+      return this.$store.state.activeColorSet
+    },
+    currentSetting() {
+      const colorIndex = this.$store.state.activeColorSet
+      return this.$store.state.colors[colorIndex]
+    },
+    colors() {
+      return this.$store.state.colors
+    },
+  },
   async mounted() {
     const auth = getAuth()
     onAuthStateChanged(auth, async (user) => {

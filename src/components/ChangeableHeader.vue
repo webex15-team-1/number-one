@@ -12,12 +12,12 @@
   <div style="top: 20em: padding:5em">{{ currentSetting }}</div>
 </template>
 <script>
-import { currentSetting } from "@/store/colorSettings"
 export default {
-  data() {
-    return {
-      currentSetting: currentSetting,
-    }
+  computed: {
+    currentSetting() {
+      const colorIndex = this.$store.state.activeColorSet
+      return this.$store.state.colors[colorIndex]
+    },
   },
 }
 </script>
