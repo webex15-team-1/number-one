@@ -133,7 +133,6 @@ export default {
         .then((result) => {
           //成功時の処理
           const isNewUser = getAdditionalUserInfo(result).isNewUser
-          console.log(isNewUser)
           if (isNewUser) {
             this.$router.push("/name-register")
           } else {

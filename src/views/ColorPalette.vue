@@ -13,7 +13,6 @@
       </button>
     </div>
   </div>
-  <div>{{ currentSetting }}</div>
 </template>
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth"
@@ -42,11 +41,6 @@ export default {
      * @param {Number} colorIndex
      */
     price(colorIndex) {
-      // console.log(this.purchasedColor)
-      // console.log(colorIndex)
-      // console.log(
-      //   this.purchasedColor.findIndex((value) => value === colorIndex)
-      // )
       return this.purchasedColor.findIndex((value) => value === colorIndex) !==
         -1
         ? "(購入済み)"

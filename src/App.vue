@@ -19,9 +19,6 @@ export default {
     ChangeableFooter,
     HamburgerMenu,
   },
-  created() {
-    console.log(this.$store.state.colors[0])
-  },
 }
 </script>
 <style>

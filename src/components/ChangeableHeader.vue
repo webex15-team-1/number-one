@@ -9,7 +9,6 @@
       >Morening☀️</span
     >
   </div>
-  <div style="top: 20em: padding:5em">{{ currentSetting }}</div>
 </template>
 <script>
 export default {
