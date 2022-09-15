@@ -86,6 +86,7 @@ export default {
 <style scoped>
 .hamburger-container {
   width: 6em;
+  z-index: 100;
 }
 .hamburger-button {
   position: relative;

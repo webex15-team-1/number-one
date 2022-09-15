@@ -1,5 +1,9 @@
 <template>
-  <div class="header" :style="{ backgroundColor: colorSettings.bannerColor }">
+  <div
+    @click="backHome()"
+    class="header"
+    :style="{ backgroundColor: colorSettings.bannerColor }"
+  >
     <span class="title header-title" :style="{ color: colorSettings.textColor }"
       >Morening</span
     >
@@ -17,6 +21,11 @@ export default {
     return {
       colorSettings: colorSettings,
     }
+  },
+  methods: {
+    backHome() {
+      this.$router.push("/")
+    },
   },
 }
 </script>

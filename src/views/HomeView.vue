@@ -213,7 +213,7 @@ export default {
   mounted: function () {
     if (!this.auth.currentUser) {
       this.$router.push("/top")
-    }
+    } else this.fetchWeather()
   },
   methods: {
     /**
@@ -322,7 +322,6 @@ export default {
     },
   },
   created() {
-    this.fetchWeather()
     this.updateSunData(this.now)
     this.updateMoonData(this.now)
   },
