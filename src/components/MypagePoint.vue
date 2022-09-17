@@ -1,8 +1,8 @@
 <template>
   <div class="point-container">
-    <h2>累計朝活ポイント {{ points }}P</h2>
-    <h3>平均起床誤差: {{ averageGetupDiff }}</h3>
-    <h3>平均朝活時間: {{ averageAsakatsuTime }}</h3>
+    <div class="cumulative">累計朝活ポイント {{ points }}P</div>
+    <div class="average">平均起床誤差: {{ averageGetupDiff }}</div>
+    <div class="average">平均朝活時間: {{ averageAsakatsuTime }}</div>
   </div>
 </template>
 <script>
@@ -93,5 +93,12 @@ export default {
   display: inline-block;
   border: 3px solid #048abf;
   border-radius: 25px;
+  padding: 0.5em;
+}
+.cumulative {
+  font-size: 1.5em;
+}
+.average {
+  font-size: 1em;
 }
 </style>

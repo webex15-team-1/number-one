@@ -1,14 +1,30 @@
 <template>
-  <!-- <h1>{{ nickname }}さん！マイページへようこそ🎉</h1> -->
-  <!-- <button @click="logout">ログアウト</button> -->
-  <!-- 累計ポイントと平均時間の表示 -->
-  <MypagePoint :uid="uid" />
-  <!-- ランキング -->
-  <MypageRanking />
-  <!-- ツイートの表示と送信 -->
-  <MypageTweet :uid="uid" />
-  <!-- プロフィールの更新 -->
-  <MypageSettings :uid="uid" />
+  <div id="left-pane">
+    <div id="point">
+      <div id="cum-point">
+        <!-- 累計ポイントと平均時間の表示 -->
+        <MypagePoint :uid="uid" />
+      </div>
+      <div id="ranking">
+        <!-- ランキング -->
+        <MypageRanking />
+      </div>
+    </div>
+    <div id="calendar">
+      <!-- カレンダー -->
+      <MypageCalendarMonthly />
+    </div>
+  </div>
+  <div id="right-pane">
+    <div id="tweet">
+      <!-- ツイートの表示と送信 -->
+      <MypageTweet :uid="uid" />
+    </div>
+    <div id="settings">
+      <!-- プロフィールの更新 -->
+      <MypageSettings :uid="uid" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -19,6 +35,7 @@ import MypagePoint from "@/components/MypagePoint.vue"
 import MypageRanking from "@/components/MypageRanking.vue"
 import MypageTweet from "@/components/MypageTweet.vue"
 import MypageSettings from "@/components/MypageSettings.vue"
+import MypageCalendarMonthly from "@/components/MypageCalendarMonthly.vue"
 
 export default {
   data() {
@@ -65,11 +82,41 @@ export default {
     this.unsubscribeUser()
     this.unsubscribeUser = null
   },
-  components: { MypagePoint, MypageRanking, MypageTweet, MypageSettings },
+  components: {
+    MypagePoint,
+    MypageRanking,
+    MypageTweet,
+    MypageSettings,
+    MypageCalendarMonthly,
+  },
 }
 </script>
 <style>
 * {
   font-family: "Zen Maru Gothic";
+}
+@media (min-width: 1001px) {
+  #left-pane {
+    position: absolute;
+    display: inline-flex;
+    width: 70%;
+    left: 0%;
+    flex-direction: column;
+  }
+  #point {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+  }
+  #calendar {
+    display: inline-block;
+  }
+  #right-pane {
+    position: absolute;
+    display: inline-flex;
+    width: 30%;
+    left: 70%;
+    flex-direction: row;
+  }
 }
 </style>
