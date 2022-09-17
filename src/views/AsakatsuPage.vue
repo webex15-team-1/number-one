@@ -1,19 +1,27 @@
 <template>
   <div class="asakatsu">
-    <h1>朝活を始めよう！</h1>
-    <div class="times">
+    <h1 class="start_asakatsu">朝活を始めよう!</h1>
+    <div class="timer-design">
       <div class="timer">
         {{ hour }}:{{ min10 }}{{ min1 }}:{{ sec10 }}{{ sec1 }}
       </div>
+      <img v-bind:class="circle" src="@/views/images/sun.png" />
       <div class="minicircle"></div>
-      <div v-bind:class="circle"></div>
+      <div class="middlecircle"></div>
+      <div class="bigcircle"></div>
     </div>
-    <button v-on:click="start" v-if="before">開始！</button>
-    <button v-on:click="two" v-if="!before && !after">終了！</button>
-    <p v-if="after">{{ asakatsuTime }}分朝活をしました！！</p>
-    <p v-if="after && this.point > 0">{{ point }}ポイントを獲得しました！</p>
-    <p v-if="fight">{{ fightMessage }}</p>
-    <button v-on:click="again" v-if="after">もう一度</button>
+    <button class="pop-button" v-on:click="start" v-if="before">開始</button>
+    <button class="pop-button" v-on:click="two" v-if="!before && !after">
+      終了
+    </button>
+    <p class="asakatsu-text-navy" v-if="after">
+      {{ asakatsuTime }}分朝活をしました
+    </p>
+    <p class="asakatsu-text-navy" v-if="after && this.point > 0">
+      {{ point }}ポイントを獲得しました!
+    </p>
+    <p class="asakatsu-text-navy" v-if="fight">{{ fightMessage }}</p>
+    <button class="pop-button" v-on:click="again" v-if="after">もう一度</button>
   </div>
 </template>
 
@@ -156,6 +164,14 @@ export default {
 </script>
 
 <style>
+.start_asakatsu {
+  color: #022340;
+}
+.asakatsu-text-navy {
+  color: #022340;
+  font-size: 1.5em;
+  margin: 0.5em 0;
+}
 .times {
   position: relative;
   z-index: -1;
@@ -163,62 +179,100 @@ export default {
   height: 30vw;
   margin-bottom: 5%;
 }
+.timer-design {
+  height: 40vw;
+}
 .timer {
-  font-size: 500%;
+  font-size: 6vw;
   width: 50%;
   line-height: 30vw;
   position: absolute;
   z-index: 100;
   margin-left: 25%;
+  margin-top: 5vw;
 }
 .minicircle {
   position: absolute;
   z-index: 3;
-  width: 20%;
-  height: 20vw;
-  margin-left: 40%;
+  width: 30%;
+  height: 30vw;
+  left: 0;
+  right: 0;
+  margin: auto;
   margin-top: 5vw;
   border-radius: 50%;
+  background: #d8eefe;
+}
+.middlecircle {
+  position: absolute;
+  z-index: 2;
+  width: 38%;
+  height: 38vw;
+  left: 0;
+  right: 0;
+  margin: auto;
+  margin-top: 1vw;
+  border-radius: 50%;
   background: white;
+}
+.bigcircle {
+  position: absolute;
+  z-index: 1;
+  width: 40%;
+  height: 40vw;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border-radius: 50%;
+  background: #d8eefe;
 }
 .circle {
   position: absolute;
-  z-index: 1;
-  width: 30%;
-  height: 30vw;
-  margin-left: 35%;
-  border-radius: 50%;
-  background: white;
-}
-.start {
-  background-image: linear-gradient(
-    to right,
-    transparent 50%,
-    rgb(118, 246, 118) 0
-  );
+  z-index: 4;
+  width: 6%;
+  height: 6vw;
+  left: 0;
+  right: 0;
+  margin: auto;
+  margin-top: 0vw;
 }
 .start::before {
-  z-index: 2;
   content: "";
-  display: block;
-  margin-left: 50%;
-  height: 100%;
-  border-radius: 0 100% 100% 0 / 50%;
-  background-color: white;
-  transform-origin: left;
-  animation: spin 30s linear infinite, color 60s step-end infinite;
+  transform-origin: 0 0;
+  animation-name: turning;
+  animation-duration: 60s;
+  animation-iteration-count: infinite;
 }
-@keyframes spin {
-  to {
-    transform: rotate(0.5turn);
+@keyframes turning {
+  0% {
+    transform: rotate(0deg);
   }
-}
-@keyframes color {
-  50% {
-    background-color: rgb(118, 246, 118);
+  100% {
+    transform: rotate(360deg);
   }
 }
 .stop::before {
   animation-play-state: paused;
+}
+
+.pop-button {
+  margin: 3%;
+  width: 10%;
+  height: 2em;
+  text-align: center;
+  font-size: 1.5em;
+  color: white;
+  background-color: #048abf;
+  border-radius: 60px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 5px solid #022340;
+}
+.pop-button:hover {
+  padding-top: 3px;
+  border-bottom: 2px solid #022340;
+  transition: 0.3s;
+  color: white;
 }
 </style>
