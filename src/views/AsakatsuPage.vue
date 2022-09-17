@@ -49,9 +49,11 @@ export default {
   },
   mounted: function () {
     const auth = getAuth()
-    if (!auth.currentUser) {
-      this.$router.push("/top")
-    }
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        this.$router.push("/top")
+      }
+    })
   },
   methods: {
     two() {
@@ -138,7 +140,8 @@ export default {
           if (userDoc.exists()) {
             await updateDoc(docRef, {
               timePoints: increment(this.point),
-              asakaysu: arrayUnion({
+              shopPoints: increment(this.point),
+              asakatsu: arrayUnion({
                 time: this.asakatsuTime,
                 date: new Date().toLocaleDateString(),
                 CurrentTime: new Date().toLocaleTimeString(),

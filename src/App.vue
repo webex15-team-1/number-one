@@ -1,20 +1,23 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/top">Top</router-link>
+    <!-- <router-link to="/">Home</router-link> |
+    <router-link to="/top">Top</router-link> -->
   </nav>
   <ChangeableHeader />
+  <HamburgerMenu />
   <router-view />
   <ChangeableFooter />
 </template>
 <script>
 import ChangeableHeader from "./components/ChangeableHeader.vue"
 import ChangeableFooter from "./components/ChangeableFooter.vue"
+import HamburgerMenu from "./components/HamburgerMenu.vue"
 
 export default {
   components: {
     ChangeableHeader,
     ChangeableFooter,
+    HamburgerMenu,
   },
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <!-- <h1>{{ nickname }}さん！マイページへようこそ🎉</h1> -->
-  <button @click="logout">ログアウト</button>
+  <!-- <button @click="logout">ログアウト</button> -->
   <!-- 累計ポイントと平均時間の表示 -->
   <MypagePoint :uid="uid" />
   <!-- ランキング -->
@@ -14,7 +14,7 @@
 <script>
 import { doc, getDoc, onSnapshot } from "firebase/firestore"
 import { db } from "@/firebase"
-import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 import MypagePoint from "@/components/MypagePoint.vue"
 import MypageRanking from "@/components/MypageRanking.vue"
 import MypageTweet from "@/components/MypageTweet.vue"
@@ -29,20 +29,20 @@ export default {
       unsubscribeUser: null,
     }
   },
-  methods: {
-    logout() {
-      signOut(this.auth)
-        .then(() => {
-          // Sign-out successful.
-          alert("ログアウトしました")
-          //this.$router.push("/home")
-        })
-        .catch(() => {
-          // An error happened.
-          alert("Error!")
-        })
-    },
-  },
+  // methods: {
+  //   logout() {
+  //     signOut(this.auth)
+  //       .then(() => {
+  //         // Sign-out successful.
+  //         alert("ログアウトしました")
+  //         //this.$router.push("/home")
+  //       })
+  //       .catch(() => {
+  //         // An error happened.
+  //         alert("Error!")
+  //       })
+  //   },
+  // },
   mounted() {
     this.auth = getAuth()
     onAuthStateChanged(this.auth, async (user) => {

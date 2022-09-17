@@ -2,5 +2,6 @@ import { createApp } from "vue"
 import App from "./App.vue"
 import router from "./router"
 import "./firebase.js"
+import { colorSettings } from "@/store/colorSettings"
 
-createApp(App).use(router).mount("#app")
+createApp(App).use(colorSettings).use(router).mount("#app")

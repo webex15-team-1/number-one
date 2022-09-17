@@ -1,99 +1,119 @@
 <template>
+  <button
+    class="hamburger-button"
+    @click="toggleMenu"
+    :class="{ active: isOpened }"
+    :style="{ backgroundColor: hamburgerButtonColor }"
+  >
+    <span :style="{ backgroundColor: currentSetting.generalTextColor }"></span
+    ><span :style="{ backgroundColor: currentSetting.generalTextColor }"></span
+    ><span :style="{ backgroundColor: currentSetting.generalTextColor }"></span>
+  </button>
   <div
     class="hamburger-container"
-    :style="{ backgroundColor: colorSettings.bannerColor }"
+    :class="{ active: isOpened }"
+    :style="{ backgroundColor: currentSetting.hamburgerBackgroundColor }"
   >
-    <button
-      class="hamburger-button"
-      @click="toggleMenu"
-      :class="{ active: isOpened }"
-    >
-      <span></span><span></span><span></span>
-    </button>
-    <div class="hamburger-nav-items" :class="{ active: isOpened }">
-      <transition-group
-        @before-enter="navItemBeforeEnter"
-        @enter="navItemEnter"
-        @leave="navItemLeave"
+    <div class="hamburger-title"><span>Morening☀️</span></div>
+    <div class="nav-items">
+      <div
+        class="nav-item"
+        v-for="(item, index) in navData"
+        :key="index"
+        :style="{ color: currentSetting.generalTextColor }"
       >
-        <div
-          v-for="(nav, index) in navData"
-          @click="jumpPage(nav.path)"
-          :key="index"
-          :data-index="index"
-          v-show="isOpened"
-          tag="div"
-          class="hamburger-nav-item"
-          :style="{
-            color: colorSettings.textColor,
-            'background-color': colorSettings.buttonColor,
-          }"
+        <Icon
+          icon="akar-icons:circle-triangle-right-fill"
+          width="1.2em"
+          :color="currentSetting.generalTextColor"
+        /><a
+          :href="item.path"
+          :style="{ color: currentSetting.generalTextColor }"
+          >{{ item.text }}</a
         >
-          {{ nav.text }}
-        </div>
-      </transition-group>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import gsap from "gsap"
-import { colorSettings } from "@/store/colorSettings"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { Icon } from "@iconify/vue"
 export default {
+  components: {
+    Icon,
+  },
   data() {
     return {
+      auth: null,
+      login: false,
       isOpened: false,
-      navData: [
-        { path: "/", text: "HOME" },
-        { path: "top", text: "top" },
-        { path: "kisyo", text: "起床" },
-        { path: "asakatsu", text: "朝活" },
-        { path: "palette", text: "palette" },
-      ],
-      colorSettings: colorSettings,
     }
   },
   methods: {
     toggleMenu() {
       this.isOpened = !this.isOpened
     },
-    jumpPage(path) {
-      this.$router.push(path)
+  },
+  computed: {
+    currentSetting() {
+      const colorIndex = this.$store.state.activeColorSet
+      return this.$store.state.colors[colorIndex]
     },
-    navItemBeforeEnter(el) {
-      gsap.set(el, { opacity: 0, y: -2 * el.dataset.index + "em" })
+    hamburgerButtonColor() {
+      return this.isOpened
+        ? this.currentSetting.hamburgerBackgroundColor
+        : this.currentSetting.generalBackgroundColor
     },
-    navItemEnter(el, done) {
-      gsap.to(el, {
-        opacity: 1,
-        y: 0,
-        delay: 0.3,
-        duration: 0.5,
-        onComplete: done,
-      })
+    navData() {
+      return this.login
+        ? [
+            { path: "/", text: "Home" },
+            { path: "kisyo", text: "起床" },
+            { path: "asakatsu", text: "朝活" },
+            { path: "mypage", text: "マイページ" },
+            { path: "palette", text: "Shop" },
+            { path: "logout", text: "ログアウト" },
+          ]
+        : [{ path: "/top", text: "Top" }]
     },
-    navItemLeave(el, done) {
-      gsap.to(el, {
-        opacity: 0,
-        duration: 0.3,
-        onComplete: done,
-      })
-    },
+  },
+  created() {
+    this.auth = getAuth()
+    onAuthStateChanged(this.auth, async (user) => {
+      if (!user) {
+        this.login = false
+      } else {
+        this.login = true
+      }
+    })
   },
 }
 </script>
 
 <style scoped>
 .hamburger-container {
-  width: 6em;
-  z-index: 100;
+  position: fixed;
+  top: 0%;
+  left: 125%;
+  width: 25%;
+  height: 100%;
+  transition: all 0.5s ease-in-out;
+  z-index: 10000;
+}
+.hamburger-container.active {
+  left: 75%;
 }
 .hamburger-button {
-  position: relative;
+  position: fixed;
+  top: 5%;
+  left: 95%;
   width: 2em;
   height: 2em;
+  z-index: 20000;
   margin: 0;
   padding: 0;
+  transition: background-color 0.5s ease-in-out;
   border: none;
   border-radius: 0;
   background: transparent;
@@ -107,13 +127,12 @@ export default {
 /* https://coco-factory.jp/ugokuweb/move01/5-2-1/ */
 .hamburger-button span {
   display: inline-block;
-  transition: all 0.4s;
+  transition: all 0.5s;
   position: absolute;
   width: 75%;
   left: 12.5%;
   height: 3px;
   border-radius: 2px;
-  background-color: black;
 }
 .hamburger-button span:nth-child(1) {
   top: 22%;
@@ -135,19 +154,42 @@ export default {
   top: 47%;
   transform: rotate(45deg);
 }
-.hamburger-nav-items {
+.hamburger-title {
+  position: relative;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 3em;
+  text-align: center;
+}
+.hamburger-title span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5em;
+}
+.nav-items {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  transition: all 0.5s ease-in-out;
-  height: 0;
+  justify-content: space-between;
+  align-items: left;
+  top: 10%;
 }
-.hamburger-nav-items.active {
-  height: 14em;
+.nav-item {
+  margin: 0.5em;
+  height: 2em;
 }
-.hamburger-nav-item {
-  width: 100%;
+.nav-item svg {
+  position: absolute;
+  left: 5%;
+}
+.nav-item a {
+  position: absolute;
+  left: 15%;
+  color: inherit;
+  text-decoration: none;
+  font-size: 1.2em;
 }
 </style>
