@@ -185,6 +185,11 @@ export default {
   width: 80%;
   margin: auto;
 }
+.main-cal table,
+.main-cal th,
+.main-cal td {
+  border: 1px solid #5f6c7b;
+}
 table {
   font-size: 1.5em;
   table-layout: fixed;
