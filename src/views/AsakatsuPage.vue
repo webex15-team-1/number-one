@@ -14,13 +14,13 @@
     <button class="pop-button" v-on:click="two" v-if="!before && !after">
       終了
     </button>
-    <p class="asakatsu-text-blue" v-if="after">
+    <p class="asakatsu-text-navy" v-if="after">
       {{ asakatsuTime }}分朝活をしました
     </p>
-    <p class="asakatsu-text-blue" v-if="after && this.point > 0">
+    <p class="asakatsu-text-navy" v-if="after && this.point > 0">
       {{ point }}ポイントを獲得しました!
     </p>
-    <p class="asakatsu-text-blue" v-if="fight">{{ fightMessage }}</p>
+    <p class="asakatsu-text-navy" v-if="fight">{{ fightMessage }}</p>
     <button class="pop-button" v-on:click="again" v-if="after">もう一度</button>
   </div>
 </template>
@@ -165,10 +165,10 @@ export default {
 
 <style>
 .start_asakatsu {
-  color: #048abf;
+  color: #022340;
 }
-.asakatsu-text-blue {
-  color: #048abf;
+.asakatsu-text-navy {
+  color: #022340;
   font-size: 1.5em;
   margin: 0.5em 0;
 }

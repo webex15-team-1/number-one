@@ -58,16 +58,29 @@
       <button class="kakuninButton" v-on:click="yesJanken">する</button>
       <button class="kakuninButton" v-on:click="noJanken">しない</button>
     </div>
-    <div class="target">起床目標時間</div>
+    <h1 class="target">起床目標時間</h1>
     <div class="targetTime">
-      <input type="number" min="0" max="24" v-model="targetHour" />:<input
+      <input
+        class="hour-box"
+        type="number"
+        min="0"
+        max="24"
+        v-model="targetHour"
+      />:<input
+        class="min-box"
         type="number"
         min="0"
         max="5"
         v-model="targetMin10"
-      /><input type="number" min="0" max="9" v-model="targetMin1" />
+      /><input
+        class="min-box"
+        type="number"
+        min="0"
+        max="9"
+        v-model="targetMin1"
+      />
     </div>
-    <button v-on:click="two">起床</button>
+    <button class="pop-button" v-on:click="two">起床</button>
     <div v-if="isLate">
       <div class="timeLate">目標時間より{{ fixedtimeLate }}分です。</div>
       <div class="pointGet">{{ point }}ポイントを獲得しました！</div>
@@ -251,6 +264,24 @@ export default {
 }
 </script>
 <style>
+.targetTime {
+  font-size: 2.5em;
+  color: #022340;
+}
+.hour-box {
+  text-align: center;
+  font-size: 1.5em;
+  width: 8vw;
+  color: #022340;
+  border: none;
+}
+.min-box {
+  text-align: center;
+  font-size: 1.5em;
+  width: 4vw;
+  color: #022340;
+  border: none;
+}
 .janken {
   border: 4px solid;
   box-sizing: border-box;
