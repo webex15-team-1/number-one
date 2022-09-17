@@ -54,11 +54,12 @@ export default {
 <style scoped>
 .rank-container {
   display: inline-block;
-  width: auto;
+  width: 100%;
   background: #022340;
   border-radius: 24px;
   border: 3px solid #022340;
   height: 100%;
+  box-sizing: border-box;
 }
 .names {
   display: flex;

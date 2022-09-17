@@ -120,16 +120,19 @@ export default {
     justify-content: center;
   }
   #left-pane {
-    /* display: inline-block; */
-    width: 70%;
+    display: flex;
+    width: 80%;
     height: auto;
     left: 0%;
     flex-direction: column;
+    align-items: center;
   }
   #point {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    justify-content: space-between;
+    width: 80%;
+    gap: 0 2em;
   }
   #cum-point {
     flex-grow: 2;
@@ -139,13 +142,13 @@ export default {
   }
   #calendar {
     display: inline-block;
-    width: 90%;
+    width: 100%;
     margin: 2em 0 1em 0;
   }
   #right-pane {
     /* position: absolute; */
     /* display: inline-flex; */
-    width: 30%;
+    width: 20%;
     left: 70%;
     flex-direction: column;
   }

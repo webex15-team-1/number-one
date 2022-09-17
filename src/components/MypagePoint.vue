@@ -96,8 +96,9 @@ export default {
   justify-content: space-between;
   border: 3px solid #048abf;
   border-radius: 25px;
-  width: 25em;
+  width: 100%;
   height: 100%;
+  box-sizing: border-box;
 }
 .cumulative {
   font-size: 1.5em;
