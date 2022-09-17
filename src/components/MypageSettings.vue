@@ -1,11 +1,12 @@
 <template>
   <div class="settings-container">
+    <h3>ユーザーデータの更新</h3>
     <div class="nickname">
-      <h3>username:</h3>
+      <h4>Nickname:</h4>
       <input type="text" v-model="nickname" :disabled="!editReady" />
     </div>
     <div class="icon">
-      <h3>icon:</h3>
+      <h4>Icon:</h4>
       <div class="icon-field">
         <!-- iconNumberはユーザーデータが届き次第ユーザーの設定値に変わり、
         それに合わせてselectの初期値とプレビューimgが変化する -->
@@ -132,7 +133,7 @@ input {
   border-left: none;
   display: inline-block;
 }
-h3 {
+h4 {
   text-align: left;
   margin: 0.5em 0 0 0;
 }
