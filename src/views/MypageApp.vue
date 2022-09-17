@@ -146,8 +146,7 @@ export default {
     margin: 2em 0 1em 0;
   }
   #right-pane {
-    /* position: absolute; */
-    /* display: inline-flex; */
+    border-left: 1px solid #022340;
     width: 20%;
     left: 70%;
     flex-direction: column;
