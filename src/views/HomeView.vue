@@ -211,9 +211,14 @@ export default {
     }
   },
   mounted: function () {
-    if (!this.auth.currentUser) {
-      this.$router.push("/top")
-    } else this.fetchWeather()
+    const auth = getAuth()
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        this.$router.push("/top")
+      } else {
+        this.fetchWeather()
+      }
+    })
   },
   methods: {
     /**
