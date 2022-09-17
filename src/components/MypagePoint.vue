@@ -99,6 +99,13 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+  justify-content: space-around;
+}
+.point-container div:first-child {
+  margin-top: 1em;
+}
+.point-container div:last-child {
+  margin-bottom: 1em;
 }
 .cumulative {
   font-size: 1.5em;
