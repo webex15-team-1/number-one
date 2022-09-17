@@ -124,11 +124,13 @@ export default {
   },
   mounted: function () {
     // 目標時間のlocalStorageからの読み出し
-    const previousWakeupTime = JSON.parse(localStorage.morening) || {
-      targetHour: 6,
-      targetMin10: 0,
-      targetMin1: 0,
-    }
+    const previousWakeupTime = localStorage.morening
+      ? JSON.parse(localStorage.morening)
+      : {
+          targetHour: 6,
+          targetMin10: 0,
+          targetMin1: 0,
+        }
     this.targetHour = previousWakeupTime.targetHour
     this.targetMin10 = previousWakeupTime.targetMin10
     this.targetMin1 = previousWakeupTime.targetMin1
