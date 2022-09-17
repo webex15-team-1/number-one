@@ -27,9 +27,15 @@
       </div>
     </div>
   </div>
-  <div id="return">
+  <div
+    id="return"
+    :style="{ backgroundColor: currentSetting.hamburgerBackgroundColor }"
+  >
     <a @click="scrollTop">
-      <Icon icon="akar-icons:arrow-up" />
+      <Icon
+        icon="akar-icons:arrow-up"
+        :style="{ color: currentSetting.generalTextColor }"
+      />
     </a>
   </div>
 </template>
@@ -60,6 +66,12 @@ export default {
         top: 0,
         behavior: "smooth",
       })
+    },
+  },
+  computed: {
+    currentSetting() {
+      const colorIndex = this.$store.state.activeColorSet
+      return this.$store.state.colors[colorIndex]
     },
   },
   mounted() {
@@ -169,9 +181,14 @@ export default {
     width: 80%;
   }
   #return {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: fixed;
+    width: 2em;
+    height: 2em;
     bottom: 10%;
-    right: 10%;
+    right: 1%;
   }
 }
 </style>
