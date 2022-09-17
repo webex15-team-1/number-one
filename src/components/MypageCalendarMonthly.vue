@@ -1,8 +1,14 @@
 <template>
   <div class="header-cal">
-    <span class="prev" v-on:click="prev">＜</span>
+    <div class="header-cal-control">
+      <button>
+        <Icon icon="ooui:next-rtl" @click="prev" />
+      </button>
+      <button>
+        <Icon icon="ooui:next-ltr" @click="next" />
+      </button>
+    </div>
     <span>{{ year }}年{{ month }}月</span>
-    <span class="next" v-on:click="next">＞</span>
   </div>
   <div class="calendar">
     <table class="main-cal" border="1">
@@ -37,6 +43,7 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { doc, getDoc } from "firebase/firestore"
 import { db } from "@/firebase"
+import { Icon } from "@iconify/vue"
 export default {
   data() {
     return {
@@ -138,31 +145,67 @@ export default {
       return calendar
     },
   },
+  components: {
+    Icon,
+  },
 }
 </script>
 <style>
 .header-cal {
   font-size: 1.5em;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  margin: 1em 0 0.25em 0;
+  align-items: flex-start;
+  width: 80%;
+  margin: auto;
+  gap: 2em;
+}
+.header-cal-control button {
+  background: transparent;
+  vertical-align: middle;
+  text-align: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.5em;
+  height: 1.5em;
+  text-align: center;
+  border: none;
+  border-radius: 50%;
+  margin: 0.5em;
 }
 .main-cal {
   border-collapse: collapse;
-  /* width: 70%; */
+  width: 80%;
   margin: auto;
 }
 table {
   font-size: 1.5em;
+  table-layout: fixed;
 }
 table td {
   position: relative;
-  width: 10%;
+}
+table td div {
+  font-size: 0.5em;
 }
 .day {
   position: absolute;
   top: 0%;
   left: 0%;
   padding-left: 1%;
+}
+.kisyo {
+  position: absolute;
+  top: 33%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.asakatsu {
+  position: absolute;
+  top: 66%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 table tr {
   height: 10vh;

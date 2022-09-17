@@ -126,6 +126,8 @@ export default {
   }
   #calendar {
     display: inline-block;
+    width: 90%;
+    margin: 2em 0 1em 0;
   }
   #right-pane {
     /* position: absolute; */

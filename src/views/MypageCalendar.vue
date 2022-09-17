@@ -140,7 +140,7 @@ export default {
 }
 </script>
 <style>
-.header-cal {
+/* .header-cal {
   font-size: 3em;
   display: flex;
   justify-content: space-between;
@@ -178,5 +178,5 @@ table th:nth-of-type(7) {
 }
 table tr td:nth-of-type(7) {
   color: blue;
-}
+} */
 </style>
