@@ -123,6 +123,15 @@ export default {
     }
   },
   mounted: function () {
+    // 目標時間のlocalStorageからの読み出し
+    const previousWakeupTime = JSON.parse(localStorage.morening) || {
+      targetHour: 6,
+      targetMin10: 0,
+      targetMin1: 0,
+    }
+    this.targetHour = previousWakeupTime.targetHour
+    this.targetMin10 = previousWakeupTime.targetMin10
+    this.targetMin1 = previousWakeupTime.targetMin1
     const auth = getAuth()
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
@@ -245,6 +254,12 @@ export default {
             })
           }
         }
+      })
+      // 目標時間のlocalStorageへの保存
+      localStorage.morening = JSON.stringify({
+        targetHour: this.targetHour,
+        targetMin10: this.targetMin10,
+        targetMin1: this.targetMin1,
       })
     },
   },
