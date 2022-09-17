@@ -27,12 +27,18 @@
       </div>
     </div>
   </div>
+  <div id="return">
+    <a @click="scrollTop">
+      <Icon icon="akar-icons:arrow-up" />
+    </a>
+  </div>
 </template>
 
 <script>
 import { doc, getDoc, onSnapshot } from "firebase/firestore"
 import { db } from "@/firebase"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { Icon } from "@iconify/vue"
 import MypagePoint from "@/components/MypagePoint.vue"
 import MypageRanking from "@/components/MypageRanking.vue"
 import MypageTweet from "@/components/MypageTweet.vue"
@@ -48,20 +54,14 @@ export default {
       unsubscribeUser: null,
     }
   },
-  // methods: {
-  //   logout() {
-  //     signOut(this.auth)
-  //       .then(() => {
-  //         // Sign-out successful.
-  //         alert("ログアウトしました")
-  //         //this.$router.push("/home")
-  //       })
-  //       .catch(() => {
-  //         // An error happened.
-  //         alert("Error!")
-  //       })
-  //   },
-  // },
+  methods: {
+    scrollTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      })
+    },
+  },
   mounted() {
     this.auth = getAuth()
     onAuthStateChanged(this.auth, async (user) => {
@@ -90,6 +90,7 @@ export default {
     MypageTweet,
     MypageSettings,
     MypageCalendarMonthly,
+    Icon,
   },
 }
 </script>
@@ -136,6 +137,9 @@ export default {
     left: 70%;
     flex-direction: column;
   }
+  #return {
+    display: none;
+  }
 }
 @media (max-width: 1000px) {
   #mypage {
@@ -163,6 +167,11 @@ export default {
   }
   #tweet {
     width: 80%;
+  }
+  #return {
+    position: fixed;
+    bottom: 10%;
+    right: 10%;
   }
 }
 </style>
