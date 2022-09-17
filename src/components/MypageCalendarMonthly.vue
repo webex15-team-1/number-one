@@ -60,6 +60,7 @@ export default {
     this.month = this.now.getMonth() + 1
     this.year = this.now.getFullYear()
     this.kisyoAsakatsuTimes()
+    window.addEventListener("resize", this.isMobile)
   },
   methods: {
     kisyoAsakatsuTimes() {
@@ -93,6 +94,9 @@ export default {
         this.year += 1
       }
     },
+    isMobile() {
+      return window.innerWidth < 1000
+    },
   },
   computed: {
     calendar: function () {
@@ -117,7 +121,9 @@ export default {
             for (let j = 0; j < this.kisyo.length; j++) {
               if (this.kisyo[j].date === day) {
                 let kisyoTimeFirebase = this.kisyo[j].getupCurrentTime
-                kisyoTime = kisyoTimeFirebase
+                kisyoTime = this.isMobile
+                  ? kisyoTimeFirebase.substring(0, 5)
+                  : kisyoTimeFirebase
               }
             }
             for (let k = 0; k < this.asakatsu.length; k++) {
