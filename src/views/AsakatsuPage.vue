@@ -5,9 +5,13 @@
       <div class="timer">
         {{ hour }}:{{ min10 }}{{ min1 }}:{{ sec10 }}{{ sec1 }}
       </div>
-      <img v-bind:class="circle" src="@/views/images/sun.png" />
+      <!--  タイマーは3重円でできている
+            そのうちmiddleの上端中央に太陽が張り付いていて
+            middleが時間とともに回転することで太陽を動かしている -->
       <div class="minicircle"></div>
-      <div class="middlecircle"></div>
+      <div class="middlecircle" :style="{ transform: `rotate(${degree}deg)` }">
+        <img class="circle" src="@/views/images/sun.png" />
+      </div>
       <div class="bigcircle"></div>
     </div>
     <button class="pop-button" v-on:click="start" v-if="before">開始</button>
@@ -47,8 +51,7 @@ export default {
       before: true,
       after: false,
       timer: "",
-      degree: 100,
-      circle: "circle",
+      degree: 0,
       asakatsuTime: "",
       fight: false,
       fightMessage: "朝活を5分以上できるよう頑張りましょう",
@@ -69,7 +72,6 @@ export default {
       this.pointRegister()
     },
     start() {
-      this.circle = "circle start"
       this.before = false
       this.timer = setInterval(() => {
         this.sec1 += 1
@@ -95,7 +97,6 @@ export default {
     stop() {
       clearInterval(this.timer)
       this.after = true
-      this.circle = "circle start stop"
       this.asakatsuTime = this.hour * 60 + this.min10 * 10 + this.min1
       //分に直す👆
 
@@ -126,9 +127,9 @@ export default {
       this.sec1 = 0
       this.before = true
       this.after = false
-      this.circle = "circle"
       this.fight = false
       this.point = 0
+      this.degree = 0
     },
     pointRegister() {
       const auth = getAuth()
@@ -180,79 +181,61 @@ export default {
   margin-bottom: 5%;
 }
 .timer-design {
+  position: relative;
   height: 40vw;
+  width: 40vw;
+  display: block;
+  margin: auto;
 }
 .timer {
   font-size: 6vw;
-  width: 50%;
+  width: 100%;
   line-height: 30vw;
   position: absolute;
   z-index: 100;
-  margin-left: 25%;
-  margin-top: 5vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .minicircle {
   position: absolute;
   z-index: 3;
-  width: 30%;
-  height: 30vw;
-  left: 0;
-  right: 0;
-  margin: auto;
-  margin-top: 5vw;
+  width: 60%;
+  height: 60%;
+  top: 20%;
+  left: 20%;
   border-radius: 50%;
   background: #d8eefe;
 }
 .middlecircle {
   position: absolute;
   z-index: 2;
-  width: 38%;
-  height: 38vw;
-  left: 0;
-  right: 0;
-  margin: auto;
-  margin-top: 1vw;
+  width: 94%;
+  height: 94%;
+  top: 3%;
+  left: 3%;
   border-radius: 50%;
   background: white;
+  transition: all 1s linear;
 }
 .bigcircle {
   position: absolute;
   z-index: 1;
-  width: 40%;
-  height: 40vw;
-  left: 0;
-  right: 0;
+  width: 100%;
+  height: 100%;
   margin: auto;
   border-radius: 50%;
   background: #d8eefe;
 }
 .circle {
   position: absolute;
+  display: inline-block;
   z-index: 4;
-  width: 6%;
-  height: 6vw;
-  left: 0;
-  right: 0;
-  margin: auto;
-  margin-top: 0vw;
-}
-.start::before {
-  content: "";
-  transform-origin: 0 0;
-  animation-name: turning;
-  animation-duration: 60s;
-  animation-iteration-count: infinite;
-}
-@keyframes turning {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-.stop::before {
-  animation-play-state: paused;
+  width: 20%;
+  height: 20%;
+  top: 0%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .pop-button {
