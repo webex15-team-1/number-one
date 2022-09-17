@@ -89,6 +89,7 @@ import { doc, getDoc } from "firebase/firestore"
 import { db } from "@/firebase"
 import {
   getAuth,
+  onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
@@ -111,9 +112,12 @@ export default {
     }
   },
   mounted: function () {
-    if (this.auth.currentUser) {
-      this.$router.push("/")
-    }
+    const auth = getAuth()
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        this.$router.push("/")
+      }
+    })
   },
   methods: {
     login() {
