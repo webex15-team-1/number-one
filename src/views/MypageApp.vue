@@ -133,6 +133,7 @@ export default {
     justify-content: space-between;
     width: 80%;
     gap: 0 2em;
+    margin: 2em 0;
   }
   #cum-point {
     flex-grow: 2;
@@ -166,6 +167,7 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 1em;
+    margin: 2em 0;
   }
   #point {
     display: flex;
