@@ -198,8 +198,9 @@ table td div {
 .day {
   position: absolute;
   top: 0%;
-  left: 0%;
-  padding-left: 1%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
 }
 .kisyo {
   position: absolute;
@@ -218,15 +219,15 @@ table tr {
   top: 0%;
 }
 table th:nth-of-type(1) {
-  color: red;
+  color: #f28b50;
 }
 table tr td:nth-of-type(1) {
-  color: red;
+  color: #f28b50;
 }
 table th:nth-of-type(7) {
-  color: blue;
+  color: #048abf;
 }
 table tr td:nth-of-type(7) {
-  color: blue;
+  color: #048abf;
 }
 </style>
