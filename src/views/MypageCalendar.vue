@@ -106,7 +106,7 @@ export default {
           let asakatsuTime = 0
           if (calendar.length == 0 && i < firstWeekDay) {
             day = prevMonthDay
-            let dayFirebase = this.year + "/" + this.month - 1 + "/" + day
+            let dayFirebase = this.year + "/" + (this.month - 1) + "/" + day
             for (let j = 0; j < this.kisyo.length; j++) {
               if (this.kisyo[j].date === dayFirebase) {
                 let kisyoTimeFirebase = this.kisyo[j].getupCurrentTime
@@ -122,7 +122,7 @@ export default {
             prevMonthDay += 1
           } else if (lastDay < dayNumber) {
             day = nextMonthDay
-            let dayFirebase = this.year + "/" + this.month + 1 + "/" + day
+            let dayFirebase = this.year + "/" + (this.month + 1) + "/" + day
             for (let j = 0; j < this.kisyo.length; j++) {
               if (this.kisyo[j].date === dayFirebase) {
                 let kisyoTimeFirebase = this.kisyo[j].getupCurrentTime
