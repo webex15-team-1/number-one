@@ -80,10 +80,6 @@ export default {
   methods: {
     two() {
       this.createFirestore()
-      this.jumpToMyPage()
-    },
-    jumpToMyPage() {
-      this.$router.push("/mypage")
     },
     createFirestore() {
       const auth = getAuth()
@@ -114,6 +110,7 @@ export default {
               kisyo: [],
               asakatsu: [],
             })
+            this.$router.push("/mypage")
           }
         }
       })

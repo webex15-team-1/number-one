@@ -124,9 +124,11 @@ export default {
   },
   mounted: function () {
     const auth = getAuth()
-    if (!auth.currentUser) {
-      this.$router.push("/top")
-    }
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        this.$router.push("/top")
+      }
+    })
   },
   methods: {
     two() {
@@ -234,6 +236,7 @@ export default {
           if (userDoc.exists()) {
             await updateDoc(docRef, {
               getupPoints: increment(this.point),
+              shopPoints: increment(this.point),
               kisyo: arrayUnion({
                 date: new Date().toLocaleDateString(),
                 getupDiff: this.fixedtimeLate,

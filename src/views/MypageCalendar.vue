@@ -116,7 +116,6 @@ export default {
             for (let k = 0; k < this.asakatsu.length; k++) {
               if (this.asakatsu[k].date === day) {
                 let asakatsuTimeFirebase = Number(this.asakatsu[k].time)
-                console.log(asakatsuTimeFirebase)
                 asakatsuTime += asakatsuTimeFirebase
               }
             }

@@ -1,26 +1,25 @@
 <template>
   <div
-    @click="backHome()"
     class="header"
-    :style="{ backgroundColor: colorSettings.bannerColor }"
+    :style="{ backgroundColor: currentSetting.titleBackgroundColor }"
+    @click="backHome()"
   >
-    <span class="title header-title" :style="{ color: colorSettings.textColor }"
-      >Morening</span
+    <span
+      class="title header-title"
+      :style="{ color: currentSetting.titleColor }"
+      >Morening☀️</span
     >
   </div>
-  <hamburger-menu />
 </template>
 <script>
-import HamburgerMenu from "./HamburgerMenu.vue"
-import { colorSettings } from "@/store/colorSettings"
 export default {
-  components: {
-    HamburgerMenu,
-  },
-  data() {
-    return {
-      colorSettings: colorSettings,
-    }
+  computed: {
+    activeColorSet() {
+      return this.$store.state.activeColorSet
+    },
+    currentSetting() {
+      return this.$store.state.colors[this.activeColorSet]
+    },
   },
   methods: {
     backHome() {
@@ -31,12 +30,14 @@ export default {
 </script>
 <style scoped>
 .header {
-  position: sticky;
-  width: 10%;
+  position: fixed;
+  width: 15%;
   height: 3em;
   top: 5%;
   left: 5%;
   text-align: center;
+  display: inline-block;
+  z-index: 20000;
 }
 .header-title {
   display: inline-block;
@@ -44,6 +45,9 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  height: 1.5em;
+  width: 100%;
+  font-size: 1.5em;
 }
 .header-button-container {
   position: absolute;
