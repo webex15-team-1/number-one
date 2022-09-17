@@ -31,7 +31,7 @@ export default {
 <style scoped>
 .header {
   position: fixed;
-  width: 15%;
+  width: 10em;
   height: 3em;
   top: 5%;
   left: 5%;

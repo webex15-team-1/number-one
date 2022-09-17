@@ -126,9 +126,9 @@ export default {
 </script>
 <style scoped>
 .tweet-container {
-  width: 25%;
   background: #d0ecf2;
   display: inline-block;
+  width: 100%;
 }
 .tweets {
   display: flex;

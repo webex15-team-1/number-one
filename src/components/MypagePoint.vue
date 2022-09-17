@@ -90,15 +90,21 @@ export default {
 </script>
 <style>
 .point-container {
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   border: 3px solid #048abf;
   border-radius: 25px;
-  padding: 0.5em;
+  width: 25em;
+  height: 100%;
 }
 .cumulative {
   font-size: 1.5em;
+  flex-grow: 2;
 }
 .average {
   font-size: 1em;
+  flex-grow: 1;
 }
 </style>

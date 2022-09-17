@@ -57,7 +57,8 @@ export default {
   width: auto;
   background: #022340;
   border-radius: 24px;
-  padding: 0.5em;
+  border: 3px solid #022340;
+  height: 100%;
 }
 .names {
   display: flex;

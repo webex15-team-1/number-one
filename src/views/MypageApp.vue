@@ -1,28 +1,30 @@
 <template>
-  <div id="left-pane">
-    <div id="point">
-      <div id="cum-point">
-        <!-- 累計ポイントと平均時間の表示 -->
-        <MypagePoint :uid="uid" />
+  <div id="mypage">
+    <div id="left-pane">
+      <div id="point">
+        <div id="cum-point">
+          <!-- 累計ポイントと平均時間の表示 -->
+          <MypagePoint :uid="uid" />
+        </div>
+        <div id="ranking">
+          <!-- ランキング -->
+          <MypageRanking />
+        </div>
       </div>
-      <div id="ranking">
-        <!-- ランキング -->
-        <MypageRanking />
+      <div id="calendar">
+        <!-- カレンダー -->
+        <MypageCalendarMonthly />
       </div>
     </div>
-    <div id="calendar">
-      <!-- カレンダー -->
-      <MypageCalendarMonthly />
-    </div>
-  </div>
-  <div id="right-pane">
-    <div id="tweet">
-      <!-- ツイートの表示と送信 -->
-      <MypageTweet :uid="uid" />
-    </div>
-    <div id="settings">
-      <!-- プロフィールの更新 -->
-      <MypageSettings :uid="uid" />
+    <div id="right-pane">
+      <div id="tweet">
+        <!-- ツイートの表示と送信 -->
+        <MypageTweet :uid="uid" />
+      </div>
+      <div id="settings">
+        <!-- プロフィールの更新 -->
+        <MypageSettings :uid="uid" />
+      </div>
     </div>
   </div>
 </template>
@@ -96,27 +98,69 @@ export default {
   font-family: "Zen Maru Gothic";
 }
 @media (min-width: 1001px) {
+  #mypage {
+    margin-top: 1em;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
   #left-pane {
-    position: absolute;
-    display: inline-flex;
+    /* display: inline-block; */
     width: 70%;
+    height: auto;
     left: 0%;
     flex-direction: column;
   }
   #point {
-    position: absolute;
     display: flex;
     flex-direction: row;
+    width: 100%;
+  }
+  #cum-point {
+    flex-grow: 2;
+  }
+  #ranking {
+    flex-grow: 1;
   }
   #calendar {
     display: inline-block;
   }
   #right-pane {
-    position: absolute;
-    display: inline-flex;
+    /* position: absolute; */
+    /* display: inline-flex; */
     width: 30%;
     left: 70%;
-    flex-direction: row;
+    flex-direction: column;
+  }
+}
+@media (max-width: 1000px) {
+  #mypage {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+  #left-pane {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+  #point {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+  #right-pane {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+  }
+  #tweet {
+    width: 80%;
   }
 }
 </style>
