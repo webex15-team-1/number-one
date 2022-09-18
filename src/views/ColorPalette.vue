@@ -1,7 +1,6 @@
 <template>
   <div class="palette">
-    <h3>ポイントでページの色を変えよう！</h3>
-    <h4>現在の所持ポイント: {{ shopPoints }}pt</h4>
+    <h1>現在の所持ポイント: {{ shopPoints }}pt</h1>
     <div class="button_container">
       <button
         v-for="(colorSet, index) in colors"
@@ -9,7 +8,19 @@
         :disabled="activeColorSet === index"
         @click="updateColorSettings(index)"
       >
-        {{ colorSet.name }} {{ price(index) }}
+        <div
+          class="color-preview"
+          :style="{
+            color: colorSet.generalTextColor,
+            backgroundColor: colorSet.generalBackgroundColor,
+          }"
+        >
+          <span>☀️</span>
+        </div>
+        <div class="color-name">
+          {{ colorSet.name }}
+        </div>
+        <div class="color-price">{{ price(index) }}</div>
       </button>
     </div>
   </div>
@@ -136,11 +147,43 @@ export default {
 }
 </script>
 <style>
+h1 {
+  font-size: 2em;
+}
 .button_container {
-  height: 20em;
+  left: 10vw;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 2vh 10vw;
+  gap: 2em;
+}
+.button_container > button {
+  background-color: transparent;
+  border: none;
+  width: 15em;
+  height: 10em;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   align-items: center;
+  margin: 0;
+  padding: 0;
+}
+.color-preview {
+  width: 4rem;
+  height: 4rem;
+  font-weight: bold;
+  border-radius: 50%;
+}
+.color-preview span {
+  display: inline-block;
+  height: 3rem;
+  width: 3rem;
+  font-size: 3rem;
+}
+.color-name,
+.color-price {
+  font-size: 1.5em;
 }
 </style>
