@@ -69,16 +69,16 @@ export const colorSettings = createStore({
           name: "base5",
           price: 30,
           // タイトル(左上)
-          titleBackgroundColor: "#8A86A6",
+          titleBackgroundColor: "#627FD9",
           titleColor: "#FFFFFF",
           // タイトル以外の文字色
           generalTextColor: "#FFFFFF",
           // フッター,ハンバーガーボタンの色
-          generalBackgroundColor: "#8A86A6",
+          generalBackgroundColor: "#627FD9",
           // ハンバーガーメニューのタイトル文字
           hamburgerTitleColor: "#FFFFFF",
           // ハンバーガーメニューの背景色
-          hamburgerBackgroundColor: "#8A86A6",
+          hamburgerBackgroundColor: "#627FD9",
         },
         {
           name: "base6",
@@ -139,6 +139,21 @@ export const colorSettings = createStore({
           hamburgerTitleColor: "#FED56B",
           // ハンバーガーメニューの背景色
           hamburgerBackgroundColor: "#022340",
+        },
+        {
+          name: "base5+1",
+          price: 30,
+          // タイトル(左上)
+          titleBackgroundColor: "#9D7EBF",
+          titleColor: "#FFFFFF",
+          // タイトル以外の文字色
+          generalTextColor: "#FFFFFF",
+          // フッター,ハンバーガーボタンの色
+          generalBackgroundColor: "#9D7EBF",
+          // ハンバーガーメニューのタイトル文字
+          hamburgerTitleColor: "#FFFFFF",
+          // ハンバーガーメニューの背景色
+          hamburgerBackgroundColor: "#9D7EBF",
         },
       ],
       activeColorSet: 0,
