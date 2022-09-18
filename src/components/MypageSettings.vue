@@ -94,8 +94,9 @@ export default {
 h3 {
   background-color: #d8eefe;
   border-radius: 12px;
-  padding: 0.5em;
+  padding: 0.1em 0.5em;
   font-size: 1.5em;
+  height: 1.5em;
 }
 .nickname {
   width: 100%;

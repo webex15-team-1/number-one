@@ -85,7 +85,7 @@ export default {
   color: inherit;
 }
 .rank-title {
-  margin-top: 0.5em;
+  margin-top: 0.3em;
   color: #ffffff;
   font-size: 2em;
 }

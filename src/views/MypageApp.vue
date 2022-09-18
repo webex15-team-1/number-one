@@ -133,7 +133,7 @@ export default {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 25%;
+    height: 22.5%;
     gap: 0 1em;
   }
   #cum-point {
