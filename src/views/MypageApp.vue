@@ -121,7 +121,7 @@ export default {
   }
   #left-pane {
     display: flex;
-    width: 76%;
+    width: 74%;
     margin-left: 2%;
     margin-right: 2%;
     height: auto;
@@ -149,7 +149,7 @@ export default {
   }
   #right-pane {
     border-left: 1px solid #022340;
-    width: 20%;
+    width: 18%;
     left: 70%;
     flex-direction: column;
   }

@@ -17,11 +17,18 @@
         v-model="message"
         @keydown="postTweet"
         :disabled="!sendReady"
+        :style="{ height: `${textAreaHeight}em`, border: textAreaBorder }"
       ></textarea>
-      <button class="tweet-button" @click="postTweet" v-show="sendReady">
+      <button
+        class="tweet-button"
+        @click="postTweet"
+        v-show="sendReady"
+        :disabled="lengthExceed"
+      >
         <Icon icon="akar-icons:send" color="white"></Icon>
       </button>
     </div>
+    <div v-show="lengthExceed" class="length-exceed">文字数オーバーです</div>
   </div>
 </template>
 <script>
@@ -60,9 +67,10 @@ export default {
   methods: {
     postTweet(e) {
       if (
-        e.keyCode === 13 ||
-        e.target.nodeName === "svg" ||
-        e.target.nodeName === "BUTTON"
+        (e.keyCode === 13 ||
+          e.target.nodeName === "svg" ||
+          e.target.nodeName === "BUTTON") &&
+        !this.lengthExceed
       ) {
         const tweet = {
           text: this.message,
@@ -122,6 +130,17 @@ export default {
       }
     },
   },
+  computed: {
+    lengthExceed() {
+      return this.message.length > 33
+    },
+    textAreaHeight() {
+      return 1.5 * (Math.floor(this.message.length / 12) + 1)
+    },
+    textAreaBorder() {
+      return this.lengthExceed ? "2px solid red" : "none"
+    },
+  },
   components: {
     Icon,
   },
@@ -135,6 +154,7 @@ h3 {
   background-color: #d8eefe;
   display: inline-block;
   width: 100%;
+  padding: 0 1em;
 }
 .tweets {
   display: flex;
@@ -174,14 +194,13 @@ h3 {
   display: flex;
   flex-direction: row;
   margin: 1em 0;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 textarea {
   resize: none;
-  height: 4em;
-  width: 70%;
-  font-size: 0.8em;
+  width: 13.5em;
+  font-size: 0.9em;
 }
 .tweet-button {
   background: #048abf;
@@ -195,5 +214,8 @@ textarea {
   border: none;
   border-radius: 50%;
   margin: 0.5em;
+}
+.length-exceed {
+  margin: 1em;
 }
 </style>

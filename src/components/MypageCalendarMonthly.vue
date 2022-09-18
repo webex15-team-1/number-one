@@ -211,25 +211,25 @@ table td div {
 }
 .day {
   position: absolute;
-  top: 0%;
+  top: 0.25em;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
 }
 .kisyo {
   position: absolute;
-  top: 33%;
+  top: 1.7em;
   left: 50%;
   transform: translateX(-50%);
 }
 .asakatsu {
   position: absolute;
-  top: 66%;
+  top: 3em;
   left: 50%;
   transform: translateX(-50%);
 }
 table tr {
-  height: 10vh;
+  height: 2.5em;
   top: 0%;
 }
 table th:nth-of-type(1) {
