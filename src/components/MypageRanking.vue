@@ -56,7 +56,7 @@ export default {
 .rank-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   background: #022340;
   border-radius: 24px;
@@ -73,6 +73,9 @@ export default {
   height: 60%;
   margin: 0 auto;
 }
+.names > tr {
+  height: 1.5em;
+}
 .names > tr:last-child {
   margin-bottom: 1em;
 }
@@ -83,12 +86,11 @@ export default {
 }
 .rank-title {
   margin-top: 0.5em;
-  margin-bottom: 0.2em;
   color: #ffffff;
-  font-size: 2.5em;
+  font-size: 2em;
 }
 .names {
   color: #ffffff;
-  font-size: 1em;
+  font-size: 1.5em;
 }
 </style>

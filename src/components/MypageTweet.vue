@@ -128,6 +128,9 @@ export default {
 }
 </script>
 <style scoped>
+h3 {
+  font-size: 1.5em;
+}
 .tweet-container {
   background-color: #d8eefe;
   display: inline-block;
@@ -158,15 +161,13 @@ export default {
   align-items: flex-start;
   width: 80%;
   left: 20%;
+  font-size: 1em;
 }
 .nickname {
-  /* width: fit-content; */
-  font-size: 1.1em;
   font-weight: bold;
 }
 .tweet-text {
   width: fit-content;
-  font-size: 0.9em;
   left: 20%;
 }
 .post-area {

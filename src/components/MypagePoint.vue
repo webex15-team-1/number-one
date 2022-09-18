@@ -93,13 +93,12 @@ export default {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   border: 3px solid #048abf;
   border-radius: 25px;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  justify-content: space-around;
+  justify-content: center;
 }
 .point-container div:first-child {
   margin-top: 0.5em;
@@ -108,12 +107,12 @@ export default {
   margin-bottom: 0.5em;
 }
 .cumulative {
-  font-size: 2.5em;
+  font-size: 2em;
   font-weight: bold;
-  flex-grow: 2;
+  height: 2em;
 }
 .average {
   font-size: 1.5em;
-  flex-grow: 1;
+  height: 1.5em;
 }
 </style>

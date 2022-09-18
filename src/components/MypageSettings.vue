@@ -95,6 +95,7 @@ h3 {
   background-color: #d8eefe;
   border-radius: 12px;
   padding: 0.5em;
+  font-size: 1.5em;
 }
 .nickname {
   width: 100%;
@@ -130,6 +131,7 @@ h3 {
   text-align: center;
   border: none;
   border-radius: 9px;
+  font-size: 1em;
 }
 input {
   border-top: none;
@@ -141,6 +143,7 @@ input {
 h4 {
   text-align: left;
   margin: 0.5em 0 0 0;
+  font-size: 1em;
 }
 select {
   height: 2em;
