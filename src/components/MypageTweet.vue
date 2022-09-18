@@ -12,15 +12,16 @@
         </div>
       </div>
     </div>
-    <input
-      type="text"
-      v-model="message"
-      @keydown="postTweet"
-      :disabled="!sendReady"
-    />
-    <button class="tweet-button" @click="postTweet" v-show="sendReady">
-      <Icon icon="akar-icons:send" color="white"></Icon>
-    </button>
+    <div class="post-area">
+      <textarea
+        v-model="message"
+        @keydown="postTweet"
+        :disabled="!sendReady"
+      ></textarea>
+      <button class="tweet-button" @click="postTweet" v-show="sendReady">
+        <Icon icon="akar-icons:send" color="white"></Icon>
+      </button>
+    </div>
   </div>
 </template>
 <script>
@@ -128,7 +129,7 @@ export default {
 </script>
 <style scoped>
 .tweet-container {
-  background: #d0ecf2;
+  background-color: #d8eefe;
   display: inline-block;
   width: 100%;
 }
@@ -167,6 +168,19 @@ export default {
   width: fit-content;
   font-size: 0.9em;
   left: 20%;
+}
+.post-area {
+  display: flex;
+  flex-direction: row;
+  margin: 1em 0;
+  justify-content: center;
+  align-items: center;
+}
+textarea {
+  resize: none;
+  height: 4em;
+  width: 70%;
+  font-size: 0.8em;
 }
 .tweet-button {
   background: #048abf;
