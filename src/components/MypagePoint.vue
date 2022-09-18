@@ -1,8 +1,8 @@
 <template>
   <div class="point-container">
-    <h2>累計朝活ポイント {{ points }}P</h2>
-    <h3>平均起床誤差: {{ averageGetupDiff }}</h3>
-    <h3>平均朝活時間: {{ averageAsakatsuTime }}</h3>
+    <div class="cumulative">累計朝活ポイント {{ points }}P</div>
+    <div class="average">平均起床誤差: {{ averageGetupDiff }}</div>
+    <div class="average">平均朝活時間: {{ averageAsakatsuTime }}</div>
   </div>
 </template>
 <script>
@@ -36,7 +36,7 @@ export default {
     secondToText(rawData) {
       const hours = Math.floor(rawData / 3600)
       const minutes = Math.floor((rawData - hours * 3600) / 60)
-      const seconds = rawData - hours * 3600 - minutes * 60
+      const seconds = Math.floor(rawData - hours * 3600 - minutes * 60)
       return (
         (hours > 10 ? `${hours}時間 ` : ` ${hours}時間`) +
         (minutes > 10 ? `${minutes}分 ` : ` ${minutes}分 `) +
@@ -117,8 +117,29 @@ export default {
 </script>
 <style>
 .point-container {
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
   border: 3px solid #048abf;
   border-radius: 25px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+}
+.point-container div:first-child {
+  margin-top: 0.5em;
+}
+.point-container div:last-child {
+  margin-bottom: 0.5em;
+}
+.cumulative {
+  font-size: 2em;
+  font-weight: bold;
+  height: 2em;
+}
+.average {
+  font-size: 1.5em;
+  height: 1.5em;
 }
 </style>

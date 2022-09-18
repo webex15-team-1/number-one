@@ -1,11 +1,12 @@
 <template>
   <div class="settings-container">
+    <h3>ログイン情報</h3>
     <div class="nickname">
-      <h3>username:</h3>
+      <h4>username:</h4>
       <input type="text" v-model="nickname" :disabled="!editReady" />
     </div>
     <div class="icon">
-      <h3>icon:</h3>
+      <h4>icon:</h4>
       <div class="icon-field">
         <!-- iconNumberはユーザーデータが届き次第ユーザーの設定値に変わり、
         それに合わせてselectの初期値とプレビューimgが変化する -->
@@ -90,6 +91,13 @@ export default {
   align-items: center;
   margin: 1em;
 }
+h3 {
+  background-color: #d8eefe;
+  border-radius: 12px;
+  padding: 0.1em 0.5em;
+  font-size: 1.5em;
+  height: 1.5em;
+}
 .nickname {
   width: 100%;
 }
@@ -124,6 +132,7 @@ export default {
   text-align: center;
   border: none;
   border-radius: 9px;
+  font-size: 1em;
 }
 input {
   border-top: none;
@@ -132,9 +141,10 @@ input {
   border-left: none;
   display: inline-block;
 }
-h3 {
+h4 {
   text-align: left;
   margin: 0.5em 0 0 0;
+  font-size: 1em;
 }
 select {
   height: 2em;

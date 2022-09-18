@@ -99,16 +99,16 @@ export const colorSettings = createStore({
           name: "base7",
           price: 60,
           // タイトル(左上)
-          titleBackgroundColor: "#D0ECF2",
+          titleBackgroundColor: "#D8EEFE",
           titleColor: "#D9958F",
           // タイトル以外の文字色
           generalTextColor: "#D9958F",
           // フッター,ハンバーガーボタンの色
-          generalBackgroundColor: "#D0ECF2",
+          generalBackgroundColor: "#D8EEFE",
           // ハンバーガーメニューのタイトル文字
           hamburgerTitleColor: "#D9958F",
           // ハンバーガーメニューの背景色
-          hamburgerBackgroundColor: "#D0ECF2",
+          hamburgerBackgroundColor: "#D8EEFE",
         },
         {
           name: "base8",
