@@ -36,7 +36,7 @@ export default {
     secondToText(rawData) {
       const hours = Math.floor(rawData / 3600)
       const minutes = Math.floor((rawData - hours * 3600) / 60)
-      const seconds = rawData - hours * 3600 - minutes * 60
+      const seconds = Math.floor(rawData - hours * 3600 - minutes * 60)
       return (
         (hours > 10 ? `${hours}時間 ` : ` ${hours}時間`) +
         (minutes > 10 ? `${minutes}分 ` : ` ${minutes}分 `) +
@@ -102,17 +102,18 @@ export default {
   justify-content: space-around;
 }
 .point-container div:first-child {
-  margin-top: 1em;
+  margin-top: 0.5em;
 }
 .point-container div:last-child {
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
 }
 .cumulative {
-  font-size: 1.5em;
+  font-size: 2.5em;
+  font-weight: bold;
   flex-grow: 2;
 }
 .average {
-  font-size: 1em;
+  font-size: 1.5em;
   flex-grow: 1;
 }
 </style>

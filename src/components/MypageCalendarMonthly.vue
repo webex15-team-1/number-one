@@ -2,10 +2,10 @@
   <div class="header-cal">
     <div class="header-cal-control">
       <button>
-        <Icon icon="ooui:next-rtl" @click="prev" />
+        <Icon icon="ooui:next-rtl" width="2em" height="2em" @click="prev" />
       </button>
       <button>
-        <Icon icon="ooui:next-ltr" @click="next" />
+        <Icon icon="ooui:next-ltr" width="2em" height="2em" @click="next" />
       </button>
     </div>
     <span>{{ year }}年{{ month }}月</span>
@@ -163,9 +163,18 @@ export default {
   justify-content: flex-start;
   margin: 1em 0 0.25em 0;
   align-items: flex-start;
-  width: 80%;
+  width: 100%;
   margin: auto;
   gap: 2em;
+}
+.header-cal span {
+  font-size: 1.5em;
+  height: 1.5em;
+  line-height: 1.5em;
+  text-align: center;
+}
+.header-cal-control {
+  height: 100%;
 }
 .header-cal-control button {
   background: transparent;
@@ -173,8 +182,8 @@ export default {
   text-align: inherit;
   -webkit-appearance: none;
   appearance: none;
-  width: 1.5em;
-  height: 1.5em;
+  width: 2em;
+  height: 2em;
   text-align: center;
   border: none;
   border-radius: 50%;
@@ -182,7 +191,7 @@ export default {
 }
 .main-cal {
   border-collapse: collapse;
-  width: 80%;
+  width: 100%;
   margin: auto;
 }
 .main-cal table,

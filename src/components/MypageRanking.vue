@@ -82,10 +82,10 @@ export default {
   color: inherit;
 }
 .rank-title {
-  margin-top: 1em;
-  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.2em;
   color: #ffffff;
-  font-size: 1.5em;
+  font-size: 2.5em;
 }
 .names {
   color: #ffffff;

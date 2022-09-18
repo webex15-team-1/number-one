@@ -17,13 +17,13 @@
       </div>
     </div>
     <div id="right-pane">
-      <div id="tweet">
-        <!-- ツイートの表示と送信 -->
-        <MypageTweet :uid="uid" />
-      </div>
       <div id="settings">
         <!-- プロフィールの更新 -->
         <MypageSettings :uid="uid" />
+      </div>
+      <div id="tweet">
+        <!-- ツイートの表示と送信 -->
+        <MypageTweet :uid="uid" />
       </div>
     </div>
   </div>
@@ -121,7 +121,9 @@ export default {
   }
   #left-pane {
     display: flex;
-    width: 80%;
+    width: 76%;
+    margin-left: 2%;
+    margin-right: 2%;
     height: auto;
     left: 0%;
     flex-direction: column;
@@ -130,15 +132,15 @@ export default {
   #point {
     display: flex;
     flex-direction: row;
-    width: 80%;
+    width: 100%;
     height: 30%;
     gap: 0 1em;
   }
   #cum-point {
-    flex-grow: 2;
+    flex-grow: 3;
   }
   #ranking {
-    flex-grow: 1;
+    flex-grow: 2;
   }
   #calendar {
     display: inline-block;
