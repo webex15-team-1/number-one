@@ -50,30 +50,32 @@ export default {
       first: 0,
     }
   },
-  created() {
+  mounted() {
+    try {
+      onAuthStateChanged(this.auth, async (user) => {
+        const uid = user.uid
+        const docRef = doc(db, "users", uid)
+        const userDoc = await getDoc(docRef)
+        if (userDoc.data().kisyo) {
+          this.kisyo = userDoc.data().kisyo
+        }
+        if (userDoc.data().asakatsu) {
+          this.asakatsu = userDoc.data().asakatsu
+        }
+        this.month = this.now.getMonth() + 1
+        this.year = this.now.getFullYear()
+        this.cal()
+        this.i = this.first
+      })
+    } catch (error) {
+      console.error(error)
+    }
     this.month = this.now.getMonth() + 1
     this.year = this.now.getFullYear()
     this.cal()
     this.i = this.first
   },
   methods: {
-    kisyoAsakatsuTimes() {
-      try {
-        onAuthStateChanged(this.auth, async (user) => {
-          const uid = user.uid
-          const docRef = doc(db, "users", uid)
-          const userDoc = await getDoc(docRef)
-          if (userDoc.data().kisyo) {
-            this.kisyo = userDoc.data().kisyo
-          }
-          if (userDoc.data().asakatsu) {
-            this.asakatsu = userDoc.data().asakatsu
-          }
-        })
-      } catch (error) {
-        console.error(error)
-      }
-    },
     async prev() {
       this.i -= 1
       if (this.i < 0) {
@@ -100,7 +102,6 @@ export default {
       }
     },
     cal() {
-      this.kisyoAsakatsuTimes()
       this.calendar = []
       this.a = 0
       //月初めの曜日
