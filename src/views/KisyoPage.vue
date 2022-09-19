@@ -2,7 +2,13 @@
   <img src="@/views/images/kisyo-bg.png" alt="背景" id="bg" />
   <div class="kisyo-app">
     <!-- じゃんけん -->
-    <div class="janken" v-if="isJanken">
+    <div
+      class="janken"
+      v-if="isJanken"
+      :style="{
+        border: `4px solid ${currentSetting.hamburgerBackgroundColor}`,
+      }"
+    >
       <h2>今日の運試し</h2>
       <h3>勝てばポイント1.5倍！</h3>
       <div class="te__images">
@@ -54,16 +60,25 @@
     </div>
     <!-- じゃんけん -->
 
-    <div class="jankenKakunin" v-if="buttonClicked">
+    <div
+      class="jankenKakunin"
+      v-if="buttonClicked"
+      :style="{
+        border: `4px solid ${currentSetting.hamburgerBackgroundColor}`,
+      }"
+    >
       <div>獲得ポイント1.5倍のチャンス！運試しする？</div>
       <button class="kakuninButton" v-on:click="yesJanken">する</button>
       <button class="kakuninButton" v-on:click="noJanken">しない</button>
     </div>
-    <h1 class="target">今日の起床目標時間</h1>
-    <div class="targetTime">
-      {{ targetHour }} : {{ targetMin10 }}{{ targetMin1 }}
+    <div class="wakeup-console">
+      <h1 class="target">今日の起床目標時間</h1>
+      <div class="targetTime">
+        {{ targetHour }} : {{ targetMin10 }}{{ targetMin1 }}
+      </div>
+      <button class="pop-button" v-on:click="two">起床</button>
     </div>
-    <button class="pop-button" v-on:click="two">起床</button>
+
     <div v-if="isLate && !logExist">
       <div class="timeLate">目標時間より{{ fixedtimeLate }}分です。</div>
       <div class="pointGet">{{ point }}ポイントを獲得しました！</div>
@@ -284,10 +299,17 @@ export default {
       })
     },
   },
+  computed: {
+    currentSetting() {
+      const colorIndex = this.$store.state.activeColorSet
+      return this.$store.state.colors[colorIndex]
+    },
+  },
   components: { TimeSetup },
 }
 </script>
 <style scoped>
+<<<<<<< Updated upstream
 #bg {
   position: absolute;
   top: 0;
@@ -296,6 +318,12 @@ export default {
 }
 .kisyo-app {
   height: calc(6em + 125vh);
+=======
+.kisyo-app {
+  position: relative;
+  width: 100%;
+  margin: 6em 0 6em 0;
+>>>>>>> Stashed changes
 }
 .targetTime {
   font-size: 2.5em;
@@ -314,6 +342,10 @@ export default {
   width: 4vw;
   color: #022340;
   border: none;
+}
+.janken,
+.jankenKakunin {
+  background-color: #d8eefe;
 }
 .janken {
   border: 4px solid;
