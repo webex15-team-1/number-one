@@ -12,12 +12,9 @@
         </th>
       </thead>
       <tbody>
-        <tr
-          v-for="(rowNumber, rowNumberIndex) in calendar"
-          :key="rowNumberIndex"
-        >
+        <tr>
           <td
-            v-for="(columnNumber, columnNumberIndex) in rowNumber"
+            v-for="(columnNumber, columnNumberIndex) in calendar[i]"
             :key="columnNumberIndex"
           >
             <div class="day">
@@ -45,16 +42,14 @@ export default {
       now: new Date(),
       month: "",
       year: "",
-      weekfirstdate: "",
-      day: "",
       kisyo: [],
       asakatsu: [],
+      i: 0,
     }
   },
   created() {
     this.month = this.now.getMonth() + 1
     this.year = this.now.getFullYear()
-    this.weekfirstdate = this.now.getDate() - this.now.getDay()
     this.kisyoAsakatsuTimes()
   },
   methods: {
@@ -76,17 +71,25 @@ export default {
       }
     },
     prev() {
-      this.weekfirstdate -= 7
-      if (this.month < 1) {
-        this.month = 12
-        this.year -= 1
+      this.i -= 1
+      if (this.i < 0) {
+        this.month -= 1
+        this.i = 4
+        if (this.month < 1) {
+          this.month = 12
+          this.year -= 1
+        }
       }
     },
     next() {
-      this.weekfirstdate += 7
-      if (this.month > 12) {
-        this.month = 1
-        this.year += 1
+      this.i += 1
+      if (this.i > 4) {
+        this.month += 1
+        this.i = 0
+        if (this.month > 12) {
+          this.month = 1
+          this.year += 1
+        }
       }
     },
   },
@@ -97,77 +100,78 @@ export default {
       let firstWeekDay = new Date(this.year, this.month - 1, 1).getDay()
       //月終わりの日付
       let lastDay = new Date(this.year, this.month, 0).getDate()
-      let dayNumber = this.weekfirstdate
+      let dayNumber = 1
+      let nextMonthDay = 1
       let prevMonthDay =
         new Date(this.year, this.month - 1, 0).getDate() - firstWeekDay + 1
-      let weekData = []
-      for (let i = 0; i <= 6; i++) {
-        let day = dayNumber
-        let kisyoTime = ""
-        let asakatsuTime = 0
-        let nextMonthDay = dayNumber - lastDay
-        if (calendar.length == 0 && day < 1) {
-          day = prevMonthDay
-          let dayFirebase = this.year + "/" + (this.month - 1) + "/" + day
-          for (let j = 0; j < this.kisyo.length; j++) {
-            if (this.kisyo[j].date === dayFirebase) {
-              let kisyoTimeFirebase = this.kisyo[j].getupCurrentTime
-              kisyoTime = kisyoTimeFirebase
+      while (dayNumber <= lastDay) {
+        let weekData = []
+        for (let i = 0; i <= 6; i++) {
+          let day = dayNumber
+          let kisyoTime = ""
+          let asakatsuTime = 0
+          if (calendar.length == 0 && i < firstWeekDay) {
+            day = prevMonthDay
+            let dayFirebase = this.year + "/" + (this.month - 1) + "/" + day
+            for (let j = 0; j < this.kisyo.length; j++) {
+              if (this.kisyo[j].date === dayFirebase) {
+                let kisyoTimeFirebase = this.kisyo[j].getupCurrentTime
+                kisyoTime = kisyoTimeFirebase
+              }
             }
+            for (let k = 0; k < this.asakatsu.length; k++) {
+              if (this.asakatsu[k].date === dayFirebase) {
+                let asakatsuTimeFirebase = Number(this.asakatsu[k].time)
+                asakatsuTime += asakatsuTimeFirebase
+              }
+            }
+            prevMonthDay += 1
+          } else if (lastDay < dayNumber) {
+            day = nextMonthDay
+            let dayFirebase = this.year + "/" + (this.month + 1) + "/" + day
+            for (let j = 0; j < this.kisyo.length; j++) {
+              if (this.kisyo[j].date === dayFirebase) {
+                let kisyoTimeFirebase = this.kisyo[j].getupCurrentTime
+                kisyoTime = kisyoTimeFirebase
+              }
+            }
+            for (let k = 0; k < this.asakatsu.length; k++) {
+              if (this.asakatsu[k].date === dayFirebase) {
+                let asakatsuTimeFirebase = Number(this.asakatsu[k].time)
+                asakatsuTime += asakatsuTimeFirebase
+              }
+            }
+            nextMonthDay += 1
+          } else {
+            let dayFirebase = this.year + "/" + this.month + "/" + day
+            for (let j = 0; j < this.kisyo.length; j++) {
+              if (this.kisyo[j].date === dayFirebase) {
+                let kisyoTimeFirebase = this.kisyo[j].getupCurrentTime
+                kisyoTime = kisyoTimeFirebase
+              }
+            }
+            for (let k = 0; k < this.asakatsu.length; k++) {
+              if (this.asakatsu[k].date === dayFirebase) {
+                let asakatsuTimeFirebase = Number(this.asakatsu[k].time)
+                asakatsuTime += asakatsuTimeFirebase
+              }
+            }
+            dayNumber++
           }
-          for (let k = 0; k < this.asakatsu.length; k++) {
-            if (this.asakatsu[k].date === dayFirebase) {
-              let asakatsuTimeFirebase = Number(this.asakatsu[k].time)
-              asakatsuTime += asakatsuTimeFirebase
-            }
+          if (asakatsuTime) {
+            asakatsuTime += "min"
+          } else {
+            asakatsuTime = ""
           }
-          prevMonthDay += 1
-        } else if (lastDay < dayNumber) {
-          day = nextMonthDay
-          dayNumber = nextMonthDay
-          let dayFirebase = this.year + "/" + (this.month + 1) + "/" + day
-          for (let j = 0; j < this.kisyo.length; j++) {
-            if (this.kisyo[j].date === dayFirebase) {
-              let kisyoTimeFirebase = this.kisyo[j].getupCurrentTime
-              kisyoTime = kisyoTimeFirebase
-            }
-          }
-          for (let k = 0; k < this.asakatsu.length; k++) {
-            if (this.asakatsu[k].date === dayFirebase) {
-              let asakatsuTimeFirebase = Number(this.asakatsu[k].time)
-              asakatsuTime += asakatsuTimeFirebase
-            }
-          }
-          nextMonthDay += 1
-        } else {
-          let dayFirebase = this.year + "/" + this.month + "/" + day
-          for (let j = 0; j < this.kisyo.length; j++) {
-            if (this.kisyo[j].date === dayFirebase) {
-              let kisyoTimeFirebase = this.kisyo[j].getupCurrentTime
-              kisyoTime = kisyoTimeFirebase
-            }
-          }
-          for (let k = 0; k < this.asakatsu.length; k++) {
-            if (this.asakatsu[k].date === dayFirebase) {
-              let asakatsuTimeFirebase = Number(this.asakatsu[k].time)
-              asakatsuTime += asakatsuTimeFirebase
-            }
+          weekData[i] = {
+            day: day,
+            kisyo: kisyoTime,
+            asakatsu: asakatsuTime,
           }
         }
-        dayNumber++
-        if (asakatsuTime) {
-          asakatsuTime += "min"
-        } else {
-          asakatsuTime = ""
-        }
-        weekData[i] = {
-          day: day,
-          kisyo: kisyoTime,
-          asakatsu: asakatsuTime,
-        }
+        console.log(calendar)
+        calendar.push(weekData)
       }
-      calendar.push(weekData)
-      console.log(calendar)
       return calendar
     },
   },
