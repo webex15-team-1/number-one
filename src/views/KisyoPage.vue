@@ -1,5 +1,6 @@
 <template>
-  <div class="app">
+  <img src="@/views/images/kisyo-bg.png" alt="背景" id="bg" />
+  <div class="kisyo-app">
     <!-- じゃんけん -->
     <div class="janken" v-if="isJanken">
       <h2>今日の運試し</h2>
@@ -67,8 +68,10 @@
       <div class="timeLate">目標時間より{{ fixedtimeLate }}分です。</div>
       <div class="pointGet">{{ point }}ポイントを獲得しました！</div>
     </div>
+    <TimeSetup v-if="isLate || logExist"
+      >明日の起床時間を設定しよう！</TimeSetup
+    >
   </div>
-  <TimeSetup v-if="isLate || logExist">明日の起床時間を設定しよう！</TimeSetup>
 </template>
 
 <script>
@@ -117,7 +120,7 @@ export default {
       isLate: false,
       point: 0,
       i: 1,
-      done: false,
+      logExist: false,
     }
   },
   mounted: function () {
@@ -284,7 +287,16 @@ export default {
   components: { TimeSetup },
 }
 </script>
-<style>
+<style scoped>
+#bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.kisyo-app {
+  height: calc(6em + 125vh);
+}
 .targetTime {
   font-size: 2.5em;
   color: #022340;
