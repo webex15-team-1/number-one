@@ -1,10 +1,9 @@
 <template>
   <nav>
-    <!-- <router-link to="/">Home</router-link> |
-    <router-link to="/top">Top</router-link> -->
+    <ChangeableHeader />
+    <HamburgerMenu />
   </nav>
-  <ChangeableHeader />
-  <HamburgerMenu />
+
   <router-view />
   <ChangeableFooter />
 </template>
@@ -32,7 +31,8 @@ export default {
 }
 
 nav {
-  padding: 30px;
+  height: 5em;
+  padding: 1em 0;
 }
 
 nav a {

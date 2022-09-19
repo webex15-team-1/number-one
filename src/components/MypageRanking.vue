@@ -1,11 +1,12 @@
 <template>
   <div class="rank-container">
-    <h2>ランキング</h2>
-    <div class="names">
-      <h3 v-for="(name, index) in ranking" :key="index">
-        {{ index + 1 }}位 {{ name }}
-      </h3>
-    </div>
+    <div class="rank-title">ランキング</div>
+    <table class="names">
+      <tr v-for="(name, index) in ranking" :key="index">
+        <td>{{ index + 1 }}位</td>
+        <td>{{ name }}</td>
+      </tr>
+    </table>
   </div>
 </template>
 <script>
@@ -53,19 +54,43 @@ export default {
 </script>
 <style scoped>
 .rank-container {
-  display: inline-block;
-  width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
   background: #022340;
   border-radius: 24px;
+  border: 3px solid #022340;
+  height: 100%;
+  box-sizing: border-box;
 }
+
 .names {
   display: flex;
   flex-direction: column;
-  align-items: center;
   text-align: center;
+  justify-content: space-between;
+  height: 60%;
+  margin: 0 auto;
 }
-h2,
-h3 {
+.names > tr {
+  height: 1.5em;
+}
+.names > tr:last-child {
+  margin-bottom: 1em;
+}
+.names td:first-child {
+  width: 3em;
+  text-align: left;
+  color: inherit;
+}
+.rank-title {
+  margin-top: 0.3em;
   color: #ffffff;
+  font-size: 2em;
+}
+.names {
+  color: #ffffff;
+  font-size: 1.5em;
 }
 </style>

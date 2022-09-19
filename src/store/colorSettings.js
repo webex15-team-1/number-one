@@ -69,16 +69,16 @@ export const colorSettings = createStore({
           name: "base5",
           price: 30,
           // タイトル(左上)
-          titleBackgroundColor: "#8A86A6",
+          titleBackgroundColor: "#9D7EBF",
           titleColor: "#FFFFFF",
           // タイトル以外の文字色
           generalTextColor: "#FFFFFF",
           // フッター,ハンバーガーボタンの色
-          generalBackgroundColor: "#8A86A6",
+          generalBackgroundColor: "#9D7EBF",
           // ハンバーガーメニューのタイトル文字
           hamburgerTitleColor: "#FFFFFF",
           // ハンバーガーメニューの背景色
-          hamburgerBackgroundColor: "#8A86A6",
+          hamburgerBackgroundColor: "#9D7EBF",
         },
         {
           name: "base6",
@@ -99,16 +99,16 @@ export const colorSettings = createStore({
           name: "base7",
           price: 60,
           // タイトル(左上)
-          titleBackgroundColor: "#D0ECF2",
+          titleBackgroundColor: "#D8EEFE",
           titleColor: "#D9958F",
           // タイトル以外の文字色
           generalTextColor: "#D9958F",
           // フッター,ハンバーガーボタンの色
-          generalBackgroundColor: "#D0ECF2",
+          generalBackgroundColor: "#D8EEFE",
           // ハンバーガーメニューのタイトル文字
           hamburgerTitleColor: "#D9958F",
           // ハンバーガーメニューの背景色
-          hamburgerBackgroundColor: "#D0ECF2",
+          hamburgerBackgroundColor: "#D8EEFE",
         },
         {
           name: "base8",
@@ -127,6 +127,21 @@ export const colorSettings = createStore({
         },
         {
           name: "base9",
+          price: 60,
+          // タイトル(左上)
+          titleBackgroundColor: "#022340",
+          titleColor: "#FED56B",
+          // タイトル以外の文字色
+          generalTextColor: "#FED56B",
+          // フッター,ハンバーガーボタンの色
+          generalBackgroundColor: "#022340",
+          // ハンバーガーメニューのタイトル文字
+          hamburgerTitleColor: "#FED56B",
+          // ハンバーガーメニューの背景色
+          hamburgerBackgroundColor: "#022340",
+        },
+        {
+          name: "base5+1",
           price: 60,
           // タイトル(左上)
           titleBackgroundColor: "#022340",

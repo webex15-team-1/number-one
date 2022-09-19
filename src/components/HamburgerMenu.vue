@@ -107,15 +107,14 @@ export default {
 .hamburger-button {
   position: fixed;
   top: 5%;
-  left: 95%;
-  width: 2em;
-  height: 2em;
+  left: 90%;
+  width: 4em;
+  height: 4em;
+  border-radius: 50%;
   z-index: 20000;
   margin: 0;
   padding: 0;
-  transition: background-color 0.5s ease-in-out;
   border: none;
-  border-radius: 0;
   background: transparent;
   color: inherit;
   vertical-align: middle;
@@ -129,19 +128,19 @@ export default {
   display: inline-block;
   transition: all 0.5s;
   position: absolute;
-  width: 75%;
-  left: 12.5%;
+  width: 50%;
+  left: 25%;
   height: 3px;
   border-radius: 2px;
 }
 .hamburger-button span:nth-child(1) {
-  top: 22%;
+  top: 30%;
 }
 .hamburger-button span:nth-child(2) {
   top: 47%;
 }
 .hamburger-button span:nth-child(3) {
-  top: 73%;
+  top: 64%;
 }
 .hamburger-button.active span:nth-child(1) {
   top: 47%;
@@ -165,9 +164,10 @@ export default {
 .hamburger-title span {
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 10%;
+  transform: translateY(-50%);
   font-size: 1.5em;
+  font-weight: bold;
 }
 .nav-items {
   position: relative;
@@ -190,6 +190,6 @@ export default {
   left: 15%;
   color: inherit;
   text-decoration: none;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 </style>

@@ -1,8 +1,14 @@
 <template>
   <div class="header-cal">
-    <span class="prev" v-on:click="prev">＜</span>
+    <div class="header-cal-control">
+      <button>
+        <Icon icon="ooui:next-rtl" width="2em" height="2em" @click="prev" />
+      </button>
+      <button>
+        <Icon icon="ooui:next-ltr" width="2em" height="2em" @click="next" />
+      </button>
+    </div>
     <span>{{ year }}年{{ month }}月</span>
-    <span class="next" v-on:click="next">＞</span>
   </div>
   <div class="calendar">
     <table class="main-cal" border="1">
@@ -37,6 +43,7 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { doc, getDoc } from "firebase/firestore"
 import { db } from "@/firebase"
+import { Icon } from "@iconify/vue"
 export default {
   data() {
     return {
@@ -53,6 +60,7 @@ export default {
     this.month = this.now.getMonth() + 1
     this.year = this.now.getFullYear()
     this.kisyoAsakatsuTimes()
+    window.addEventListener("resize", this.isMobile)
   },
   methods: {
     kisyoAsakatsuTimes() {
@@ -86,6 +94,9 @@ export default {
         this.year += 1
       }
     },
+    isMobile() {
+      return window.innerWidth < 1000
+    },
   },
   computed: {
     calendar: function () {
@@ -110,12 +121,15 @@ export default {
             for (let j = 0; j < this.kisyo.length; j++) {
               if (this.kisyo[j].date === day) {
                 let kisyoTimeFirebase = this.kisyo[j].getupCurrentTime
-                kisyoTime = kisyoTimeFirebase
+                kisyoTime = this.isMobile
+                  ? kisyoTimeFirebase.substring(0, 5)
+                  : kisyoTimeFirebase
               }
             }
             for (let k = 0; k < this.asakatsu.length; k++) {
               if (this.asakatsu[k].date === day) {
                 let asakatsuTimeFirebase = Number(this.asakatsu[k].time)
+                console.log(asakatsuTimeFirebase)
                 asakatsuTime += asakatsuTimeFirebase
               }
             }
@@ -137,46 +151,97 @@ export default {
       return calendar
     },
   },
+  components: {
+    Icon,
+  },
 }
 </script>
 <style>
-/* .header-cal {
-  font-size: 3em;
+.header-cal {
+  font-size: 1.5em;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  margin: 1em 0 0.25em 0;
+  align-items: flex-start;
+  width: 100%;
+  margin: auto;
+  gap: 2em;
+}
+.header-cal span {
+  font-size: 1.5em;
+  height: 1.5em;
+  line-height: 1.5em;
+  text-align: center;
+}
+.header-cal-control {
+  height: 100%;
+}
+.header-cal-control button {
+  background: transparent;
+  vertical-align: middle;
+  text-align: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 2em;
+  height: 2em;
+  text-align: center;
+  border: none;
+  border-radius: 50%;
+  margin: 0.5em;
 }
 .main-cal {
   border-collapse: collapse;
-  width: 70%;
+  width: 100%;
   margin: auto;
+}
+.main-cal table,
+.main-cal th,
+.main-cal td {
+  border: 1px solid #5f6c7b;
 }
 table {
   font-size: 1.5em;
+  table-layout: fixed;
 }
 table td {
   position: relative;
-  width: 10%;
+}
+table td div {
+  font-size: 0.5em;
 }
 .day {
   position: absolute;
-  top: 0%;
-  left: 0%;
-  padding-left: 1%;
+  top: 0.25em;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.kisyo {
+  position: absolute;
+  top: 1.7em;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.asakatsu {
+  position: absolute;
+  top: 3em;
+  left: 50%;
+  transform: translateX(-50%);
 }
 table tr {
-  height: 10vh;
+  height: 2.5em;
   top: 0%;
 }
 table th:nth-of-type(1) {
-  color: red;
+  color: #f28b50;
 }
 table tr td:nth-of-type(1) {
-  color: red;
+  color: #f28b50;
 }
 table th:nth-of-type(7) {
-  color: blue;
+  color: #048abf;
 }
 table tr td:nth-of-type(7) {
-  color: blue;
-} */
+  color: #048abf;
+}
 </style>

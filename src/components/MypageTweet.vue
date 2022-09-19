@@ -3,22 +3,32 @@
     <h3>みんなのつぶやき</h3>
     <div class="tweets">
       <div v-for="(tweet, index) in tweets" :key="index" class="tweet">
-        <div class="nickname">
-          <img class="color-icon" :src="iconList[tweet.iconNumber].path" />
-          {{ tweet.nickname }}
+        <img class="color-icon" :src="iconList[tweet.iconNumber].path" />
+        <div class="tweet-text-area">
+          <div class="nickname">
+            {{ tweet.nickname }}
+          </div>
+          <div class="tweet-text">{{ tweet.text }}</div>
         </div>
-        <div class="tweet-text">{{ tweet.text }}</div>
       </div>
     </div>
-    <input
-      type="text"
-      v-model="message"
-      @keydown="postTweet"
-      :disabled="!sendReady"
-    />
-    <button class="tweet-button" @click="postTweet" v-show="sendReady">
-      <Icon icon="akar-icons:send" color="white"></Icon>
-    </button>
+    <div class="post-area">
+      <textarea
+        v-model="message"
+        @keydown="postTweet"
+        :disabled="!sendReady"
+        :style="{ height: `${textAreaHeight}em`, border: textAreaBorder }"
+      ></textarea>
+      <button
+        class="tweet-button"
+        @click="postTweet"
+        v-show="sendReady"
+        :disabled="lengthExceed"
+      >
+        <Icon icon="akar-icons:send" color="white"></Icon>
+      </button>
+    </div>
+    <div v-show="lengthExceed" class="length-exceed">文字数オーバーです</div>
   </div>
 </template>
 <script>
@@ -57,9 +67,10 @@ export default {
   methods: {
     postTweet(e) {
       if (
-        e.keyCode === 13 ||
-        e.target.nodeName === "svg" ||
-        e.target.nodeName === "BUTTON"
+        (e.keyCode === 13 ||
+          e.target.nodeName === "svg" ||
+          e.target.nodeName === "BUTTON") &&
+        !this.lengthExceed
       ) {
         const tweet = {
           text: this.message,
@@ -78,7 +89,7 @@ export default {
     const ref = query(
       collection(db, "tweets"),
       orderBy("createdAt"),
-      limitToLast(3)
+      limitToLast(5)
     )
     this.unsubscribeTweet = onSnapshot(ref, (snapshot) => {
       let tweets = []
@@ -119,43 +130,79 @@ export default {
       }
     },
   },
+  computed: {
+    lengthExceed() {
+      return this.message.length > 33
+    },
+    textAreaHeight() {
+      return 1.5 * (Math.floor(this.message.length / 12) + 1)
+    },
+    textAreaBorder() {
+      return this.lengthExceed ? "2px solid red" : "none"
+    },
+  },
   components: {
     Icon,
   },
 }
 </script>
 <style scoped>
+h3 {
+  font-size: 1.5em;
+}
 .tweet-container {
-  width: 25%;
-  background: #d0ecf2;
+  background-color: #d8eefe;
   display: inline-block;
+  width: 100%;
+  padding: 0 1em;
+  box-sizing: border-box;
 }
 .tweets {
   display: flex;
   flex-direction: column;
+  gap: 0.5em;
+  align-items: center;
 }
 .tweet {
   display: flex;
-  flex-direction: column;
-  justify-content: left;
+  flex-direction: row;
+  justify-content: space-around;
 }
 .color-icon {
-  width: 36px;
-  height: 36px;
   display: inline-block;
   border-radius: 50%;
   background-color: white;
   border: 1px solid #048abf;
+  width: 15%;
+  height: 15%;
+}
+.tweet-text-area {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 80%;
+  left: 20%;
+  font-size: 1em;
 }
 .nickname {
-  display: inline;
-  /* width: fit-content; */
-  font-size: 24px;
+  font-weight: bold;
 }
 .tweet-text {
-  display: inline;
   width: fit-content;
-  font-size: 16px;
+  left: 20%;
+  text-align: left;
+}
+.post-area {
+  display: flex;
+  flex-direction: row;
+  margin: 1em 0;
+  justify-content: space-between;
+  align-items: center;
+}
+textarea {
+  resize: none;
+  width: 80%;
+  font-size: 0.9em;
 }
 .tweet-button {
   background: #048abf;
@@ -169,5 +216,8 @@ export default {
   border: none;
   border-radius: 50%;
   margin: 0.5em;
+}
+.length-exceed {
+  margin: 1em;
 }
 </style>
