@@ -109,7 +109,10 @@ export default {
       let nextMonthDay = 1
       let prevMonthDay =
         new Date(this.year, this.month - 1, 0).getDate() - firstWeekDay + 1
-      while (dayNumber <= lastDay - lastWeekDay - 2) {
+      while (
+        (dayNumber <= lastDay - lastWeekDay - 2 && lastWeekDay !== 6) ||
+        (dayNumber <= lastDay && lastWeekDay === 6)
+      ) {
         let weekData = []
         for (let i = 0; i <= 6; i++) {
           let day = dayNumber
