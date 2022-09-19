@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     saveWakeupTime() {
-      localStorage.morening = JSON.stringify({
+      localStorage.moreningWakeUp = JSON.stringify({
         targetHour: Number(this.wakeupTime.substring(0, 2)),
         targetMin10: Number(this.wakeupTime.substring(3, 4)),
         targetMin1: Number(this.wakeupTime.substring(4, 5)),
@@ -29,8 +29,8 @@ export default {
     },
   },
   mounted() {
-    const previousWakeupTime = localStorage.morening
-      ? JSON.parse(localStorage.morening)
+    const previousWakeupTime = localStorage.moreningWakeUp
+      ? JSON.parse(localStorage.moreningWakeUp)
       : {
           targetHour: 6,
           targetMin10: 0,
