@@ -52,6 +52,9 @@ export default {
   },
   mounted() {
     try {
+      // マウントのタイミングでauthのイベントリスナを設定する.
+      // authの情報が届き次第カレンダーを初期化したいので
+      // 読み込み時に走るべき処理をイベントリスナ内に入れる.
       onAuthStateChanged(this.auth, async (user) => {
         const uid = user.uid
         const docRef = doc(db, "users", uid)
@@ -62,6 +65,7 @@ export default {
         if (userDoc.data().asakatsu) {
           this.asakatsu = userDoc.data().asakatsu
         }
+        // 読み込み時に走るべき処理
         this.month = this.now.getMonth() + 1
         this.year = this.now.getFullYear()
         this.cal()
