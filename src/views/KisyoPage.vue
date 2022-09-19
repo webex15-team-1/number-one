@@ -1,5 +1,4 @@
 <template>
-  <img src="@/views/images/kisyo-bg.png" alt="背景" id="bg" />
   <div class="kisyo-app">
     <!-- じゃんけん -->
     <div
@@ -71,12 +70,57 @@
       <button class="kakuninButton" v-on:click="yesJanken">する</button>
       <button class="kakuninButton" v-on:click="noJanken">しない</button>
     </div>
-    <div class="wakeup-console">
-      <h1 class="target">今日の起床目標時間</h1>
-      <div class="targetTime">
-        {{ targetHour }} : {{ targetMin10 }}{{ targetMin1 }}
+    <div class="wakeup-wrap">
+      <img
+        class="ohayo-img"
+        src="@/views/images/ohayo-boy.png"
+        alt="目覚める男の子"
+      />
+      <div class="wakeup-console">
+        <transition name="wakeup-data">
+          <div class="wakeup-table" v-if="showTable">
+            <table>
+              <tbody>
+                <th>起床目標時間との差</th>
+                <th>獲得ポイント</th>
+                <tr>
+                  <td>-10分～+10分</td>
+                  <td>10 P</td>
+                </tr>
+                <tr>
+                  <td>+10分～+20分</td>
+                  <td>8 P</td>
+                </tr>
+                <tr>
+                  <td>+20分～+30分</td>
+                  <td>6 P</td>
+                </tr>
+                <tr>
+                  <td>+30分～+60分</td>
+                  <td>4 P</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </transition>
+
+        <div class="wakeup">
+          <button class="question-button" @click="toggleTable">
+            <Icon icon="akar-icons:question" width="1.5em" />
+          </button>
+          <h1 class="target">今日の起床目標時間</h1>
+          <div class="targetTime">
+            {{ targetHour }} : {{ targetMin10 }}{{ targetMin1 }}
+          </div>
+          <button class="pop-button" v-on:click="two">起床</button>
+        </div>
       </div>
-      <button class="pop-button" v-on:click="two">起床</button>
+
+      <img
+        class="ohayo-img"
+        src="@/views/images/ohayo-girl.png"
+        alt="目覚める女の子"
+      />
     </div>
 
     <div v-if="isLate && !logExist">
@@ -90,6 +134,7 @@
 </template>
 
 <script>
+import { Icon } from "@iconify/vue"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import {
   doc,
@@ -136,6 +181,7 @@ export default {
       point: 0,
       i: 1,
       logExist: false,
+      showTable: false,
     }
   },
   mounted: function () {
@@ -165,6 +211,9 @@ export default {
     })
   },
   methods: {
+    toggleTable() {
+      this.showTable = !this.showTable
+    },
     two() {
       this.kisyoButton()
       this.pointRegister()
@@ -305,32 +354,13 @@ export default {
       return this.$store.state.colors[colorIndex]
     },
   },
-  components: { TimeSetup },
+  components: { TimeSetup, Icon },
 }
 </script>
 <style scoped>
 .kisyo-app {
   position: relative;
   width: 100%;
-  margin: 6em 0 6em 0;
-}
-.targetTime {
-  font-size: 2.5em;
-  color: #022340;
-}
-.hour-box {
-  text-align: center;
-  font-size: 1.5em;
-  width: 8vw;
-  color: #022340;
-  border: none;
-}
-.min-box {
-  text-align: center;
-  font-size: 1.5em;
-  width: 4vw;
-  color: #022340;
-  border: none;
 }
 .janken,
 .jankenKakunin {
@@ -417,5 +447,99 @@ export default {
 
 .kakuninButton {
   margin: 1%;
+}
+.wakeup-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 4em;
+  z-index: 1;
+}
+.ohayo-img {
+  width: 20%;
+}
+.wakeup-console {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #048abf;
+  border-radius: 31px;
+  margin: 2em;
+  padding: 0.5em 2em;
+}
+.wakeup-table {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  position: absolute;
+  width: 90%;
+  height: 80%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(216, 238, 254, 0.95);
+}
+.wakeup-table > table th,
+.wakeup-table > table td {
+  padding: 0.5em 1em;
+}
+.wakeup-data-enter-active,
+.wakeup-data-leave-active {
+  transition: all 0.5s ease;
+}
+.wakeup-data-enter-from,
+.wakeup-data-leave-to {
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+.question-button {
+  background: transparent;
+  vertical-align: middle;
+  text-align: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 2em;
+  height: 2em;
+  text-align: center;
+  border: none;
+  border-radius: 50%;
+  margin: 0.5em;
+  position: absolute;
+  right: 0%;
+  bottom: 85%;
+}
+.target {
+  font-size: 2.5em;
+}
+.targetTime {
+  font-size: 3em;
+  color: #022340;
+}
+.pop-button {
+  margin: 1em 0;
+  width: 5em;
+  height: 2em;
+  text-align: center;
+  font-size: 1.5em;
+  color: white;
+  background-color: #048abf;
+  border-radius: 60px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 5px solid #022340;
+}
+.pop-button:hover {
+  padding-top: 3px;
+  border-bottom: 2px solid #022340;
+  transition: 0.3s;
+  color: white;
+}
+.timeLate,
+.pointGet {
+  font-size: 1.5em;
 }
 </style>
