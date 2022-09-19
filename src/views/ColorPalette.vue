@@ -24,6 +24,11 @@
       </button>
     </div>
   </div>
+  <p class="description">
+    ポイントを消費することでサイトの見た目を変えることができます。<br />
+    ポイントは起床時間の記録や朝活タイマーの使用で貯めることができます。<br />
+    ポイントの消費は累計ポイントの記録やランキングに影響しません。<br />
+  </p>
 </template>
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth"
@@ -150,7 +155,6 @@ export default {
 h1 {
   font-size: 2em;
 }
-
 @media (min-width: 1001px) {
   .button_container {
     left: 10vw;
@@ -188,8 +192,53 @@ h1 {
   .color-price {
     font-size: 1.5em;
   }
+  .description {
+    font-size: 1.5em;
+    line-height: 1.8em;
+  }
 }
 @media (max-width: 1000px) {
+  .button_container {
+    left: 10vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 2vh 10vw;
+    gap: 2em;
+  }
+  .button_container > button {
+    background-color: transparent;
+    border: none;
+    width: 15em;
+    height: 10em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+  .color-preview {
+    width: 4rem;
+    height: 4rem;
+    font-weight: bold;
+    border-radius: 50%;
+  }
+  .color-preview span {
+    display: inline-block;
+    height: 3rem;
+    width: 3rem;
+    font-size: 3rem;
+  }
+  .color-name,
+  .color-price {
+    font-size: 1.5em;
+  }
+  .description {
+    font-size: 1em;
+  }
+}
+@media (max-width: 670px) {
   .button_container {
     left: 10vw;
     display: flex;
@@ -230,6 +279,9 @@ h1 {
   .color-name,
   .color-price {
     font-size: 1em;
+  }
+  .description {
+    font-size: 0.5em;
   }
 }
 </style>
