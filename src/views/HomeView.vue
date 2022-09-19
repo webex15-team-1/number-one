@@ -16,7 +16,13 @@
           dayPhase: {{ dayPhase }}
         </div>
         <div>
+          <img class="cloudImg" v-bind:src="cloudImg" />
+        </div>
+        <div>
           <img class="townImg" src="@/views/images/morning.png" />
+        </div>
+        <div>
+          <img class="weatherImg" v-bind:src="weatherImg" />
         </div>
       </div>
       <div class="sun" :style="sunStyle" v-show="isSunShineTime">
@@ -199,7 +205,10 @@ export default {
       weather: {
         todayData: undefined,
         spotID: "",
+        number: "",
       },
+      cloudImg: "",
+      weatherImg: "",
       sun: {},
       /* moon: {}, */
       sunFigure: {
@@ -243,6 +252,17 @@ export default {
           const jsonData = await rawData.json()
           this.weather.todayData =
             jsonData[0].timeSeries[0].areas[0].weathers[0]
+          this.weather.number =
+            jsonData[0].timeSeries[0].areas[0].weatherCodes[0]
+          if (this.weather.number < 200) {
+            this.weatherImg = require("./images/icon/sunny.png")
+          } else if (this.weather.number < 300) {
+            this.cloudImg = require("./images/icon/cloud.png")
+            this.weatherImg = require("./images/icon/cloudy.png")
+          } else {
+            this.cloudImg = require("./images/icon/rain.png")
+            this.weatherImg = require("./images/icon/rainy.png")
+          }
         })
       } catch (error) {
         console.error(error)
@@ -615,6 +635,16 @@ td {
 .sunImg {
   width: 100%;
 }
+.cloudImg {
+  z-index: 100;
+  position: absolute;
+  width: 25vw;
+  top: 20%;
+  left: 30%;
+  transform: translate(-30%, -20%);
+  -webkit-transform: translate(-30%, -20%);
+  -ms-transform: translate(-30%, -20%);
+}
 .townImg {
   position: absolute;
   width: 30vw;
@@ -623,6 +653,15 @@ td {
   transform: translate(-50%, -100%);
   -webkit-transform: translate(-50%, -100%);
   -ms-transform: translate(-50%, -100%);
+}
+.weatherImg {
+  position: absolute;
+  width: 20vw;
+  top: 100%;
+  left: 80%;
+  transform: translate(-80%, -100%);
+  -webkit-transform: translate(-80%, -100%);
+  -ms-transform: translate(-80%, -100%);
 }
 .sky {
   position: absolute;
