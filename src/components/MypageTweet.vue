@@ -190,6 +190,7 @@ h3 {
 .tweet-text {
   width: fit-content;
   left: 20%;
+  text-align: left;
 }
 .post-area {
   display: flex;
