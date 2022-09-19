@@ -96,18 +96,20 @@ export default {
         }
       }
     },
-    async cal() {
-      await this.kisyoAsakatsuTimes()
+    cal() {
+      this.kisyoAsakatsuTimes()
       this.calendar = []
       //月初めの曜日
       let firstWeekDay = new Date(this.year, this.month - 1, 1).getDay()
       //月終わりの日付
       let lastDay = new Date(this.year, this.month, 0).getDate()
+      //月終わりの曜日
+      let lastWeekDay = new Date(this.year, this.month, 0).getDay()
       let dayNumber = 1
       let nextMonthDay = 1
       let prevMonthDay =
         new Date(this.year, this.month - 1, 0).getDate() - firstWeekDay + 1
-      while (dayNumber <= lastDay) {
+      while (dayNumber <= lastDay - lastWeekDay - 2) {
         let weekData = []
         for (let i = 0; i <= 6; i++) {
           let day = dayNumber
