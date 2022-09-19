@@ -30,7 +30,7 @@ export default {
 }
 
 nav {
-  height: 3em;
+  height: 5em;
   padding: 1em 0;
 }
 

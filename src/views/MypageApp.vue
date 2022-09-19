@@ -159,15 +159,69 @@ export default {
 }
 @media (max-width: 1000px) {
   #mypage {
+    margin-top: 1em;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #left-pane {
+    display: flex;
+    width: 95%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+  }
+  #point {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 22.5%;
+    gap: 0 1em;
+  }
+  #cum-point {
+    flex-grow: 3;
+  }
+  #ranking {
+    flex-grow: 2;
+  }
+  #calendar {
+    display: inline-block;
+    width: 100%;
+    margin: 2em 0 1em 0;
+  }
+  #right-pane {
+    display: flex;
+    width: 95%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1em;
+  }
+  #tweet {
+    width: 70%;
+    margin-bottom: 1em;
+  }
+  #return {
+    display: none;
+  }
+}
+@media (max-width: 670px) {
+  #mypage {
     display: flex;
     flex-direction: column;
     gap: 1em;
   }
   #left-pane {
-    width: 100%;
+    width: 95%;
     display: flex;
     flex-direction: column;
     gap: 1em;
+    margin: 0 2.5%;
   }
   #point {
     display: flex;
@@ -175,14 +229,16 @@ export default {
     gap: 1em;
   }
   #right-pane {
-    width: 100%;
+    width: 95%;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1em;
+    margin: 0 2.5%;
   }
   #tweet {
-    width: 80%;
+    width: 100%;
+    margin-bottom: 1em;
   }
   #return {
     display: flex;

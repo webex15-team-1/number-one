@@ -155,6 +155,7 @@ h3 {
   display: inline-block;
   width: 100%;
   padding: 0 1em;
+  box-sizing: border-box;
 }
 .tweets {
   display: flex;
@@ -199,7 +200,7 @@ h3 {
 }
 textarea {
   resize: none;
-  width: 13.5em;
+  width: 80%;
   font-size: 0.9em;
 }
 .tweet-button {
