@@ -68,8 +68,4 @@ export default {
   components: { MypagePoint, MypageRanking, MypageTweet, MypageSettings },
 }
 </script>
-<style>
-* {
-  font-family: "Zen Maru Gothic";
-}
-</style>
+<style></style>

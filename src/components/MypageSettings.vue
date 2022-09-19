@@ -81,9 +81,6 @@ export default {
 }
 </script>
 <style scoped>
-* {
-  font-family: "Zen Maru Gothic";
-}
 .settings-container {
   display: inline-flex;
   flex-direction: column;
