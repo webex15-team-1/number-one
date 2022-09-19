@@ -12,12 +12,9 @@
         </th>
       </thead>
       <tbody>
-        <tr
-          v-for="(rowNumber, rowNumberIndex) in calendar"
-          :key="rowNumberIndex"
-        >
+        <tr>
           <td
-            v-for="(columnNumber, columnNumberIndex) in rowNumber"
+            v-for="(columnNumber, columnNumberIndex) in this.calendar[i]"
             :key="columnNumberIndex"
           >
             <div class="day">
@@ -47,12 +44,17 @@ export default {
       year: "",
       kisyo: [],
       asakatsu: [],
+      i: 0,
+      calendar: [],
+      a: 0,
+      first: 0,
     }
   },
   created() {
     this.month = this.now.getMonth() + 1
     this.year = this.now.getFullYear()
-    this.kisyoAsakatsuTimes()
+    this.cal()
+    this.i = this.first
   },
   methods: {
     kisyoAsakatsuTimes() {
@@ -72,39 +74,55 @@ export default {
         console.error(error)
       }
     },
-    prev() {
-      this.month -= 1
-      if (this.month < 1) {
-        this.month = 12
-        this.year -= 1
+    async prev() {
+      this.i -= 1
+      if (this.i < 0) {
+        this.month -= 1
+        await this.cal()
+        this.i = this.calendar.length - 1
+        if (this.month < 1) {
+          this.month = 12
+          this.year -= 1
+        }
       }
     },
     next() {
-      this.month += 1
-      if (this.month > 12) {
-        this.month = 1
-        this.year += 1
+      this.i += 1
+      if (this.i === this.calendar.length) {
+        this.month += 1
+        this.i = 0
+        this.cal()
+        if (this.month > 12) {
+          this.month = 1
+          this.year += 1
+          this.cal()
+        }
       }
     },
-  },
-  computed: {
-    calendar: function () {
-      let calendar = []
+    cal() {
+      this.kisyoAsakatsuTimes()
+      this.calendar = []
+      this.a = 0
       //月初めの曜日
       let firstWeekDay = new Date(this.year, this.month - 1, 1).getDay()
       //月終わりの日付
       let lastDay = new Date(this.year, this.month, 0).getDate()
+      //月終わりの曜日
+      let lastWeekDay = new Date(this.year, this.month, 0).getDay()
       let dayNumber = 1
       let nextMonthDay = 1
       let prevMonthDay =
         new Date(this.year, this.month - 1, 0).getDate() - firstWeekDay + 1
-      while (dayNumber <= lastDay) {
+      while (
+        (dayNumber <= lastDay - lastWeekDay - 2 && lastWeekDay !== 6) ||
+        (dayNumber <= lastDay && lastWeekDay === 6)
+      ) {
         let weekData = []
         for (let i = 0; i <= 6; i++) {
           let day = dayNumber
           let kisyoTime = ""
           let asakatsuTime = 0
-          if (calendar.length == 0 && i < firstWeekDay) {
+          if (this.calendar.length == 0 && i < firstWeekDay) {
             day = prevMonthDay
             let dayFirebase = this.year + "/" + (this.month - 1) + "/" + day
             for (let j = 0; j < this.kisyo.length; j++) {
@@ -137,6 +155,9 @@ export default {
             }
             nextMonthDay += 1
           } else {
+            if (day === this.now.getDate()) {
+              this.first = this.a
+            }
             let dayFirebase = this.year + "/" + this.month + "/" + day
             for (let j = 0; j < this.kisyo.length; j++) {
               if (this.kisyo[j].date === dayFirebase) {
@@ -163,15 +184,15 @@ export default {
             asakatsu: asakatsuTime,
           }
         }
-        calendar.push(weekData)
+        this.calendar.push(weekData)
+        this.a += 1
       }
-      return calendar
     },
   },
 }
 </script>
 <style>
-/* .header-cal {
+.header-cal {
   font-size: 3em;
   display: flex;
   justify-content: space-between;
@@ -209,5 +230,5 @@ table th:nth-of-type(7) {
 }
 table tr td:nth-of-type(7) {
   color: blue;
-} */
+}
 </style>
