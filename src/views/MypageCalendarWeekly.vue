@@ -14,7 +14,7 @@
       <tbody>
         <tr>
           <td
-            v-for="(columnNumber, columnNumberIndex) in calendar[i]"
+            v-for="(columnNumber, columnNumberIndex) in this.calendar[i]"
             :key="columnNumberIndex"
           >
             <div class="day">
@@ -45,12 +45,13 @@ export default {
       kisyo: [],
       asakatsu: [],
       i: 0,
+      calendar: [],
     }
   },
   created() {
     this.month = this.now.getMonth() + 1
     this.year = this.now.getFullYear()
-    this.kisyoAsakatsuTimes()
+    this.cal()
   },
   methods: {
     kisyoAsakatsuTimes() {
@@ -70,11 +71,12 @@ export default {
         console.error(error)
       }
     },
-    prev() {
+    async prev() {
       this.i -= 1
       if (this.i < 0) {
         this.month -= 1
-        this.i = 4
+        await this.cal()
+        this.i = this.calendar.length - 1
         if (this.month < 1) {
           this.month = 12
           this.year -= 1
@@ -83,19 +85,20 @@ export default {
     },
     next() {
       this.i += 1
-      if (this.i > 4) {
+      if (this.i === this.calendar.length) {
         this.month += 1
         this.i = 0
+        this.cal()
         if (this.month > 12) {
           this.month = 1
           this.year += 1
+          this.cal()
         }
       }
     },
-  },
-  computed: {
-    calendar: function () {
-      let calendar = []
+    async cal() {
+      await this.kisyoAsakatsuTimes()
+      this.calendar = []
       //月初めの曜日
       let firstWeekDay = new Date(this.year, this.month - 1, 1).getDay()
       //月終わりの日付
@@ -110,7 +113,7 @@ export default {
           let day = dayNumber
           let kisyoTime = ""
           let asakatsuTime = 0
-          if (calendar.length == 0 && i < firstWeekDay) {
+          if (this.calendar.length == 0 && i < firstWeekDay) {
             day = prevMonthDay
             let dayFirebase = this.year + "/" + (this.month - 1) + "/" + day
             for (let j = 0; j < this.kisyo.length; j++) {
@@ -169,10 +172,8 @@ export default {
             asakatsu: asakatsuTime,
           }
         }
-        console.log(calendar)
-        calendar.push(weekData)
+        this.calendar.push(weekData)
       }
-      return calendar
     },
   },
 }
