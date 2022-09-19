@@ -16,7 +16,13 @@
           dayPhase: {{ dayPhase }}
         </div>
         <div>
+          <img class="cloudImg" v-bind:src="cloudImg" />
+        </div>
+        <div>
           <img class="townImg" src="@/views/images/morning.png" />
+        </div>
+        <div>
+          <img class="weatherImg" v-bind:src="weatherImg" />
         </div>
       </div>
       <div class="sun" :style="sunStyle" v-show="isSunShineTime">
@@ -150,7 +156,7 @@
             </tr>
           </tbody>
         </table>
-        <table class="moon-data">
+        <!-- <table class="moon-data">
           <thead>
             <th colspan="2">月に関するパラメータ</th>
           </thead>
@@ -160,7 +166,7 @@
               <td>{{ value }}</td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
     </div>
   </div>
@@ -179,7 +185,7 @@ export default {
     return {
       auth: getAuth(),
       debug: {
-        showInternalData: true,
+        showInternalData: false,
         input: {
           year: "2022",
           month: "8",
@@ -199,9 +205,12 @@ export default {
       weather: {
         todayData: undefined,
         spotID: "",
+        number: "",
       },
+      cloudImg: "",
+      weatherImg: "",
       sun: {},
-      moon: {},
+      /* moon: {}, */
       sunFigure: {
         radius: 0.2, //containerに対する直径の比
         orbitalFactor: 0.8, //containerに対する軌道直径の比 radius + orbitalFactor <= 1 にするとはみ出ない
@@ -243,6 +252,17 @@ export default {
           const jsonData = await rawData.json()
           this.weather.todayData =
             jsonData[0].timeSeries[0].areas[0].weathers[0]
+          this.weather.number =
+            jsonData[0].timeSeries[0].areas[0].weatherCodes[0]
+          if (this.weather.number < 200) {
+            this.weatherImg = require("./images/icon/sunny.png")
+          } else if (this.weather.number < 300) {
+            this.cloudImg = require("./images/icon/cloud.png")
+            this.weatherImg = require("./images/icon/cloudy.png")
+          } else {
+            this.cloudImg = require("./images/icon/rain.png")
+            this.weatherImg = require("./images/icon/rainy.png")
+          }
         })
       } catch (error) {
         console.error(error)
@@ -295,7 +315,7 @@ export default {
      * 月に関するパラメータを更新する
      * @param {Date} now
      */
-    updateMoonData(now) {
+    /* updateMoonData(now) {
       const { altitude, azimuth } = SunCalc.getMoonPosition(
         now,
         this.user.latitude,
@@ -308,7 +328,7 @@ export default {
         this.user.longitude
       )
       this.moon = { altitude, azimuth, phase, rise, set }
-    },
+    }, */
     /**
      * テストデータを設定する
      * month(1~12)はmonthIndex(0~11)に変換してからコンストラクタに渡す
@@ -323,12 +343,12 @@ export default {
         this.debug.input.seconds
       )
       this.updateSunData(this.now)
-      this.updateMoonData(this.now)
+      /* this.updateMoonData(this.now) */
     },
   },
   created() {
     this.updateSunData(this.now)
-    this.updateMoonData(this.now)
+    /* this.updateMoonData(this.now) */
   },
   computed: {
     /**
@@ -400,12 +420,12 @@ export default {
      * 0%   rise
      * 100% set
      */
-    moonPercent() {
+    /* moonPercent() {
       const millisecondFromMoonRise =
         this.nowMilliSecond - this.moon.rise.getTime()
       const moonLength = this.moon.set.getTime() - this.moon.rise.getTime()
       return (millisecondFromMoonRise / moonLength) * 100
-    },
+    }, */
     /**
      * 太陽の半径の逆サイン
      * 日の出・日の入りの際太陽の位置を調節するのに使う
@@ -614,6 +634,16 @@ td {
 .sunImg {
   width: 100%;
 }
+.cloudImg {
+  z-index: 100;
+  position: absolute;
+  width: 25vw;
+  top: 20%;
+  left: 30%;
+  transform: translate(-30%, -20%);
+  -webkit-transform: translate(-30%, -20%);
+  -ms-transform: translate(-30%, -20%);
+}
 .townImg {
   position: absolute;
   width: 30vw;
@@ -622,6 +652,15 @@ td {
   transform: translate(-50%, -100%);
   -webkit-transform: translate(-50%, -100%);
   -ms-transform: translate(-50%, -100%);
+}
+.weatherImg {
+  position: absolute;
+  width: 20vw;
+  top: 100%;
+  left: 80%;
+  transform: translate(-80%, -100%);
+  -webkit-transform: translate(-80%, -100%);
+  -ms-transform: translate(-80%, -100%);
 }
 .sky {
   position: absolute;
