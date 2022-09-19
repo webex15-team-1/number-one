@@ -37,7 +37,7 @@ export const colorSettings = createStore({
         },
         {
           name: '"あの日"見た風',
-          price: 60,
+          price: 30,
           // タイトル(左上)
           titleBackgroundColor: "#03A6A6",
           titleColor: "#FFFFFF",
@@ -51,23 +51,8 @@ export const colorSettings = createStore({
           hamburgerBackgroundColor: "#03A6A6",
         },
         {
-          name: "潮風の香り",
-          price: 60,
-          // タイトル(左上)
-          titleBackgroundColor: "#39A7BF",
-          titleColor: "#FFFFFF",
-          // タイトル以外の文字色
-          generalTextColor: "#FFFFFF",
-          // フッター,ハンバーガーボタンの色
-          generalBackgroundColor: "#39A7BF",
-          // ハンバーガーメニューのタイトル文字
-          hamburgerTitleColor: "#FFFFFF",
-          // ハンバーガーメニューの背景色
-          hamburgerBackgroundColor: "#39A7BF",
-        },
-        {
           name: "森の木々",
-          price: 60,
+          price: 30,
           // タイトル(左上)
           titleBackgroundColor: "#0A6073",
           titleColor: "#FFFFFF",
@@ -79,6 +64,21 @@ export const colorSettings = createStore({
           hamburgerTitleColor: "#FFFFFF",
           // ハンバーガーメニューの背景色
           hamburgerBackgroundColor: "#0A6073",
+        },
+        {
+          name: "潮風の香り",
+          price: 30,
+          // タイトル(左上)
+          titleBackgroundColor: "#39A7BF",
+          titleColor: "#FFFFFF",
+          // タイトル以外の文字色
+          generalTextColor: "#FFFFFF",
+          // フッター,ハンバーガーボタンの色
+          generalBackgroundColor: "#39A7BF",
+          // ハンバーガーメニューのタイトル文字
+          hamburgerTitleColor: "#FFFFFF",
+          // ハンバーガーメニューの背景色
+          hamburgerBackgroundColor: "#39A7BF",
         },
         {
           name: "起き抜けの水",
@@ -156,21 +156,6 @@ export const colorSettings = createStore({
           hamburgerBackgroundColor: "#425B8C",
         },
         {
-          name: "早朝の空",
-          price: 60,
-          // タイトル(左上)
-          titleBackgroundColor: "#D8EEFE",
-          titleColor: "#D9958F",
-          // タイトル以外の文字色
-          generalTextColor: "#D9958F",
-          // フッター,ハンバーガーボタンの色
-          generalBackgroundColor: "#D8EEFE",
-          // ハンバーガーメニューのタイトル文字
-          hamburgerTitleColor: "#D9958F",
-          // ハンバーガーメニューの背景色
-          hamburgerBackgroundColor: "#D8EEFE",
-        },
-        {
           name: "初夏の朝露",
           price: 60,
           // タイトル(左上)
@@ -184,6 +169,21 @@ export const colorSettings = createStore({
           hamburgerTitleColor: "#023E73",
           // ハンバーガーメニューの背景色
           hamburgerBackgroundColor: "#EDF2C2",
+        },
+        {
+          name: "早朝の空",
+          price: 60,
+          // タイトル(左上)
+          titleBackgroundColor: "#D8EEFE",
+          titleColor: "#D9958F",
+          // タイトル以外の文字色
+          generalTextColor: "#D9958F",
+          // フッター,ハンバーガーボタンの色
+          generalBackgroundColor: "#D8EEFE",
+          // ハンバーガーメニューのタイトル文字
+          hamburgerTitleColor: "#D9958F",
+          // ハンバーガーメニューの背景色
+          hamburgerBackgroundColor: "#D8EEFE",
         },
         {
           name: "闇夜の星明り",
