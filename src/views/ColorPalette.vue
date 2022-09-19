@@ -162,8 +162,8 @@ h1 {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
-    padding: 2vh 10vw;
-    gap: 2em;
+    padding: 2vh 5vw;
+    gap: 1em;
   }
   .button_container > button {
     background-color: transparent;
@@ -204,8 +204,8 @@ h1 {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
-    padding: 2vh 10vw;
-    gap: 2em;
+    padding: 2vh 5vw;
+    gap: 1em;
   }
   .button_container > button {
     background-color: transparent;
@@ -256,8 +256,8 @@ h1 {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    width: 10em;
-    height: 8em;
+    width: 8em;
+    height: 6em;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -265,20 +265,20 @@ h1 {
     padding: 0;
   }
   .color-preview {
-    width: 3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 2rem;
     font-weight: bold;
     border-radius: 50%;
   }
   .color-preview span {
     display: inline-block;
-    height: 3rem;
-    width: 3rem;
-    font-size: 2rem;
+    height: 2rem;
+    width: 2rem;
+    font-size: 1.5rem;
   }
   .color-name,
   .color-price {
-    font-size: 1em;
+    font-size: 0.8em;
   }
   .description {
     font-size: 0.5em;
