@@ -92,104 +92,320 @@ export default {
 </script>
 
 <style scoped>
-.hamburger-container {
-  position: fixed;
-  top: 0%;
-  left: 125%;
-  width: 25%;
-  height: 100%;
-  transition: all 0.5s ease-in-out;
-  z-index: 10000;
+@media (min-width: 1001px) {
+  .hamburger-container {
+    position: fixed;
+    top: 0%;
+    left: 125%;
+    width: 25%;
+    height: 100%;
+    transition: all 0.5s ease-in-out;
+    z-index: 10000;
+  }
+  .hamburger-container.active {
+    left: 75%;
+  }
+  .hamburger-button {
+    position: fixed;
+    top: 5%;
+    left: 90%;
+    width: 4em;
+    height: 4em;
+    border-radius: 50%;
+    z-index: 20000;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    vertical-align: middle;
+    text-align: inherit;
+    font: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  /* https://coco-factory.jp/ugokuweb/move01/5-2-1/ */
+  .hamburger-button span {
+    display: inline-block;
+    transition: all 0.5s;
+    position: absolute;
+    width: 50%;
+    left: 25%;
+    height: 3px;
+    border-radius: 2px;
+  }
+  .hamburger-button span:nth-child(1) {
+    top: 30%;
+  }
+  .hamburger-button span:nth-child(2) {
+    top: 47%;
+  }
+  .hamburger-button span:nth-child(3) {
+    top: 64%;
+  }
+  .hamburger-button.active span:nth-child(1) {
+    top: 47%;
+    transform: rotate(-45deg);
+  }
+  .hamburger-button.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger-button.active span:nth-child(3) {
+    top: 47%;
+    transform: rotate(45deg);
+  }
+  .hamburger-title {
+    position: relative;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 3em;
+    text-align: center;
+  }
+  .hamburger-title span {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    font-size: 2em;
+    line-height: 2em;
+    font-weight: bold;
+  }
+  .nav-items {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: left;
+    top: 10%;
+  }
+  .nav-item {
+    margin: 0.5em;
+    height: 2em;
+    display: flex;
+    align-items: center;
+  }
+  .nav-item svg {
+    position: absolute;
+    left: 5%;
+  }
+  .nav-item a {
+    position: absolute;
+    left: 15%;
+    color: inherit;
+    text-decoration: none;
+    font-size: 1.5em;
+    line-height: 1.5em;
+  }
 }
-.hamburger-container.active {
-  left: 75%;
+@media (max-width: 1000px) {
+  .hamburger-container {
+    position: fixed;
+    top: 0%;
+    left: 130%;
+    width: 30%;
+    height: 100%;
+    transition: all 0.5s ease-in-out;
+    z-index: 10000;
+  }
+  .hamburger-container.active {
+    left: 70%;
+  }
+  .hamburger-button {
+    position: fixed;
+    top: 2.5%;
+    left: 90%;
+    width: 4em;
+    height: 4em;
+    border-radius: 50%;
+    z-index: 20000;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    vertical-align: middle;
+    text-align: inherit;
+    font: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  /* https://coco-factory.jp/ugokuweb/move01/5-2-1/ */
+  .hamburger-button span {
+    display: inline-block;
+    transition: all 0.5s;
+    position: absolute;
+    width: 50%;
+    left: 25%;
+    height: 3px;
+    border-radius: 2px;
+  }
+  .hamburger-button span:nth-child(1) {
+    top: 30%;
+  }
+  .hamburger-button span:nth-child(2) {
+    top: 47%;
+  }
+  .hamburger-button span:nth-child(3) {
+    top: 64%;
+  }
+  .hamburger-button.active span:nth-child(1) {
+    top: 47%;
+    transform: rotate(-45deg);
+  }
+  .hamburger-button.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger-button.active span:nth-child(3) {
+    top: 47%;
+    transform: rotate(45deg);
+  }
+  .hamburger-title {
+    position: relative;
+    top: 2.5%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 4em;
+    text-align: center;
+  }
+  .hamburger-title span {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  .nav-items {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: left;
+    top: 3%;
+  }
+  .nav-item {
+    margin: 0.5em;
+    height: 2em;
+    display: flex;
+    align-items: center;
+  }
+  .nav-item svg {
+    position: absolute;
+    left: 5%;
+  }
+  .nav-item a {
+    position: absolute;
+    left: 20%;
+    color: inherit;
+    text-decoration: none;
+    font-size: 1.2em;
+    line-height: 1.2em;
+  }
 }
-.hamburger-button {
-  position: fixed;
-  top: 5%;
-  left: 90%;
-  width: 4em;
-  height: 4em;
-  border-radius: 50%;
-  z-index: 20000;
-  margin: 0;
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: inherit;
-  vertical-align: middle;
-  text-align: inherit;
-  font: inherit;
-  -webkit-appearance: none;
-  appearance: none;
-}
-/* https://coco-factory.jp/ugokuweb/move01/5-2-1/ */
-.hamburger-button span {
-  display: inline-block;
-  transition: all 0.5s;
-  position: absolute;
-  width: 50%;
-  left: 25%;
-  height: 3px;
-  border-radius: 2px;
-}
-.hamburger-button span:nth-child(1) {
-  top: 30%;
-}
-.hamburger-button span:nth-child(2) {
-  top: 47%;
-}
-.hamburger-button span:nth-child(3) {
-  top: 64%;
-}
-.hamburger-button.active span:nth-child(1) {
-  top: 47%;
-  transform: rotate(-45deg);
-}
-.hamburger-button.active span:nth-child(2) {
-  opacity: 0;
-}
-.hamburger-button.active span:nth-child(3) {
-  top: 47%;
-  transform: rotate(45deg);
-}
-.hamburger-title {
-  position: relative;
-  top: 5%;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 3em;
-  text-align: center;
-}
-.hamburger-title span {
-  position: absolute;
-  top: 50%;
-  left: 10%;
-  transform: translateY(-50%);
-  font-size: 1.5em;
-  font-weight: bold;
-}
-.nav-items {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: left;
-  top: 10%;
-}
-.nav-item {
-  margin: 0.5em;
-  height: 2em;
-}
-.nav-item svg {
-  position: absolute;
-  left: 5%;
-}
-.nav-item a {
-  position: absolute;
-  left: 15%;
-  color: inherit;
-  text-decoration: none;
-  font-size: 1em;
+@media (max-width: 670px) {
+  .hamburger-container {
+    position: fixed;
+    top: 0%;
+    left: 140%;
+    width: 40%;
+    height: 100%;
+    transition: all 0.5s ease-in-out;
+    z-index: 10000;
+  }
+  .hamburger-container.active {
+    left: 60%;
+  }
+  .hamburger-button {
+    position: fixed;
+    top: 2.5%;
+    left: 85%;
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    z-index: 20000;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    vertical-align: middle;
+    text-align: inherit;
+    font: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  /* https://coco-factory.jp/ugokuweb/move01/5-2-1/ */
+  .hamburger-button span {
+    display: inline-block;
+    transition: all 0.5s;
+    position: absolute;
+    width: 50%;
+    left: 25%;
+    height: 3px;
+    border-radius: 2px;
+  }
+  .hamburger-button span:nth-child(1) {
+    top: 30%;
+  }
+  .hamburger-button span:nth-child(2) {
+    top: 47%;
+  }
+  .hamburger-button span:nth-child(3) {
+    top: 64%;
+  }
+  .hamburger-button.active span:nth-child(1) {
+    top: 47%;
+    transform: rotate(-45deg);
+  }
+  .hamburger-button.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger-button.active span:nth-child(3) {
+    top: 47%;
+    transform: rotate(45deg);
+  }
+  .hamburger-title {
+    position: relative;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 2em;
+    text-align: center;
+  }
+  .hamburger-title span {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  .nav-items {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: left;
+    top: 10%;
+  }
+  .nav-item {
+    margin: 0.5em;
+    height: 2em;
+    display: flex;
+    align-items: center;
+  }
+  .nav-item svg {
+    position: absolute;
+    left: 5%;
+  }
+  .nav-item a {
+    position: absolute;
+    left: 20%;
+    color: inherit;
+    text-decoration: none;
+    font-size: 1em;
+    line-height: 1em;
+  }
 }
 </style>
