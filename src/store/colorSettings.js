@@ -51,7 +51,7 @@ export const colorSettings = createStore({
           hamburgerBackgroundColor: "#04B2D9",
         },
         {
-          name: "",
+          name: "盛夏の湖",
           price: 30,
           // タイトル(左上)
           titleBackgroundColor: "#048ABF",
@@ -66,7 +66,7 @@ export const colorSettings = createStore({
           hamburgerBackgroundColor: "#048ABF",
         },
         {
-          name: "base5",
+          name: "井戸の世界",
           price: 30,
           // タイトル(左上)
           titleBackgroundColor: "#627FD9",
@@ -81,7 +81,7 @@ export const colorSettings = createStore({
           hamburgerBackgroundColor: "#627FD9",
         },
         {
-          name: "base5+1",
+          name: "藤の誇り",
           price: 30,
           // タイトル(左上)
           titleBackgroundColor: "#9D7EBF",
@@ -111,7 +111,7 @@ export const colorSettings = createStore({
           hamburgerBackgroundColor: "#0A6073",
         },
         {
-          name: "base5+3",
+          name: '"あの日"見た風',
           price: 60,
           // タイトル(左上)
           titleBackgroundColor: "#03A6A6",
@@ -126,7 +126,7 @@ export const colorSettings = createStore({
           hamburgerBackgroundColor: "#03A6A6",
         },
         {
-          name: "base5+4",
+          name: "潮風の香り",
           price: 60,
           // タイトル(左上)
           titleBackgroundColor: "#39A7BF",
@@ -171,7 +171,7 @@ export const colorSettings = createStore({
           hamburgerBackgroundColor: "#D8EEFE",
         },
         {
-          name: "base8",
+          name: "初夏の朝露",
           price: 60,
           // タイトル(左上)
           titleBackgroundColor: "#EDF2C2",
@@ -201,7 +201,7 @@ export const colorSettings = createStore({
           hamburgerBackgroundColor: "#022340",
         },
         {
-          name: "base9+1",
+          name: "青の洞窟",
           price: 90,
           // タイトル(左上)
           titleBackgroundColor: "#024059",

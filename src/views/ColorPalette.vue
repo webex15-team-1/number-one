@@ -150,40 +150,86 @@ export default {
 h1 {
   font-size: 2em;
 }
-.button_container {
-  left: 10vw;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 2vh 10vw;
-  gap: 2em;
+
+@media (min-width: 1001px) {
+  .button_container {
+    left: 10vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 2vh 10vw;
+    gap: 2em;
+  }
+  .button_container > button {
+    background-color: transparent;
+    border: none;
+    width: 15em;
+    height: 10em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+  .color-preview {
+    width: 4rem;
+    height: 4rem;
+    font-weight: bold;
+    border-radius: 50%;
+  }
+  .color-preview span {
+    display: inline-block;
+    height: 3rem;
+    width: 3rem;
+    font-size: 3rem;
+  }
+  .color-name,
+  .color-price {
+    font-size: 1.5em;
+  }
 }
-.button_container > button {
-  background-color: transparent;
-  border: none;
-  width: 15em;
-  height: 10em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-}
-.color-preview {
-  width: 4rem;
-  height: 4rem;
-  font-weight: bold;
-  border-radius: 50%;
-}
-.color-preview span {
-  display: inline-block;
-  height: 3rem;
-  width: 3rem;
-  font-size: 3rem;
-}
-.color-name,
-.color-price {
-  font-size: 1.5em;
+@media (max-width: 1000px) {
+  .button_container {
+    left: 10vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 2vh 2vw;
+    gap: 0.5em;
+  }
+  .button_container > button {
+    background-color: transparent;
+    background: none;
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 10em;
+    height: 8em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+  .color-preview {
+    width: 3rem;
+    height: 3rem;
+    font-weight: bold;
+    border-radius: 50%;
+  }
+  .color-preview span {
+    display: inline-block;
+    height: 3rem;
+    width: 3rem;
+    font-size: 2rem;
+  }
+  .color-name,
+  .color-price {
+    font-size: 1em;
+  }
 }
 </style>
