@@ -66,14 +66,41 @@ export default {
               data.kisyo.length > 0 ? sumGetupDiffSec / data.kisyo.length : 0
           }
           if (typeof data.asakatsu !== "undefined") {
-            // 朝活時間を合計してから平均をとる(秒)
+            // 朝活時間を日ごとに集計する
+            // reduceのprevは前回returnした配列(初期値は[]),
+            // currentは走査中の配列の現在の要素の値
+            // prevにcurrent.dateが含まれなければ
+            // 新たにcurrent.dateの日付のtimeを保持するオブジェクトをprevに加え,
+            // prevにcurrent.dateが含まれるならその日のオブジェクトのtimeに
+            // current.timeを加算する
+            const asakatsuTimeGroupByDate = Object.values(
+              data.asakatsu.map((value) => ({
+                date: value.date,
+                time: Number(value.time),
+              }))
+            ).reduce((prev, current) => {
+              const dateIndex = prev.findIndex(
+                (element) => element.date === current.date
+              )
+              if (dateIndex === -1) {
+                prev.push({ date: current.date, time: current.time })
+              } else {
+                prev[dateIndex].time += current.time
+              }
+              return prev
+            }, [])
+
+            // 朝活時間を合計する
+            // mapでGroupByDateから朝活時間を取り出し, reduceで合計して秒単位にする
             const sumAsakatsuTimeSec =
-              data.asakatsu
-                .map((value) => Number(value.time))
+              asakatsuTimeGroupByDate
+                .map((value) => value.time)
                 .reduce((prev, current) => prev + current, 0) * 60
+
+            // 平均 = 朝活時間の合計 / 朝活をした日
             this.avgAsakatsuTimeSec =
               data.asakatsu.length > 0
-                ? sumAsakatsuTimeSec / data.asakatsu.length
+                ? sumAsakatsuTimeSec / asakatsuTimeGroupByDate.length
                 : 0
           }
         })

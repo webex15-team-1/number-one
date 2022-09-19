@@ -106,6 +106,7 @@ export default {
   },
 }
 </script>
+<<<<<<< HEAD
 <style>
 * {
   font-family: "Zen Maru Gothic";
@@ -252,3 +253,6 @@ export default {
   }
 }
 </style>
+=======
+<style></style>
+>>>>>>> origin/master
