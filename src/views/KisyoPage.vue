@@ -180,7 +180,7 @@ export default {
       } else {
         this.fixedtimeLate = this.timeLate
       }
-      this.isLate = true
+
       //ポイント処理
       if (this.isLate || this.logExist) {
         alert("今日の起床時間の結果は登録済みです。")
@@ -203,6 +203,7 @@ export default {
           alert("早く起きれるよう頑張りましょう...")
         }
       }
+      this.isLate = true
 
       // 起きたことを記録しておく
       const wakeUpLog = localStorage.moreningWakeUpLog
