@@ -309,21 +309,10 @@ export default {
 }
 </script>
 <style scoped>
-<<<<<<< Updated upstream
-#bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
-.kisyo-app {
-  height: calc(6em + 125vh);
-=======
 .kisyo-app {
   position: relative;
   width: 100%;
   margin: 6em 0 6em 0;
->>>>>>> Stashed changes
 }
 .targetTime {
   font-size: 2.5em;
