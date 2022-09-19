@@ -46,12 +46,15 @@ export default {
       asakatsu: [],
       i: 0,
       calendar: [],
+      a: 0,
+      first: 0,
     }
   },
   created() {
     this.month = this.now.getMonth() + 1
     this.year = this.now.getFullYear()
     this.cal()
+    this.i = this.first
   },
   methods: {
     kisyoAsakatsuTimes() {
@@ -99,6 +102,7 @@ export default {
     cal() {
       this.kisyoAsakatsuTimes()
       this.calendar = []
+      this.a = 0
       //月初めの曜日
       let firstWeekDay = new Date(this.year, this.month - 1, 1).getDay()
       //月終わりの日付
@@ -151,6 +155,9 @@ export default {
             }
             nextMonthDay += 1
           } else {
+            if (day === this.now.getDate()) {
+              this.first = this.a
+            }
             let dayFirebase = this.year + "/" + this.month + "/" + day
             for (let j = 0; j < this.kisyo.length; j++) {
               if (this.kisyo[j].date === dayFirebase) {
@@ -178,6 +185,7 @@ export default {
           }
         }
         this.calendar.push(weekData)
+        this.a += 1
       }
     },
   },
