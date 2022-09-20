@@ -1,5 +1,6 @@
 <template>
-  <div class="app">
+  <img src="@/views/images/kisyo-bg.png" alt="背景" id="bg" />
+  <div class="kisyo-app">
     <!-- じゃんけん -->
     <div class="janken" v-if="isJanken">
       <h2>今日の運試し</h2>
@@ -58,33 +59,18 @@
       <button class="kakuninButton" v-on:click="yesJanken">する</button>
       <button class="kakuninButton" v-on:click="noJanken">しない</button>
     </div>
-    <h1 class="target">起床目標時間</h1>
+    <h1 class="target">今日の起床目標時間</h1>
     <div class="targetTime">
-      <input
-        class="hour-box"
-        type="number"
-        min="0"
-        max="24"
-        v-model="targetHour"
-      />:<input
-        class="min-box"
-        type="number"
-        min="0"
-        max="5"
-        v-model="targetMin10"
-      /><input
-        class="min-box"
-        type="number"
-        min="0"
-        max="9"
-        v-model="targetMin1"
-      />
+      {{ targetHour }} : {{ targetMin10 }}{{ targetMin1 }}
     </div>
     <button class="pop-button" v-on:click="two">起床</button>
-    <div v-if="isLate">
+    <div v-if="isLate && !logExist">
       <div class="timeLate">目標時間より{{ fixedtimeLate }}分です。</div>
       <div class="pointGet">{{ point }}ポイントを獲得しました！</div>
     </div>
+    <TimeSetup v-if="isLate || logExist"
+      >明日の起床時間を設定しよう！</TimeSetup
+    >
   </div>
 </template>
 
@@ -98,6 +84,7 @@ import {
   arrayUnion,
 } from "firebase/firestore"
 import { db } from "@/firebase"
+import TimeSetup from "@/components/TimeSetup.vue"
 
 export default {
   data() {
@@ -133,12 +120,20 @@ export default {
       isLate: false,
       point: 0,
       i: 1,
+      logExist: false,
     }
   },
   mounted: function () {
+    // 起床した形跡があるかチェック
+    const now = new Date()
+    const searchString = `${now.getFullYear()}/${now.getMonth()}/${now.getDate()}`
+    const wakeUpLog = localStorage.moreningWakeUpLog
+      ? JSON.parse(localStorage.moreningWakeUpLog)
+      : []
+    this.logExist = wakeUpLog.includes(searchString)
     // 目標時間のlocalStorageからの読み出し
-    const previousWakeupTime = localStorage.morening
-      ? JSON.parse(localStorage.morening)
+    const previousWakeupTime = localStorage.moreningWakeUp
+      ? JSON.parse(localStorage.moreningWakeUp)
       : {
           targetHour: 6,
           targetMin10: 0,
@@ -188,26 +183,38 @@ export default {
       } else {
         this.fixedtimeLate = this.timeLate
       }
-      this.isLate = true
 
       //ポイント処理
-      if (this.timeLate >= -10 && this.timeLate <= 60) {
-        if (this.timeLate <= 10) {
-          this.point += 10 * this.i
-          alert("Perfect！いい調子です！")
-        } else if (this.timeLate <= 20) {
-          this.point += 8 * this.i
-          alert("Great！")
-        } else if (this.timeLate <= 30) {
-          this.point += 6 * this.i
-          alert("Good！")
-        } else {
-          this.point += 4 * this.i
-          alert("OK")
-        }
+      if (this.isLate || this.logExist) {
+        alert("今日の起床時間の結果は登録済みです。")
       } else {
-        alert("早く起きれるよう頑張りましょう...")
+        if (this.timeLate >= -10 && this.timeLate <= 60) {
+          if (this.timeLate <= 10) {
+            this.point += 10 * this.i
+            alert("Perfect！いい調子です！")
+          } else if (this.timeLate <= 20) {
+            this.point += 8 * this.i
+            alert("Great！")
+          } else if (this.timeLate <= 30) {
+            this.point += 6 * this.i
+            alert("Good！")
+          } else {
+            this.point += 4 * this.i
+            alert("OK")
+          }
+        } else {
+          alert("早く起きれるよう頑張りましょう...")
+        }
       }
+      this.isLate = true
+
+      // 起きたことを記録しておく
+      const wakeUpLog = localStorage.moreningWakeUpLog
+        ? JSON.parse(localStorage.moreningWakeUpLog)
+        : []
+      wakeUpLog.push(`${now.getFullYear()}/${now.getMonth()}/${now.getDate()}`)
+      console.log(wakeUpLog)
+      localStorage.moreningWakeUpLog = JSON.stringify(wakeUpLog)
     },
     choose(choice) {
       this.pon = true
@@ -222,7 +229,6 @@ export default {
         this.remainTime -= 1
         if (this.remainTime === 0) clearInterval(remainTime)
       }, 1000)
-
       //選択した手がでるようにする
     },
     result() {
@@ -271,16 +277,26 @@ export default {
         }
       })
       // 目標時間のlocalStorageへの保存
-      localStorage.morening = JSON.stringify({
+      localStorage.moreningWakeUp = JSON.stringify({
         targetHour: this.targetHour,
         targetMin10: this.targetMin10,
         targetMin1: this.targetMin1,
       })
     },
   },
+  components: { TimeSetup },
 }
 </script>
-<style>
+<style scoped>
+#bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.kisyo-app {
+  height: calc(6em + 125vh);
+}
 .targetTime {
   font-size: 2.5em;
   color: #022340;

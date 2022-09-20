@@ -58,6 +58,7 @@
     </select>
   </div>
   <br />
+  <TimeSetup>初回の目標起床時間を入力してください。</TimeSetup>
   <div>
     <button v-on:click="two">登録</button>
   </div>
@@ -67,6 +68,7 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { doc, setDoc, getDoc } from "firebase/firestore"
 import { db } from "@/firebase"
+import TimeSetup from "@/components/TimeSetup.vue"
 
 export default {
   data() {
@@ -121,5 +123,36 @@ export default {
       this.prefectureCode = e.target.value
     },
   },
+  components: {
+    TimeSetup,
+  },
 }
 </script>
+<style scoped>
+h3 {
+  word-break: keep-all;
+  line-break: strict;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+button {
+  margin: 1em;
+  width: 6em;
+  height: 2em;
+  text-align: center;
+  font-size: 1.5em;
+  color: white;
+  background-color: #048abf;
+  border-radius: 60px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 5px solid #022340;
+}
+button:hover {
+  padding-top: 3px;
+  border-bottom: 2px solid #022340;
+  transition: 0.3s;
+  color: white;
+}
+</style>
