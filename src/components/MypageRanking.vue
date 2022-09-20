@@ -79,7 +79,7 @@ export default {
 .names > tr:last-child {
   margin-bottom: 1em;
 }
-.names td:first-child {
+.names > tr > td:first-child {
   width: 3em;
   text-align: left;
   color: inherit;
