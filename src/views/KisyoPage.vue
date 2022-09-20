@@ -365,6 +365,7 @@ export default {
     height: 100%;
     margin: 1em 0 calc(100vh - 100%);
     flex-direction: column;
+    align-items: center;
   }
   .janken,
   .jankenKakunin {
