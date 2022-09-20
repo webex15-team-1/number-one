@@ -12,8 +12,13 @@
         </div>
       </div>
       <div id="calendar">
+        <select id="select" v-model="selected">
+          <option value="month">月</option>
+          <option value="week">週</option>
+        </select>
         <!-- カレンダー -->
-        <MypageCalendarMonthly />
+        <MypageCalendarMonthly v-if="selected === 'month'" />
+        <MypageCalendarWeekly v-else />
       </div>
     </div>
     <div id="right-pane">
@@ -50,10 +55,12 @@ import MypageRanking from "@/components/MypageRanking.vue"
 import MypageTweet from "@/components/MypageTweet.vue"
 import MypageSettings from "@/components/MypageSettings.vue"
 import MypageCalendarMonthly from "@/components/MypageCalendarMonthly.vue"
+import MypageCalendarWeekly from "@/components/MypageCalendarWeekly.vue"
 
 export default {
   data() {
     return {
+      selected: "month",
       auth: getAuth(),
       nickname: "",
       uid: "",
@@ -102,6 +109,7 @@ export default {
     MypageTweet,
     MypageSettings,
     MypageCalendarMonthly,
+    MypageCalendarWeekly,
     Icon,
   },
 }
@@ -146,6 +154,11 @@ export default {
     display: inline-block;
     width: 100%;
     margin: 2em 0 1em 0;
+  }
+  #select {
+    position: absolute;
+    height: 2em;
+    left: 74%;
   }
   #right-pane {
     border-left: 1px solid #022340;
@@ -192,6 +205,11 @@ export default {
     display: inline-block;
     width: 100%;
     margin: 2em 0 1em 0;
+  }
+  #select {
+    position: absolute;
+    height: 2em;
+    right: 5%;
   }
   #right-pane {
     display: flex;
