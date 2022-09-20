@@ -164,98 +164,298 @@ export default {
 }
 </script>
 
-<style>
-.start_asakatsu {
-  color: #022340;
-}
-.asakatsu-text-navy {
-  color: #022340;
-  font-size: 1.5em;
-  margin: 0.5em 0;
-}
-.times {
-  position: relative;
-  z-index: -1;
-  width: 100%;
-  height: 30vw;
-  margin-bottom: 5%;
-}
-.timer-design {
-  position: relative;
-  height: 40vw;
-  width: 40vw;
-  display: block;
-  margin: auto;
-}
-.timer {
-  font-size: 6vw;
-  width: 100%;
-  line-height: 30vw;
-  position: absolute;
-  z-index: 100;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.minicircle {
-  position: absolute;
-  z-index: 3;
-  width: 60%;
-  height: 60%;
-  top: 20%;
-  left: 20%;
-  border-radius: 50%;
-  background: #d8eefe;
-}
-.middlecircle {
-  position: absolute;
-  z-index: 2;
-  width: 94%;
-  height: 94%;
-  top: 3%;
-  left: 3%;
-  border-radius: 50%;
-  background: white;
-  transition: all 1s linear;
-}
-.bigcircle {
-  position: absolute;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  margin: auto;
-  border-radius: 50%;
-  background: #d8eefe;
-}
-.circle {
-  position: absolute;
-  display: inline-block;
-  z-index: 4;
-  width: 20%;
-  height: 20%;
-  top: 0%;
-  left: 50%;
-  transform: translateX(-50%);
-}
+<style scoped>
+@media (min-width: 1001px) {
+  .start_asakatsu {
+    color: #022340;
+  }
+  .asakatsu-text-navy {
+    color: #022340;
+    font-size: 1.5em;
+    margin: 0.5em 0;
+  }
+  .times {
+    position: relative;
+    z-index: -1;
+    width: 100%;
+    height: 30vw;
+    margin-bottom: 5%;
+  }
+  .timer-design {
+    position: relative;
+    height: 35vw;
+    width: 35vw;
+    display: block;
+    margin: auto;
+  }
+  .timer {
+    font-size: 4em;
+    width: 100%;
+    line-height: 30vw;
+    position: absolute;
+    z-index: 100;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .minicircle {
+    position: absolute;
+    z-index: 3;
+    width: 60%;
+    height: 60%;
+    top: 20%;
+    left: 20%;
+    border-radius: 50%;
+    background: #d8eefe;
+  }
+  .middlecircle {
+    position: absolute;
+    z-index: 2;
+    width: 94%;
+    height: 94%;
+    top: 3%;
+    left: 3%;
+    border-radius: 50%;
+    background: white;
+    transition: all 1s linear;
+  }
+  .bigcircle {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    border-radius: 50%;
+    background: #d8eefe;
+  }
+  .circle {
+    position: absolute;
+    display: inline-block;
+    z-index: 4;
+    width: 20%;
+    height: 20%;
+    top: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
-.pop-button {
-  margin: 3%;
-  width: 10%;
-  height: 2em;
-  text-align: center;
-  font-size: 1.5em;
-  color: white;
-  background-color: #048abf;
-  border-radius: 60px;
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
-  border-bottom: 5px solid #022340;
+  .pop-button {
+    margin: 3%;
+    width: 10%;
+    height: 2em;
+    text-align: center;
+    font-size: 1.5em;
+    color: white;
+    background-color: #048abf;
+    border-radius: 60px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 5px solid #022340;
+  }
+  .pop-button:hover {
+    padding-top: 3px;
+    border-bottom: 2px solid #022340;
+    transition: 0.3s;
+    color: white;
+  }
 }
-.pop-button:hover {
-  padding-top: 3px;
-  border-bottom: 2px solid #022340;
-  transition: 0.3s;
-  color: white;
+@media (max-width: 1000px) {
+  .asakatsu {
+    height: calc(100vh - 6em);
+  }
+  .start_asakatsu {
+    color: #022340;
+    font-size: 2.5em;
+  }
+  .asakatsu-text-navy {
+    color: #022340;
+    font-size: 1.5em;
+    margin: 0.5em 0;
+  }
+  .times {
+    position: relative;
+    z-index: -1;
+    width: 100%;
+    height: 30vw;
+    margin-bottom: 5%;
+  }
+  .timer-design {
+    position: relative;
+    height: 80vw;
+    width: 80vw;
+    display: block;
+    margin: auto;
+  }
+  .timer {
+    font-size: 5em;
+    width: 100%;
+    line-height: 30vw;
+    position: absolute;
+    z-index: 100;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .minicircle {
+    position: absolute;
+    z-index: 3;
+    width: 60%;
+    height: 60%;
+    top: 20%;
+    left: 20%;
+    border-radius: 50%;
+    background: #d8eefe;
+  }
+  .middlecircle {
+    position: absolute;
+    z-index: 2;
+    width: 94%;
+    height: 94%;
+    top: 3%;
+    left: 3%;
+    border-radius: 50%;
+    background: white;
+    transition: all 1s linear;
+  }
+  .bigcircle {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    border-radius: 50%;
+    background: #d8eefe;
+  }
+  .circle {
+    position: absolute;
+    display: inline-block;
+    z-index: 4;
+    width: 20%;
+    height: 20%;
+    top: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .pop-button {
+    margin: 3%;
+    width: 8em;
+    height: 2.5em;
+    text-align: center;
+    font-size: 2.5em;
+    color: white;
+    background-color: #048abf;
+    border-radius: 60px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 5px solid #022340;
+  }
+  .pop-button:hover {
+    padding-top: 3px;
+    border-bottom: 2px solid #022340;
+    transition: 0.3s;
+    color: white;
+  }
+}
+@media (max-width: 670px) {
+  .asakatsu {
+    height: calc(100vh - 6em);
+  }
+  .start_asakatsu {
+    color: #022340;
+    font-size: 2.5em;
+  }
+  .asakatsu-text-navy {
+    color: #022340;
+    font-size: 1.5em;
+    margin: 0.5em 0;
+  }
+  .times {
+    position: relative;
+    z-index: -1;
+    width: 100%;
+    height: 30vw;
+    margin-bottom: 5%;
+  }
+  .timer-design {
+    position: relative;
+    height: 80vw;
+    width: 80vw;
+    display: block;
+    margin: auto;
+  }
+  .timer {
+    font-size: 2.5em;
+    width: 100%;
+    line-height: 30vw;
+    position: absolute;
+    z-index: 100;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .minicircle {
+    position: absolute;
+    z-index: 3;
+    width: 60%;
+    height: 60%;
+    top: 20%;
+    left: 20%;
+    border-radius: 50%;
+    background: #d8eefe;
+  }
+  .middlecircle {
+    position: absolute;
+    z-index: 2;
+    width: 94%;
+    height: 94%;
+    top: 3%;
+    left: 3%;
+    border-radius: 50%;
+    background: white;
+    transition: all 1s linear;
+  }
+  .bigcircle {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    border-radius: 50%;
+    background: #d8eefe;
+  }
+  .circle {
+    position: absolute;
+    display: inline-block;
+    z-index: 4;
+    width: 20%;
+    height: 20%;
+    top: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .pop-button {
+    margin: 3%;
+    width: 6em;
+    height: 1.5em;
+    text-align: center;
+    font-size: 2em;
+    color: white;
+    background-color: #048abf;
+    border-radius: 60px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 5px solid #022340;
+  }
+  .pop-button:hover {
+    padding-top: 3px;
+    border-bottom: 2px solid #022340;
+    transition: 0.3s;
+    color: white;
+  }
 }
 </style>
