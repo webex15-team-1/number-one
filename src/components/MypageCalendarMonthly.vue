@@ -106,6 +106,9 @@ export default {
       //月終わりの日付
       let lastDay = new Date(this.year, this.month, 0).getDate()
       let dayNumber = 1
+      let nextMonthDay = 1
+      let prevMonthDay =
+        new Date(this.year, this.month - 1, 0).getDate() - firstWeekDay + 1
       while (dayNumber <= lastDay) {
         let weekData = []
         for (let i = 0; i <= 6; i++) {
@@ -113,23 +116,48 @@ export default {
           let kisyoTime = ""
           let asakatsuTime = 0
           if (calendar.length == 0 && i < firstWeekDay) {
-            day = ""
-          } else if (lastDay < dayNumber) {
-            day = ""
-          } else {
-            let day = this.year + "/" + this.month + "/" + dayNumber
+            day = prevMonthDay
+            let dayFirebase = this.year + "/" + (this.month - 1) + "/" + day
             for (let j = 0; j < this.kisyo.length; j++) {
-              if (this.kisyo[j].date === day) {
+              if (this.kisyo[j].date === dayFirebase) {
                 let kisyoTimeFirebase = this.kisyo[j].getupCurrentTime
-                kisyoTime = this.isMobile
-                  ? kisyoTimeFirebase.substring(0, 5)
-                  : kisyoTimeFirebase
+                kisyoTime = kisyoTimeFirebase
               }
             }
             for (let k = 0; k < this.asakatsu.length; k++) {
-              if (this.asakatsu[k].date === day) {
+              if (this.asakatsu[k].date === dayFirebase) {
                 let asakatsuTimeFirebase = Number(this.asakatsu[k].time)
-                console.log(asakatsuTimeFirebase)
+                asakatsuTime += asakatsuTimeFirebase
+              }
+            }
+            prevMonthDay += 1
+          } else if (lastDay < dayNumber) {
+            day = nextMonthDay
+            let dayFirebase = this.year + "/" + (this.month + 1) + "/" + day
+            for (let j = 0; j < this.kisyo.length; j++) {
+              if (this.kisyo[j].date === dayFirebase) {
+                let kisyoTimeFirebase = this.kisyo[j].getupCurrentTime
+                kisyoTime = kisyoTimeFirebase
+              }
+            }
+            for (let k = 0; k < this.asakatsu.length; k++) {
+              if (this.asakatsu[k].date === dayFirebase) {
+                let asakatsuTimeFirebase = Number(this.asakatsu[k].time)
+                asakatsuTime += asakatsuTimeFirebase
+              }
+            }
+            nextMonthDay += 1
+          } else {
+            let dayFirebase = this.year + "/" + this.month + "/" + day
+            for (let j = 0; j < this.kisyo.length; j++) {
+              if (this.kisyo[j].date === dayFirebase) {
+                let kisyoTimeFirebase = this.kisyo[j].getupCurrentTime
+                kisyoTime = kisyoTimeFirebase
+              }
+            }
+            for (let k = 0; k < this.asakatsu.length; k++) {
+              if (this.asakatsu[k].date === dayFirebase) {
+                let asakatsuTimeFirebase = Number(this.asakatsu[k].time)
                 asakatsuTime += asakatsuTimeFirebase
               }
             }
