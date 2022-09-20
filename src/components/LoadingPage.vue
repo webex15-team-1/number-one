@@ -15,12 +15,14 @@ export default {
 
 <style>
 .loading {
+  position: relative;
   background-color: #f2c48d;
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 99999;
 }
 .loadingSun {
   animation: rotate 4s linear infinite;

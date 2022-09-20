@@ -556,13 +556,13 @@ export default {
 </script>
 
 <style scoped>
-.loading {
+/* .loading {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 99999;
   animation: loading 1s ease-out 2s forwards;
-}
+} */
 @keyframes loading {
   from {
     opacity: 1;
