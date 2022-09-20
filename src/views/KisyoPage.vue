@@ -492,6 +492,7 @@ export default {
   .wakeup-table > table th,
   .wakeup-table > table td {
     padding: 0.5em 1em;
+    font-size: 1em;
   }
   .wakeup-data-enter-active,
   .wakeup-data-leave-active {
@@ -554,9 +555,9 @@ export default {
   .kisyo-app {
     display: flex;
     width: 100%;
-    height: 100%;
-    margin: 1em 0 calc(100vh - 100%);
+    margin: 1em 0 calc(100vh - 100% + 10em);
     flex-direction: column;
+    align-items: center;
   }
   .janken,
   .jankenKakunin {
@@ -675,7 +676,7 @@ export default {
     justify-content: center;
     z-index: 2;
     position: absolute;
-    width: 90%;
+    width: 95%;
     height: 80%;
     top: 50%;
     left: 50%;
@@ -684,7 +685,12 @@ export default {
   }
   .wakeup-table > table th,
   .wakeup-table > table td {
-    padding: 0.5em 1em;
+    padding: 0.25em;
+    font-size: 1em;
+    word-break: keep-all;
+    line-break: strict;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   .wakeup-data-enter-active,
   .wakeup-data-leave-active {
@@ -708,7 +714,7 @@ export default {
     border-radius: 50%;
     margin: 0.5em;
     position: absolute;
-    right: 0%;
+    right: 5%;
     bottom: 85%;
   }
   .target {
@@ -869,7 +875,7 @@ export default {
     justify-content: center;
     z-index: 2;
     position: absolute;
-    width: 90%;
+    width: 95%;
     height: 80%;
     top: 50%;
     left: 50%;
@@ -878,7 +884,12 @@ export default {
   }
   .wakeup-table > table th,
   .wakeup-table > table td {
-    padding: 0.5em 1em;
+    padding: 0.25em;
+    font-size: 0.7em;
+    word-break: keep-all;
+    line-break: strict;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   .wakeup-data-enter-active,
   .wakeup-data-leave-active {
@@ -902,11 +913,11 @@ export default {
     border-radius: 50%;
     margin: 0.5em;
     position: absolute;
-    right: 0%;
+    right: 5%;
     bottom: 85%;
   }
   .target {
-    font-size: 1.5em;
+    font-size: 1em;
   }
   .targetTime {
     font-size: 2em;
