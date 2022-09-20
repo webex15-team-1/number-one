@@ -7,6 +7,7 @@ import ColorPallete from "@/views/ColorPalette.vue"
 import NameRegister from "@/views/nameRegister.vue"
 import Top from "@/views/TopPage.vue"
 import Calendar from "@/views/MypageCalendar.vue"
+import CalendarWeekly from "@/views/MypageCalendarWeekly.vue"
 import Logout from "@/views/LogoutPage.vue"
 
 const routes = [
@@ -49,6 +50,11 @@ const routes = [
     path: "/calendar",
     name: "calendar",
     component: Calendar,
+  },
+  {
+    path: "/calendarweekly",
+    name: "calendarweekly",
+    component: CalendarWeekly,
   },
   {
     path: "/logout",
