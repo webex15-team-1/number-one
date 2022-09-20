@@ -144,7 +144,7 @@ export default {
     position: fixed;
     width: 9em;
     height: 3em;
-    top: 2.5%;
+    top: 2%;
     left: 5%;
     text-align: center;
     display: inline-block;

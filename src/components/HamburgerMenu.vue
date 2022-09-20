@@ -96,14 +96,14 @@ export default {
   .hamburger-container {
     position: fixed;
     top: 0%;
-    left: 125%;
-    width: 25%;
+    left: 135%;
+    width: 35%;
     height: 100%;
     transition: all 0.5s ease-in-out;
     z-index: 10000;
   }
   .hamburger-container.active {
-    left: 75%;
+    left: 65%;
   }
   .hamburger-button {
     position: fixed;
@@ -167,8 +167,8 @@ export default {
     top: 50%;
     left: 10%;
     transform: translateY(-50%);
-    font-size: 2em;
-    line-height: 2em;
+    font-size: 3em;
+    line-height: 3em;
     font-weight: bold;
   }
   .nav-items {
@@ -177,6 +177,7 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     align-items: left;
+    gap: 1em;
     top: 10%;
   }
   .nav-item {
@@ -188,28 +189,30 @@ export default {
   .nav-item svg {
     position: absolute;
     left: 5%;
+    height: 2em;
+    width: 2em;
   }
   .nav-item a {
     position: absolute;
     left: 15%;
     color: inherit;
     text-decoration: none;
-    font-size: 1.5em;
-    line-height: 1.5em;
+    font-size: 2em;
+    line-height: 2em;
   }
 }
 @media (max-width: 1000px) {
   .hamburger-container {
     position: fixed;
     top: 0%;
-    left: 130%;
-    width: 30%;
+    left: 140%;
+    width: 40%;
     height: 100%;
     transition: all 0.5s ease-in-out;
     z-index: 10000;
   }
   .hamburger-container.active {
-    left: 70%;
+    left: 60%;
   }
   .hamburger-button {
     position: fixed;
@@ -273,7 +276,7 @@ export default {
     top: 50%;
     left: 10%;
     transform: translateY(-50%);
-    font-size: 1.5em;
+    font-size: 2.5em;
     font-weight: bold;
   }
   .nav-items {
@@ -282,6 +285,7 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     align-items: left;
+    gap: 1em;
     top: 3%;
   }
   .nav-item {
@@ -293,28 +297,30 @@ export default {
   .nav-item svg {
     position: absolute;
     left: 5%;
+    width: 2.5em;
+    height: 2.5em;
   }
   .nav-item a {
     position: absolute;
     left: 20%;
     color: inherit;
     text-decoration: none;
-    font-size: 1.2em;
-    line-height: 1.2em;
+    font-size: 2.5em;
+    line-height: 2.5em;
   }
 }
 @media (max-width: 670px) {
   .hamburger-container {
     position: fixed;
     top: 0%;
-    left: 140%;
-    width: 40%;
+    left: 155%;
+    width: 55%;
     height: 100%;
     transition: all 0.5s ease-in-out;
     z-index: 10000;
   }
   .hamburger-container.active {
-    left: 60%;
+    left: 45%;
   }
   .hamburger-button {
     position: fixed;
@@ -367,10 +373,10 @@ export default {
   }
   .hamburger-title {
     position: relative;
-    top: 10%;
+    top: 2.5%;
     left: 50%;
     transform: translateX(-50%);
-    height: 2em;
+    height: 3em;
     text-align: center;
   }
   .hamburger-title span {
@@ -387,7 +393,7 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     align-items: left;
-    top: 10%;
+    top: 5%;
   }
   .nav-item {
     margin: 0.5em;
@@ -398,14 +404,16 @@ export default {
   .nav-item svg {
     position: absolute;
     left: 5%;
+    width: 1.5em;
+    height: 1.5em;
   }
   .nav-item a {
     position: absolute;
     left: 20%;
     color: inherit;
     text-decoration: none;
-    font-size: 1em;
-    line-height: 1em;
+    font-size: 1.5em;
+    line-height: 1.5em;
   }
 }
 </style>
