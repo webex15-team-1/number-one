@@ -362,8 +362,7 @@ export default {
   .kisyo-app {
     display: flex;
     width: 100%;
-    height: 100%;
-    margin: 1em 0 calc(100vh - 100%);
+    margin: 0;
     flex-direction: column;
     align-items: center;
   }
