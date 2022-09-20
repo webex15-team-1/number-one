@@ -423,7 +423,9 @@ export default {
      */
     /* moonPercent() {
       const millisecondFromMoonRise =
-        this.nowMilliSecond - this.moon.rise.getTime()
+        typeof this.moon.rise.getTime() !== "undefined"
+          ? this.nowMilliSecond - this.moon.rise.getTime()
+          : 0
       const moonLength = this.moon.set.getTime() - this.moon.rise.getTime()
       return (millisecondFromMoonRise / moonLength) * 100
     }, */

@@ -1,39 +1,44 @@
 <template>
-  <img src="@/views/images/kisyo-bg.png" alt="背景" id="bg" />
   <div class="kisyo-app">
     <!-- じゃんけん -->
-    <div class="janken" v-if="isJanken">
+    <div
+      class="janken"
+      v-if="isJanken"
+      :style="{
+        border: `4px solid ${currentSetting.hamburgerBackgroundColor}`,
+      }"
+    >
       <h2>今日の運試し</h2>
       <h3>勝てばポイント1.5倍！</h3>
-      <div class="te__images">
-        <div v-if="pon">
-          <img
-            v-if="this.pc === 0"
-            src="@/views/images/guu.png"
-            alt="グー"
-            class="te"
-          />
-          <img
-            v-if="this.pc === 1"
-            src="@/views/images/tyoki.png"
-            alt="チョキ"
-            class="te"
-          />
-          <img
-            v-if="this.pc === 2"
-            src="@/views/images/paa.png"
-            alt="パー"
-            class="te"
-          />
-        </div>
-
-        <div v-else>
-          <!-- ボタン推すまでのドゥルルルルのもの -->
-          <img src="@/views/images/guu.png" alt="グー" class="dwu__guu" />
-          <img src="@/views/images/tyoki.png" alt="チョキ" class="dwu__tyoki" />
-          <img src="@/views/images/paa.png" alt="パー" class="dwu__paa" />
-        </div>
+      <!-- <div class="te__images"> -->
+      <div v-if="pon" class="te__images">
+        <img
+          v-if="this.pc === 0"
+          src="@/views/images/guu.png"
+          alt="グー"
+          class="te"
+        />
+        <img
+          v-if="this.pc === 1"
+          src="@/views/images/tyoki.png"
+          alt="チョキ"
+          class="te"
+        />
+        <img
+          v-if="this.pc === 2"
+          src="@/views/images/paa.png"
+          alt="パー"
+          class="te"
+        />
       </div>
+
+      <div v-else class="te__images">
+        <!-- ボタン推すまでのドゥルルルルのもの -->
+        <img src="@/views/images/guu.png" alt="グー" class="dwu__guu" />
+        <img src="@/views/images/tyoki.png" alt="チョキ" class="dwu__tyoki" />
+        <img src="@/views/images/paa.png" alt="パー" class="dwu__paa" />
+      </div>
+      <!-- </div> -->
 
       <div class="button__area">
         <button
@@ -54,16 +59,70 @@
     </div>
     <!-- じゃんけん -->
 
-    <div class="jankenKakunin" v-if="buttonClicked">
+    <div
+      class="jankenKakunin"
+      v-if="buttonClicked"
+      :style="{
+        border: `4px solid ${currentSetting.hamburgerBackgroundColor}`,
+      }"
+    >
       <div>獲得ポイント1.5倍のチャンス！運試しする？</div>
       <button class="kakuninButton" v-on:click="yesJanken">する</button>
       <button class="kakuninButton" v-on:click="noJanken">しない</button>
     </div>
-    <h1 class="target">今日の起床目標時間</h1>
-    <div class="targetTime">
-      {{ targetHour }} : {{ targetMin10 }}{{ targetMin1 }}
+    <div class="wakeup-wrap">
+      <img
+        class="ohayo-img"
+        src="@/views/images/ohayo-boy.png"
+        alt="目覚める男の子"
+      />
+      <div class="wakeup-console">
+        <transition name="wakeup-data">
+          <div class="wakeup-table" v-if="showTable">
+            <table>
+              <tbody>
+                <th>起床目標時間との差</th>
+                <th>獲得ポイント</th>
+                <tr>
+                  <td>-10分～+10分</td>
+                  <td>10 P</td>
+                </tr>
+                <tr>
+                  <td>+10分～+20分</td>
+                  <td>8 P</td>
+                </tr>
+                <tr>
+                  <td>+20分～+30分</td>
+                  <td>6 P</td>
+                </tr>
+                <tr>
+                  <td>+30分～+60分</td>
+                  <td>4 P</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </transition>
+
+        <div class="wakeup">
+          <button class="question-button" @click="toggleTable">
+            <Icon icon="akar-icons:question" width="1.5em" />
+          </button>
+          <h1 class="target">今日の起床目標時間</h1>
+          <div class="targetTime">
+            {{ targetHour }} : {{ targetMin10 }}{{ targetMin1 }}
+          </div>
+          <button class="pop-button" v-on:click="two">起床</button>
+        </div>
+      </div>
+
+      <img
+        class="ohayo-img"
+        src="@/views/images/ohayo-girl.png"
+        alt="目覚める女の子"
+      />
     </div>
-    <button class="pop-button" v-on:click="two">起床</button>
+
     <div v-if="isLate && !logExist">
       <div class="timeLate">目標時間より{{ fixedtimeLate }}分です。</div>
       <div class="pointGet">{{ point }}ポイントを獲得しました！</div>
@@ -75,6 +134,7 @@
 </template>
 
 <script>
+import { Icon } from "@iconify/vue"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import {
   doc,
@@ -121,6 +181,7 @@ export default {
       point: 0,
       i: 1,
       logExist: false,
+      showTable: false,
     }
   },
   mounted: function () {
@@ -150,6 +211,9 @@ export default {
     })
   },
   methods: {
+    toggleTable() {
+      this.showTable = !this.showTable
+    },
     two() {
       this.kisyoButton()
       this.pointRegister()
@@ -284,117 +348,604 @@ export default {
       })
     },
   },
-  components: { TimeSetup },
+  computed: {
+    currentSetting() {
+      const colorIndex = this.$store.state.activeColorSet
+      return this.$store.state.colors[colorIndex]
+    },
+  },
+  components: { TimeSetup, Icon },
 }
 </script>
 <style scoped>
-#bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-}
-.kisyo-app {
-  height: calc(6em + 125vh);
-}
-.targetTime {
-  font-size: 2.5em;
-  color: #022340;
-}
-.hour-box {
-  text-align: center;
-  font-size: 1.5em;
-  width: 8vw;
-  color: #022340;
-  border: none;
-}
-.min-box {
-  text-align: center;
-  font-size: 1.5em;
-  width: 4vw;
-  color: #022340;
-  border: none;
-}
-.janken {
-  border: 4px solid;
-  box-sizing: border-box;
-  margin: 0 30%;
-  padding: 1% 0;
-}
-.te__images {
-  height: 24vw;
-  position: relative;
-}
+@media (min-width: 1001px) {
+  .kisyo-app {
+    display: flex;
+    width: 100%;
+    margin: 0;
+    flex-direction: column;
+    align-items: center;
+  }
+  .janken,
+  .jankenKakunin {
+    background-color: #d8eefe;
+  }
+  .janken {
+    border: 4px solid;
+    box-sizing: border-box;
+    margin: 0 10%;
+    padding: 1% 0;
+    display: inline-flex;
+    flex-direction: column;
+    width: 30%;
+  }
+  .janken > h2 {
+    margin: 0;
+    padding: 0.5em 0;
+    font-size: 2.5em;
+  }
+  .janken > h3 {
+    margin: 0;
+  }
+  .te__images {
+    height: 50%;
+  }
+  .te__images img {
+    width: 50%;
+  }
+  .dwu__guu {
+    animation-name: images;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    z-index: 1;
+    margin-right: -50%;
+  }
 
-.te {
-  width: 60%;
-  position: absolute;
-  left: 20%;
-}
-.dwu__guu {
-  width: 60%;
-  position: absolute;
-  left: 20%;
-  animation-name: images;
-  animation-duration: 0.3s;
-  animation-iteration-count: infinite;
-}
+  .dwu__tyoki {
+    animation-name: images;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.1s;
+    z-index: 2;
+  }
 
-.dwu__tyoki {
-  width: 60%;
-  position: absolute;
-  left: 20%;
-  animation-name: images;
-  animation-duration: 0.3s;
-  animation-iteration-count: infinite;
-  animation-delay: 0.1s;
-}
+  .dwu__paa {
+    animation-name: images;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.2s;
+    z-index: 3;
+    margin-left: -50%;
+  }
 
-.dwu__paa {
-  width: 60%;
-  position: absolute;
-  left: 20%;
-  animation-name: images;
-  animation-duration: 0.3s;
-  animation-iteration-count: infinite;
-  animation-delay: 0.2s;
-}
+  @keyframes images {
+    0% {
+      opacity: 0;
+      /* opacityは透明度で、0~1で設定、0は表示されない */
+    }
+    25% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
 
-@keyframes images {
-  0% {
+  .janken__button {
+    margin: 1%;
+  }
+
+  .pc__text {
+    text-align: center;
+  }
+
+  .result__text {
+    text-align: center;
+  }
+
+  .jankenKakunin {
+    border: thick double red;
+    box-sizing: border-box;
+    width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 1%;
+  }
+
+  .kakuninButton {
+    margin: 1%;
+  }
+  .wakeup-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 4em;
+    z-index: 1;
+  }
+  .ohayo-img {
+    width: 20%;
+  }
+  .wakeup-console {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #048abf;
+    border-radius: 31px;
+    margin: 2em;
+    padding: 0.5em 2em;
+  }
+  .wakeup-table {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    position: absolute;
+    width: 90%;
+    height: 80%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(216, 238, 254, 0.95);
+  }
+  .wakeup-table > table th,
+  .wakeup-table > table td {
+    padding: 0.5em 1em;
+    font-size: 1em;
+  }
+  .wakeup-data-enter-active,
+  .wakeup-data-leave-active {
+    transition: all 0.5s ease;
+  }
+  .wakeup-data-enter-from,
+  .wakeup-data-leave-to {
+    transform: translate(-50%, -50%);
     opacity: 0;
-    /* opacityは透明度で、0~1で設定、0は表示されない */
   }
-  25% {
-    opacity: 1;
+  .question-button {
+    background: transparent;
+    vertical-align: middle;
+    text-align: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    border: none;
+    border-radius: 50%;
+    margin: 0.5em;
+    position: absolute;
+    right: 0%;
+    bottom: 85%;
   }
-  50% {
+  .target {
+    font-size: 2.5em;
+  }
+  .targetTime {
+    font-size: 3em;
+    color: #022340;
+  }
+  .pop-button {
+    margin: 1em 0;
+    width: 5em;
+    height: 2em;
+    text-align: center;
+    font-size: 1.5em;
+    color: white;
+    background-color: #048abf;
+    border-radius: 60px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 5px solid #022340;
+  }
+  .pop-button:hover {
+    padding-top: 3px;
+    border-bottom: 2px solid #022340;
+    transition: 0.3s;
+    color: white;
+  }
+  .timeLate,
+  .pointGet {
+    font-size: 1.5em;
+  }
+}
+@media (max-width: 1000px) {
+  .kisyo-app {
+    display: flex;
+    width: 100%;
+    margin: 1em 0 calc(100vh - 100% + 10em);
+    flex-direction: column;
+    align-items: center;
+  }
+  .janken,
+  .jankenKakunin {
+    background-color: #d8eefe;
+  }
+  .janken {
+    border: 4px solid;
+    box-sizing: border-box;
+    margin: 0 10%;
+    padding: 1% 0;
+    display: inline-flex;
+    flex-direction: column;
+    width: 50%;
+  }
+  .janken > h2 {
+    margin: 0;
+    padding: 0.5em 0;
+    font-size: 2.5em;
+  }
+  .janken > h3 {
+    padding: 0;
+    margin: 0;
+  }
+  .te__images {
+    height: 30%;
+  }
+  .te__images img {
+    width: 30%;
+  }
+  .dwu__guu {
+    animation-name: images;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    z-index: 1;
+    margin-right: -30%;
+  }
+
+  .dwu__tyoki {
+    animation-name: images;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.1s;
+    z-index: 2;
+  }
+
+  .dwu__paa {
+    animation-name: images;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.2s;
+    z-index: 3;
+    margin-left: -30%;
+  }
+
+  @keyframes images {
+    0% {
+      opacity: 0;
+      /* opacityは透明度で、0~1で設定、0は表示されない */
+    }
+    25% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .janken__button {
+    margin: 1%;
+  }
+
+  .pc__text {
+    text-align: center;
+  }
+
+  .result__text {
+    text-align: center;
+  }
+
+  .jankenKakunin {
+    border: thick double red;
+    box-sizing: border-box;
+    width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 1%;
+  }
+
+  .kakuninButton {
+    margin: 1%;
+  }
+  .wakeup-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 1em;
+    z-index: 1;
+  }
+  .ohayo-img {
+    width: 20%;
+  }
+  .wakeup-console {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #048abf;
+    border-radius: 31px;
+    margin: 2em;
+    padding: 0.5em 2em;
+  }
+  .wakeup-table {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    position: absolute;
+    width: 95%;
+    height: 80%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(216, 238, 254, 0.95);
+  }
+  .wakeup-table > table th,
+  .wakeup-table > table td {
+    padding: 0.25em;
+    font-size: 1em;
+    word-break: keep-all;
+    line-break: strict;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  .wakeup-data-enter-active,
+  .wakeup-data-leave-active {
+    transition: all 0.5s ease;
+  }
+  .wakeup-data-enter-from,
+  .wakeup-data-leave-to {
+    transform: translate(-50%, -50%);
     opacity: 0;
   }
+  .question-button {
+    background: transparent;
+    vertical-align: middle;
+    text-align: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    border: none;
+    border-radius: 50%;
+    margin: 0.5em;
+    position: absolute;
+    right: 5%;
+    bottom: 85%;
+  }
+  .target {
+    font-size: 1.5em;
+  }
+  .targetTime {
+    font-size: 2em;
+    color: #022340;
+  }
+  .pop-button {
+    margin: 1em 0;
+    width: 5em;
+    height: 2em;
+    text-align: center;
+    font-size: 1.5em;
+    color: white;
+    background-color: #048abf;
+    border-radius: 60px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 5px solid #022340;
+  }
+  .pop-button:hover {
+    padding-top: 3px;
+    border-bottom: 2px solid #022340;
+    transition: 0.3s;
+    color: white;
+  }
+  .timeLate,
+  .pointGet {
+    font-size: 1.5em;
+  }
 }
+@media (max-width: 670px) {
+  .kisyo-app {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: 1em 0 calc(100vh - 100%);
+    flex-direction: column;
+    align-items: center;
+  }
+  .janken,
+  .jankenKakunin {
+    background-color: #d8eefe;
+  }
+  .janken {
+    border: 4px solid;
+    box-sizing: border-box;
+    margin: 0 10%;
+    padding: 1% 0;
+    display: inline-flex;
+    flex-direction: column;
+    width: 90%;
+  }
+  .janken > h2 {
+    margin: 0;
+    padding: 0.5em 0;
+    font-size: 2.5em;
+  }
+  .janken > h3 {
+    padding: 0;
+    margin: 0;
+  }
+  .te__images {
+    height: 30%;
+  }
+  .te__images img {
+    width: 30%;
+  }
+  .dwu__guu {
+    animation-name: images;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    z-index: 1;
+    margin-right: -30%;
+  }
 
-.janken__button {
-  margin: 1%;
-}
+  .dwu__tyoki {
+    animation-name: images;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.1s;
+    z-index: 2;
+  }
 
-.pc__text {
-  text-align: center;
-}
+  .dwu__paa {
+    animation-name: images;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.2s;
+    z-index: 3;
+    margin-left: -30%;
+  }
 
-.result__text {
-  text-align: center;
-}
+  @keyframes images {
+    0% {
+      opacity: 0;
+      /* opacityは透明度で、0~1で設定、0は表示されない */
+    }
+    25% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
 
-.jankenKakunin {
-  border: thick double red;
-  box-sizing: border-box;
-  width: fit-content;
-  margin-right: auto;
-  margin-left: auto;
-  padding: 1%;
-}
+  .janken__button {
+    margin: 1%;
+  }
 
-.kakuninButton {
-  margin: 1%;
+  .pc__text {
+    text-align: center;
+  }
+
+  .result__text {
+    text-align: center;
+  }
+
+  .jankenKakunin {
+    border: thick double red;
+    box-sizing: border-box;
+    width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 1%;
+  }
+
+  .kakuninButton {
+    margin: 1%;
+  }
+  .wakeup-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 1em;
+    z-index: 1;
+  }
+  .ohayo-img {
+    width: 25%;
+  }
+  .wakeup-console {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #048abf;
+    border-radius: 31px;
+    margin: 0.5em;
+    padding: 0.5em 2em;
+  }
+  .wakeup-table {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    position: absolute;
+    width: 95%;
+    height: 80%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(216, 238, 254, 0.95);
+  }
+  .wakeup-table > table th,
+  .wakeup-table > table td {
+    padding: 0.25em;
+    font-size: 0.7em;
+    word-break: keep-all;
+    line-break: strict;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  .wakeup-data-enter-active,
+  .wakeup-data-leave-active {
+    transition: all 0.5s ease;
+  }
+  .wakeup-data-enter-from,
+  .wakeup-data-leave-to {
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+  .question-button {
+    background: transparent;
+    vertical-align: middle;
+    text-align: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    border: none;
+    border-radius: 50%;
+    margin: 0.5em;
+    position: absolute;
+    right: 5%;
+    bottom: 85%;
+  }
+  .target {
+    font-size: 1em;
+  }
+  .targetTime {
+    font-size: 2em;
+    color: #022340;
+  }
+  .pop-button {
+    margin: 1em 0;
+    width: 5em;
+    height: 2em;
+    text-align: center;
+    font-size: 1.5em;
+    color: white;
+    background-color: #048abf;
+    border-radius: 60px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 5px solid #022340;
+  }
+  .pop-button:hover {
+    padding-top: 3px;
+    border-bottom: 2px solid #022340;
+    transition: 0.3s;
+    color: white;
+  }
+  .timeLate,
+  .pointGet {
+    font-size: 1.5em;
+  }
 }
 </style>
