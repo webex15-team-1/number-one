@@ -196,7 +196,7 @@ export default {
   },
 }
 </script>
-<style>
+<style scoped>
 .header-cal {
   font-size: 3em;
   display: flex;
