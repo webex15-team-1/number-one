@@ -123,11 +123,11 @@
       />
     </div>
 
-    <div v-if="isLate && !logExist">
+    <div v-if="getpoint">
       <div class="timeLate">目標時間より{{ fixedtimeLate }}分です。</div>
       <div class="pointGet">{{ point }}ポイントを獲得しました！</div>
     </div>
-    <TimeSetup v-if="isLate || logExist"
+    <TimeSetup v-if="getpoint || isKisyo"
       >明日の起床時間を設定しよう！</TimeSetup
     >
   </div>
@@ -150,7 +150,7 @@ export default {
   data() {
     return {
       isJanken: false,
-      buttonClicked: true,
+      buttonClicked: false,
       countTime: false,
       remainTime: 5,
       player: "",
@@ -182,9 +182,59 @@ export default {
       i: 1,
       logExist: false,
       showTable: false,
+      auth: getAuth(),
+      getpoint: false,
+      isKisyo: false,
     }
   },
   mounted: function () {
+    try {
+      onAuthStateChanged(this.auth, async (user) => {
+        const uid = user.uid
+        const docRef = doc(db, "users", uid)
+        const userDoc = await getDoc(docRef)
+        const janken = userDoc.data().janken
+        if (janken) {
+          let count = 0
+          const day =
+            new Date().getFullYear() +
+            "/" +
+            (new Date().getMonth() + 1) +
+            "/" +
+            new Date().getDate()
+          for (let i = 0; i < janken.length; i++) {
+            if (janken[i].date === day) {
+              count++
+            }
+          }
+          if (count === 0) {
+            this.buttonClicked = true
+          }
+        } else {
+          this.buttonClicked = true
+        }
+        const kisyo = userDoc.data().kisyo
+        if (kisyo) {
+          let count = 0
+          const day =
+            new Date().getFullYear() +
+            "/" +
+            (new Date().getMonth() + 1) +
+            "/" +
+            new Date().getDate()
+          for (let i = 0; i < kisyo.length; i++) {
+            if (kisyo[i].date === day) {
+              count++
+            }
+          }
+          if (count != 0) {
+            this.isKisyo = true
+          }
+        }
+      })
+    } catch (error) {
+      console.error(error)
+    }
     // 起床した形跡があるかチェック
     const now = new Date()
     const searchString = `${now.getFullYear()}/${now.getMonth()}/${now.getDate()}`
@@ -222,6 +272,21 @@ export default {
     yesJanken() {
       this.isJanken = true
       this.buttonClicked = false
+      onAuthStateChanged(this.auth, async (user) => {
+        const uid = user.uid
+        // ログイン済みのユーザー情報があるかをチェック
+        //usersコレクションで確認している
+        const docRef = doc(db, "users", uid)
+        const userDoc = await getDoc(docRef)
+        if (userDoc.exists()) {
+          await updateDoc(docRef, {
+            janken: arrayUnion({
+              jankenDone: true,
+              date: new Date().toLocaleDateString(),
+            }),
+          })
+        }
+      })
     },
     //じゃんけんしない
     noJanken() {
@@ -249,27 +314,21 @@ export default {
       }
 
       //ポイント処理
-      if (this.isLate || this.logExist) {
+      /* if (this.isLate || this.logExist) {
         alert("今日の起床時間の結果は登録済みです。")
-      } else {
-        if (this.timeLate >= -10 && this.timeLate <= 60) {
-          if (this.timeLate <= 10) {
-            this.point += 10 * this.i
-            alert("Perfect！いい調子です！")
-          } else if (this.timeLate <= 20) {
-            this.point += 8 * this.i
-            alert("Great！")
-          } else if (this.timeLate <= 30) {
-            this.point += 6 * this.i
-            alert("Good！")
-          } else {
-            this.point += 4 * this.i
-            alert("OK")
-          }
+      } else { */
+      if (this.timeLate >= -10 && this.timeLate <= 60) {
+        if (this.timeLate <= 10) {
+          this.point += 10 * this.i
+        } else if (this.timeLate <= 20) {
+          this.point += 8 * this.i
+        } else if (this.timeLate <= 30) {
+          this.point += 6 * this.i
         } else {
-          alert("早く起きれるよう頑張りましょう...")
+          this.point += 4 * this.i
         }
       }
+      /* } */
       this.isLate = true
 
       // 起きたことを記録しておく
@@ -277,7 +336,6 @@ export default {
         ? JSON.parse(localStorage.moreningWakeUpLog)
         : []
       wakeUpLog.push(`${now.getFullYear()}/${now.getMonth()}/${now.getDate()}`)
-      console.log(wakeUpLog)
       localStorage.moreningWakeUpLog = JSON.stringify(wakeUpLog)
     },
     choose(choice) {
@@ -328,23 +386,55 @@ export default {
           const docRef = doc(db, "users", uid)
           const userDoc = await getDoc(docRef)
           if (userDoc.exists()) {
-            await updateDoc(docRef, {
-              getupPoints: increment(this.point),
-              shopPoints: increment(this.point),
-              kisyo: arrayUnion({
-                date: new Date().toLocaleDateString(),
-                getupDiff: this.fixedtimeLate,
-                getupCurrentTime: new Date().toLocaleTimeString(),
-              }),
-            })
+            const kisyo = userDoc.data().kisyo
+            if (kisyo) {
+              let count = 0
+              const day =
+                new Date().getFullYear() +
+                "/" +
+                (new Date().getMonth() + 1) +
+                "/" +
+                new Date().getDate()
+              for (let i = 0; i < kisyo.length; i++) {
+                if (kisyo[i].date === day) {
+                  alert("今日の起床時間の結果は登録済みです。")
+                  count++
+                }
+              }
+              if (count === 0) {
+                if (this.timeLate >= -10 && this.timeLate <= 60) {
+                  if (this.timeLate <= 10) {
+                    alert("Perfect！いい調子です！")
+                  } else if (this.timeLate <= 20) {
+                    alert("Great！")
+                  } else if (this.timeLate <= 30) {
+                    alert("Good！")
+                  } else {
+                    alert("OK")
+                  }
+                } else {
+                  alert("早く起きれるよう頑張りましょう...")
+                }
+                this.getpoint = true
+                await updateDoc(docRef, {
+                  getupPoints: increment(this.point),
+                  shopPoints: increment(this.point),
+                  kisyo: arrayUnion({
+                    date: new Date().toLocaleDateString(),
+                    getupDiff: this.fixedtimeLate,
+                    getupCurrentTime: new Date().toLocaleTimeString(),
+                  }),
+                })
+              }
+            }
           }
+          // 目標時間のlocalStorageへの保存
+          localStorage.moreningWakeUp = JSON.stringify({
+            targetHour: this.targetHour,
+            targetMin10: this.targetMin10,
+            targetMin1: this.targetMin1,
+          })
         }
-      })
-      // 目標時間のlocalStorageへの保存
-      localStorage.moreningWakeUp = JSON.stringify({
-        targetHour: this.targetHour,
-        targetMin10: this.targetMin10,
-        targetMin1: this.targetMin1,
       })
     },
   },
@@ -402,6 +492,7 @@ export default {
   }
 
   .dwu__tyoki {
+    opacity: 0;
     animation-name: images;
     animation-duration: 0.3s;
     animation-iteration-count: infinite;
@@ -410,6 +501,7 @@ export default {
   }
 
   .dwu__paa {
+    opacity: 0;
     animation-name: images;
     animation-duration: 0.3s;
     animation-iteration-count: infinite;
@@ -423,10 +515,13 @@ export default {
       opacity: 0;
       /* opacityは透明度で、0~1で設定、0は表示されない */
     }
-    25% {
+    16.5% {
       opacity: 1;
     }
-    50% {
+    33% {
+      opacity: 0;
+    }
+    100% {
       opacity: 0;
     }
   }

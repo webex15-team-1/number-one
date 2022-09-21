@@ -259,7 +259,7 @@ export default {
 
   .pop-button {
     margin: 3%;
-    width: 10%;
+    width: 8em;
     height: 2em;
     text-align: center;
     font-size: 1.5em;
@@ -279,9 +279,6 @@ export default {
   }
 }
 @media (max-width: 1000px) {
-  .asakatsu {
-    height: calc(100vh - 6em);
-  }
   .start_asakatsu {
     color: #022340;
     font-size: 2.5em;
@@ -290,6 +287,17 @@ export default {
     color: #022340;
     font-size: 1.5em;
     margin: 0.5em 0;
+  }
+  .timer-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5vw;
+  }
+  .timer-container > img {
+    width: 15vw;
+    height: 15vw;
   }
   .times {
     position: relative;
@@ -300,13 +308,12 @@ export default {
   }
   .timer-design {
     position: relative;
-    height: 80vw;
-    width: 80vw;
+    height: 35vw;
+    width: 35vw;
     display: block;
-    margin: auto;
   }
   .timer {
-    font-size: 5em;
+    font-size: 3em;
     width: 100%;
     line-height: 30vw;
     position: absolute;
@@ -361,7 +368,7 @@ export default {
     width: 8em;
     height: 2.5em;
     text-align: center;
-    font-size: 2.5em;
+    font-size: 1em;
     color: white;
     background-color: #048abf;
     border-radius: 60px;
@@ -378,9 +385,6 @@ export default {
   }
 }
 @media (max-width: 670px) {
-  .asakatsu {
-    height: calc(100vh - 6em);
-  }
   .start_asakatsu {
     color: #022340;
     font-size: 2.5em;
@@ -389,6 +393,17 @@ export default {
     color: #022340;
     font-size: 1.5em;
     margin: 0.5em 0;
+  }
+  .timer-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5vw;
+  }
+  .timer-container > img {
+    width: 15vw;
+    height: 15vw;
   }
   .times {
     position: relative;
@@ -399,13 +414,12 @@ export default {
   }
   .timer-design {
     position: relative;
-    height: 80vw;
-    width: 80vw;
+    height: 50vw;
+    width: 50vw;
     display: block;
-    margin: auto;
   }
   .timer {
-    font-size: 2.5em;
+    font-size: 1.5em;
     width: 100%;
     line-height: 30vw;
     position: absolute;
