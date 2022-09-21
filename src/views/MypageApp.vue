@@ -141,7 +141,7 @@ export default {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 22.5%;
+    height: 25%;
     gap: 0 1em;
   }
   #cum-point {
@@ -149,6 +149,7 @@ export default {
   }
   #ranking {
     flex-grow: 2;
+    height: 100%;
   }
   #calendar {
     display: inline-block;
