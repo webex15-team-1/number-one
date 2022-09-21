@@ -578,13 +578,24 @@ export default {
 </script>
 
 <style scoped>
-/* .loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99999;
-  animation: loading 1s ease-out 2s forwards;
-} */
+@media (min-width: 1001px) {
+  .greet,
+  .weather-message {
+    font-size: 3em;
+  }
+}
+@media (max-width: 1000px) {
+  .greet,
+  .weather-message {
+    font-size: 2.5em;
+  }
+}
+@media (max-width: 670px) {
+  .greet,
+  .weather-message {
+    font-size: 1.5em;
+  }
+}
 @keyframes loading {
   from {
     opacity: 1;
@@ -593,10 +604,6 @@ export default {
     opacity: 0;
     visibility: hidden;
   }
-}
-.greet,
-.weather-message {
-  font-size: 3em;
 }
 .internal-data {
   display: flex;
@@ -622,17 +629,11 @@ td {
   width: 100%;
   height: 90vh;
   margin: auto;
-  /*   border: 1px solid black; */
 }
 .sun {
-  /* width: 10%;
-  height: 10%; */
   position: absolute;
   top: 100%;
   left: 50%;
-  /*   border-radius: 50%;
-  background-color: orange; */
-  /* transform: translate(-50%, -50%); */
 }
 .sunImg {
   width: 100%;
@@ -667,11 +668,8 @@ td {
 }
 .sky {
   position: absolute;
-  /*   top: 0%;
-  left: 0%; */
   width: 100%;
   height: 100%;
-  /* background-color: paleturquoise; */
 }
 .sky-data {
   font-size: 2em;
@@ -680,13 +678,4 @@ td {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-/* .horizon {
-  position: absolute;
-  top: 50%;
-  left: 0%;
-  width: 100%;
-  height: 0%;
-  background-color: green;
-  opacity: 0.5;
-} */
 </style>

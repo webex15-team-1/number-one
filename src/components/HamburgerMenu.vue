@@ -14,7 +14,9 @@
     :class="{ active: isOpened }"
     :style="{ backgroundColor: currentSetting.hamburgerBackgroundColor }"
   >
-    <div class="hamburger-title"><span>Morening☀️</span></div>
+    <div class="hamburger-title">
+      <span>Morening<Icon icon="bi:sun-fill" /></span>
+    </div>
     <div class="nav-items">
       <div
         class="nav-item"
