@@ -58,10 +58,10 @@ export default {
   flex-direction: column;
   justify-content: center;
   width: 100%;
+  height: 100%;
   background: #022340;
   border-radius: 24px;
   border: 3px solid #022340;
-  height: 100%;
   box-sizing: border-box;
 }
 
@@ -71,13 +71,10 @@ export default {
   text-align: center;
   justify-content: space-between;
   height: 60%;
-  margin: 0 auto;
+  margin: 0 auto 1em;
 }
 .names > tr {
   height: 1.5em;
-}
-.names > tr:last-child {
-  margin-bottom: 1em;
 }
 .names > tr > td:first-child {
   width: 3em;
