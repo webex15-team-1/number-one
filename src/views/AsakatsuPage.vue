@@ -1,19 +1,27 @@
 <template>
   <div class="asakatsu">
     <h1 class="start_asakatsu">朝活を始めよう!</h1>
-    <div class="timer-design">
-      <div class="timer">
-        {{ hour }}:{{ min10 }}{{ min1 }}:{{ sec10 }}{{ sec1 }}
-      </div>
-      <!--  タイマーは3重円でできている
+    <div class="timer-container">
+      <img src="@/views/images/asakatsu-left.png" />
+      <div class="timer-design">
+        <div class="timer">
+          {{ hour }}:{{ min10 }}{{ min1 }}:{{ sec10 }}{{ sec1 }}
+        </div>
+        <!--  タイマーは3重円でできている
             そのうちmiddleの上端中央に太陽が張り付いていて
             middleが時間とともに回転することで太陽を動かしている -->
-      <div class="minicircle"></div>
-      <div class="middlecircle" :style="{ transform: `rotate(${degree}deg)` }">
-        <img class="circle" src="@/views/images/sun.png" />
+        <div class="minicircle"></div>
+        <div
+          class="middlecircle"
+          :style="{ transform: `rotate(${degree}deg)` }"
+        >
+          <img class="circle" src="@/views/images/sun.png" />
+        </div>
+        <div class="bigcircle"></div>
       </div>
-      <div class="bigcircle"></div>
+      <img src="@/views/images/asakatsu-right.png" />
     </div>
+
     <button class="pop-button" v-on:click="start" v-if="before">開始</button>
     <button class="pop-button" v-on:click="two" v-if="!before && !after">
       終了
@@ -174,6 +182,17 @@ export default {
     font-size: 1.5em;
     margin: 0.5em 0;
   }
+  .timer-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5vw;
+  }
+  .timer-container > img {
+    width: 15vw;
+    height: 15vw;
+  }
   .times {
     position: relative;
     z-index: -1;
@@ -183,13 +202,12 @@ export default {
   }
   .timer-design {
     position: relative;
-    height: 35vw;
-    width: 35vw;
-    display: block;
-    margin: auto;
+    height: 25vw;
+    width: 25vw;
+    display: inline-block;
   }
   .timer {
-    font-size: 4em;
+    font-size: 3em;
     width: 100%;
     line-height: 30vw;
     position: absolute;
