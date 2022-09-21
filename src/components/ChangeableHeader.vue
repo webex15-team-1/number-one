@@ -7,11 +7,12 @@
     <span
       class="title header-title"
       :style="{ color: currentSetting.titleColor }"
-      >Morening☀️</span
-    >
+      >Morening<Icon icon="bi:sun-fill"
+    /></span>
   </div>
 </template>
 <script>
+import { Icon } from "@iconify/vue"
 export default {
   computed: {
     activeColorSet() {
@@ -25,6 +26,9 @@ export default {
     backHome() {
       this.$router.push("/")
     },
+  },
+  components: {
+    Icon,
   },
 }
 </script>
