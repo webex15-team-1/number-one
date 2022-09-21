@@ -1,6 +1,14 @@
 <template>
-  <div class="loading">
-    <Icon class="loadingSun" icon="bi:sun-fill" color="white" width="10%" />
+  <div
+    class="loading"
+    :style="{ backgroundColor: currentSetting.titleBackgroundColor }"
+  >
+    <Icon
+      class="loadingSun"
+      icon="bi:sun-fill"
+      width="10%"
+      :style="{ color: currentSetting.titleColor }"
+    />
   </div>
 </template>
 
@@ -10,13 +18,20 @@ export default {
   components: {
     Icon,
   },
+  computed: {
+    activeColorSet() {
+      return this.$store.state.activeColorSet
+    },
+    currentSetting() {
+      return this.$store.state.colors[this.activeColorSet]
+    },
+  },
 }
 </script>
 
 <style>
 .loading {
   position: relative;
-  background-color: #f2c48d;
   width: 100vw;
   height: 100vh;
   display: flex;
