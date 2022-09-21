@@ -150,7 +150,7 @@ export default {
   data() {
     return {
       isJanken: false,
-      buttonClicked: true,
+      buttonClicked: false,
       countTime: false,
       remainTime: 5,
       player: "",
@@ -182,9 +182,39 @@ export default {
       i: 1,
       logExist: false,
       showTable: false,
+      auth: getAuth(),
     }
   },
   mounted: function () {
+    try {
+      onAuthStateChanged(this.auth, async (user) => {
+        const uid = user.uid
+        const docRef = doc(db, "users", uid)
+        const userDoc = await getDoc(docRef)
+        const janken = userDoc.data().janken
+        if (janken) {
+          let count = 0
+          const day =
+            new Date().getFullYear() +
+            "/" +
+            (new Date().getMonth() + 1) +
+            "/" +
+            new Date().getDate()
+          for (let i = 0; i < janken.length; i++) {
+            if (janken[i].date === day) {
+              count++
+            }
+          }
+          if (count === 0) {
+            this.buttonClicked = true
+          }
+        } else {
+          this.buttonClicked = true
+        }
+      })
+    } catch (error) {
+      console.error(error)
+    }
     // 起床した形跡があるかチェック
     const now = new Date()
     const searchString = `${now.getFullYear()}/${now.getMonth()}/${now.getDate()}`
@@ -222,6 +252,21 @@ export default {
     yesJanken() {
       this.isJanken = true
       this.buttonClicked = false
+      onAuthStateChanged(this.auth, async (user) => {
+        const uid = user.uid
+        // ログイン済みのユーザー情報があるかをチェック
+        //usersコレクションで確認している
+        const docRef = doc(db, "users", uid)
+        const userDoc = await getDoc(docRef)
+        if (userDoc.exists()) {
+          await updateDoc(docRef, {
+            janken: arrayUnion({
+              jankenDone: true,
+              date: new Date().toLocaleDateString(),
+            }),
+          })
+        }
+      })
     },
     //じゃんけんしない
     noJanken() {
@@ -402,6 +447,7 @@ export default {
   }
 
   .dwu__tyoki {
+    opacity: 0;
     animation-name: images;
     animation-duration: 0.3s;
     animation-iteration-count: infinite;
@@ -410,6 +456,7 @@ export default {
   }
 
   .dwu__paa {
+    opacity: 0;
     animation-name: images;
     animation-duration: 0.3s;
     animation-iteration-count: infinite;
@@ -423,10 +470,13 @@ export default {
       opacity: 0;
       /* opacityは透明度で、0~1で設定、0は表示されない */
     }
-    25% {
+    16.5% {
       opacity: 1;
     }
-    50% {
+    33% {
+      opacity: 0;
+    }
+    100% {
       opacity: 0;
     }
   }
