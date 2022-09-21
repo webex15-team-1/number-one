@@ -294,27 +294,21 @@ export default {
       }
 
       //ポイント処理
-      if (this.isLate || this.logExist) {
+      /* if (this.isLate || this.logExist) {
         alert("今日の起床時間の結果は登録済みです。")
-      } else {
-        if (this.timeLate >= -10 && this.timeLate <= 60) {
-          if (this.timeLate <= 10) {
-            this.point += 10 * this.i
-            alert("Perfect！いい調子です！")
-          } else if (this.timeLate <= 20) {
-            this.point += 8 * this.i
-            alert("Great！")
-          } else if (this.timeLate <= 30) {
-            this.point += 6 * this.i
-            alert("Good！")
-          } else {
-            this.point += 4 * this.i
-            alert("OK")
-          }
+      } else { */
+      if (this.timeLate >= -10 && this.timeLate <= 60) {
+        if (this.timeLate <= 10) {
+          this.point += 10 * this.i
+        } else if (this.timeLate <= 20) {
+          this.point += 8 * this.i
+        } else if (this.timeLate <= 30) {
+          this.point += 6 * this.i
         } else {
-          alert("早く起きれるよう頑張りましょう...")
+          this.point += 4 * this.i
         }
       }
+      /* } */
       this.isLate = true
 
       // 起きたことを記録しておく
@@ -322,7 +316,6 @@ export default {
         ? JSON.parse(localStorage.moreningWakeUpLog)
         : []
       wakeUpLog.push(`${now.getFullYear()}/${now.getMonth()}/${now.getDate()}`)
-      console.log(wakeUpLog)
       localStorage.moreningWakeUpLog = JSON.stringify(wakeUpLog)
     },
     choose(choice) {
@@ -373,23 +366,54 @@ export default {
           const docRef = doc(db, "users", uid)
           const userDoc = await getDoc(docRef)
           if (userDoc.exists()) {
-            await updateDoc(docRef, {
-              getupPoints: increment(this.point),
-              shopPoints: increment(this.point),
-              kisyo: arrayUnion({
-                date: new Date().toLocaleDateString(),
-                getupDiff: this.fixedtimeLate,
-                getupCurrentTime: new Date().toLocaleTimeString(),
-              }),
-            })
+            const kisyo = userDoc.data().kisyo
+            if (kisyo) {
+              let count = 0
+              const day =
+                new Date().getFullYear() +
+                "/" +
+                (new Date().getMonth() + 1) +
+                "/" +
+                new Date().getDate()
+              for (let i = 0; i < kisyo.length; i++) {
+                if (kisyo[i].date === day) {
+                  alert("今日の起床時間の結果は登録済みです。")
+                  count++
+                }
+              }
+              if (count === 0) {
+                if (this.timeLate >= -10 && this.timeLate <= 60) {
+                  if (this.timeLate <= 10) {
+                    alert("Perfect！いい調子です！")
+                  } else if (this.timeLate <= 20) {
+                    alert("Great！")
+                  } else if (this.timeLate <= 30) {
+                    alert("Good！")
+                  } else {
+                    alert("OK")
+                  }
+                } else {
+                  alert("早く起きれるよう頑張りましょう...")
+                }
+                await updateDoc(docRef, {
+                  getupPoints: increment(this.point),
+                  shopPoints: increment(this.point),
+                  kisyo: arrayUnion({
+                    date: new Date().toLocaleDateString(),
+                    getupDiff: this.fixedtimeLate,
+                    getupCurrentTime: new Date().toLocaleTimeString(),
+                  }),
+                })
+              }
+            }
           }
+          // 目標時間のlocalStorageへの保存
+          localStorage.moreningWakeUp = JSON.stringify({
+            targetHour: this.targetHour,
+            targetMin10: this.targetMin10,
+            targetMin1: this.targetMin1,
+          })
         }
-      })
-      // 目標時間のlocalStorageへの保存
-      localStorage.moreningWakeUp = JSON.stringify({
-        targetHour: this.targetHour,
-        targetMin10: this.targetMin10,
-        targetMin1: this.targetMin1,
       })
     },
   },
