@@ -53,7 +53,7 @@ export default {
     return {
       hour: 0,
       min10: 0,
-      min1: 5,
+      min1: 0,
       sec10: 0,
       sec1: 0,
       before: true,
