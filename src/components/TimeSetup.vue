@@ -26,6 +26,7 @@ export default {
         targetMin10: Number(this.wakeupTime.substring(3, 4)),
         targetMin1: Number(this.wakeupTime.substring(4, 5)),
       })
+      alert("登録しました！")
     },
   },
   mounted() {
