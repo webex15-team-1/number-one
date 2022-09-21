@@ -123,11 +123,11 @@
       />
     </div>
 
-    <div v-if="isLate && !logExist">
+    <div v-if="getpoint">
       <div class="timeLate">目標時間より{{ fixedtimeLate }}分です。</div>
       <div class="pointGet">{{ point }}ポイントを獲得しました！</div>
     </div>
-    <TimeSetup v-if="isLate || logExist"
+    <TimeSetup v-if="getpoint || isKisyo"
       >明日の起床時間を設定しよう！</TimeSetup
     >
   </div>
@@ -183,6 +183,8 @@ export default {
       logExist: false,
       showTable: false,
       auth: getAuth(),
+      getpoint: false,
+      isKisyo: false,
     }
   },
   mounted: function () {
@@ -210,6 +212,24 @@ export default {
           }
         } else {
           this.buttonClicked = true
+        }
+        const kisyo = userDoc.data().kisyo
+        if (kisyo) {
+          let count = 0
+          const day =
+            new Date().getFullYear() +
+            "/" +
+            (new Date().getMonth() + 1) +
+            "/" +
+            new Date().getDate()
+          for (let i = 0; i < kisyo.length; i++) {
+            if (kisyo[i].date === day) {
+              count++
+            }
+          }
+          if (count != 0) {
+            this.isKisyo = true
+          }
         }
       })
     } catch (error) {
@@ -395,6 +415,7 @@ export default {
                 } else {
                   alert("早く起きれるよう頑張りましょう...")
                 }
+                this.getpoint = true
                 await updateDoc(docRef, {
                   getupPoints: increment(this.point),
                   shopPoints: increment(this.point),
