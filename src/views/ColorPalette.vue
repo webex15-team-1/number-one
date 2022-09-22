@@ -15,7 +15,7 @@
             backgroundColor: colorSet.generalBackgroundColor,
           }"
         >
-          <span>☀️</span>
+          <Icon icon="bi:sun-fill" />
         </div>
         <div class="color-name">
           {{ colorSet.name }}
@@ -42,6 +42,7 @@ import {
   increment,
 } from "firebase/firestore"
 import { db } from "@/firebase"
+import { Icon } from "@iconify/vue"
 export default {
   data() {
     return {
@@ -149,6 +150,9 @@ export default {
       }
     })
   },
+  components: {
+    Icon,
+  },
 }
 </script>
 <style>
@@ -182,11 +186,11 @@ h1 {
     font-weight: bold;
     border-radius: 50%;
   }
-  .color-preview span {
+  .color-preview svg {
     display: inline-block;
-    height: 3rem;
-    width: 3rem;
-    font-size: 3rem;
+    height: 4rem;
+    width: 4rem;
+    font-size: 4rem;
   }
   .color-name,
   .color-price {
@@ -224,11 +228,11 @@ h1 {
     font-weight: bold;
     border-radius: 50%;
   }
-  .color-preview span {
+  .color-preview svg {
     display: inline-block;
-    height: 3rem;
-    width: 3rem;
-    font-size: 3rem;
+    height: 4rem;
+    width: 4rem;
+    font-size: 4rem;
   }
   .color-name,
   .color-price {
@@ -270,11 +274,11 @@ h1 {
     font-weight: bold;
     border-radius: 50%;
   }
-  .color-preview span {
+  .color-preview svg {
     display: inline-block;
     height: 2rem;
     width: 2rem;
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
   .color-name,
   .color-price {
