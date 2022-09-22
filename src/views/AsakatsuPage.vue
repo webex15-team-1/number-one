@@ -175,7 +175,7 @@ export default {
     again() {
       this.hour = 0
       this.min10 = 0
-      this.min1 = 5
+      this.min1 = 0
       this.sec10 = 0
       this.sec1 = 0
       this.before = true
