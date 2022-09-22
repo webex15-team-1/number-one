@@ -312,6 +312,9 @@ export default {
   }
 }
 @media (max-width: 670px) {
+  * {
+    max-width: 100%;
+  }
   .hamburger-container {
     position: fixed;
     top: 0%;
