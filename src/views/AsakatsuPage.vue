@@ -4,6 +4,43 @@
     <div class="timer-container">
       <img src="@/views/images/asakatsu-left.png" />
       <div class="timer-design">
+        <button class="question-button" @click="toggleTable">
+          <Icon icon="akar-icons:question" width="1.5em" />
+        </button>
+        <transition name="asakatsu-data">
+          <div class="asakatsu-table" v-if="showTable">
+            <table>
+              <tbody>
+                <th>朝活の取り組み時間</th>
+                <th>獲得ポイント</th>
+                <tr>
+                  <td>5分～10分</td>
+                  <td>3 P</td>
+                </tr>
+                <tr>
+                  <td>10分～20分</td>
+                  <td>6 P</td>
+                </tr>
+                <tr>
+                  <td>20分～30分</td>
+                  <td>9 P</td>
+                </tr>
+                <tr>
+                  <td>30分～45分</td>
+                  <td>12 P</td>
+                </tr>
+                <tr>
+                  <td>45分～+60分</td>
+                  <td>16 P</td>
+                </tr>
+                <tr>
+                  <td>60分～</td>
+                  <td>20 P</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </transition>
         <div class="timer">
           {{ hour }}:{{ min10 }}{{ min1 }}:{{ sec10 }}{{ sec1 }}
         </div>
@@ -21,19 +58,22 @@
       </div>
       <img src="@/views/images/asakatsu-right.png" />
     </div>
-
-    <button class="pop-button" v-on:click="start" v-if="before">開始</button>
-    <button class="pop-button" v-on:click="two" v-if="!before && !after">
-      終了
-    </button>
-    <p class="asakatsu-text-navy" v-if="after">
-      {{ asakatsuTime }}分朝活をしました
-    </p>
-    <p class="asakatsu-text-navy" v-if="after && this.point > 0">
-      {{ point }}ポイントを獲得しました!
-    </p>
-    <p class="asakatsu-text-navy" v-if="fight">{{ fightMessage }}</p>
-    <button class="pop-button" v-on:click="again" v-if="after">もう一度</button>
+    <div class="asakatsu-console">
+      <button class="pop-button" v-on:click="start" v-if="before">開始</button>
+      <button class="pop-button" v-on:click="two" v-if="!before && !after">
+        終了
+      </button>
+      <p class="asakatsu-text-navy" v-if="after">
+        {{ asakatsuTime }}分朝活をしました
+      </p>
+      <p class="asakatsu-text-navy" v-if="after && this.point > 0">
+        {{ point }}ポイントを獲得しました!
+      </p>
+      <p class="asakatsu-text-navy" v-if="fight">{{ fightMessage }}</p>
+      <button class="pop-button" v-on:click="again" v-if="after">
+        もう一度
+      </button>
+    </div>
   </div>
 </template>
 
@@ -47,6 +87,7 @@ import {
   arrayUnion,
 } from "firebase/firestore"
 import { db } from "@/firebase"
+import { Icon } from "@iconify/vue"
 
 export default {
   data() {
@@ -64,17 +105,21 @@ export default {
       fight: false,
       fightMessage: "朝活を5分以上できるよう頑張りましょう",
       point: 0,
+      showTable: false,
     }
   },
   mounted: function () {
-    const auth = getAuth()
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        this.$router.push("/top")
-      }
-    })
+    // const auth = getAuth()
+    // onAuthStateChanged(auth, async (user) => {
+    //   if (!user) {
+    //     this.$router.push("/top")
+    //   }
+    // })
   },
   methods: {
+    toggleTable() {
+      this.showTable = !this.showTable
+    },
     two() {
       this.stop()
       this.pointRegister()
@@ -169,6 +214,9 @@ export default {
       })
     },
   },
+  components: {
+    Icon,
+  },
 }
 </script>
 
@@ -206,12 +254,52 @@ export default {
     width: 25vw;
     display: inline-block;
   }
+  .question-button {
+    background: transparent;
+    vertical-align: middle;
+    text-align: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    border: none;
+    border-radius: 50%;
+    margin: 0.5em;
+    position: absolute;
+    top: 0%;
+    left: 95%;
+    z-index: 7;
+  }
+  .asakatsu-table {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 6;
+    font-size: 1em;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+  .asakatsu-table > table {
+    margin: auto;
+    background-color: rgba(216, 238, 254, 0.95);
+    border: 1px solid #048abf;
+  }
+  .asakatsu-data-enter-active,
+  .asakatsu-data-leave-active {
+    transition: all 0.5s ease;
+  }
+  .asakatsu-data-enter-from,
+  .asakatsu-data-leave-to {
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
   .timer {
     font-size: 3em;
     width: 100%;
     line-height: 30vw;
     position: absolute;
-    z-index: 100;
+    z-index: 5;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -299,6 +387,46 @@ export default {
     width: 15vw;
     height: 15vw;
   }
+  .question-button {
+    background: transparent;
+    vertical-align: middle;
+    text-align: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    border: none;
+    border-radius: 50%;
+    margin: 0.5em;
+    position: absolute;
+    top: 0%;
+    left: 95%;
+    z-index: 7;
+  }
+  .asakatsu-table {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 6;
+    font-size: 1em;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+  .asakatsu-table > table {
+    margin: auto;
+    background-color: rgba(216, 238, 254, 0.95);
+    border: 1px solid #048abf;
+  }
+  .asakatsu-data-enter-active,
+  .asakatsu-data-leave-active {
+    transition: all 0.5s ease;
+  }
+  .asakatsu-data-enter-from,
+  .asakatsu-data-leave-to {
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
   .times {
     position: relative;
     z-index: -1;
@@ -317,7 +445,7 @@ export default {
     width: 100%;
     line-height: 30vw;
     position: absolute;
-    z-index: 100;
+    z-index: 5;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -418,12 +546,52 @@ export default {
     width: 50vw;
     display: block;
   }
+  .question-button {
+    background: transparent;
+    vertical-align: middle;
+    text-align: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    border: none;
+    border-radius: 50%;
+    margin: 0.5em;
+    position: absolute;
+    top: 0%;
+    left: 95%;
+    z-index: 7;
+  }
+  .asakatsu-table {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 6;
+    font-size: 0.5em;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+  .asakatsu-table > table {
+    margin: auto;
+    background-color: rgba(216, 238, 254, 0.95);
+    border: 1px solid #048abf;
+  }
+  .asakatsu-data-enter-active,
+  .asakatsu-data-leave-active {
+    transition: all 0.5s ease;
+  }
+  .asakatsu-data-enter-from,
+  .asakatsu-data-leave-to {
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
   .timer {
     font-size: 1.5em;
     width: 100%;
     line-height: 30vw;
     position: absolute;
-    z-index: 100;
+    z-index: 5;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -454,6 +622,8 @@ export default {
     z-index: 1;
     width: 100%;
     height: 100%;
+    top: 0%;
+    left: 0%;
     margin: auto;
     border-radius: 50%;
     background: #d8eefe;
