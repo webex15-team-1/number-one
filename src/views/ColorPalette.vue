@@ -188,9 +188,9 @@ h1 {
   }
   .color-preview svg {
     display: inline-block;
-    height: 3rem;
-    width: 3rem;
-    font-size: 3rem;
+    height: 4rem;
+    width: 4rem;
+    font-size: 4rem;
   }
   .color-name,
   .color-price {
@@ -230,9 +230,9 @@ h1 {
   }
   .color-preview svg {
     display: inline-block;
-    height: 3rem;
-    width: 3rem;
-    font-size: 3rem;
+    height: 4rem;
+    width: 4rem;
+    font-size: 4rem;
   }
   .color-name,
   .color-price {
@@ -278,7 +278,7 @@ h1 {
     display: inline-block;
     height: 2rem;
     width: 2rem;
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
   .color-name,
   .color-price {
