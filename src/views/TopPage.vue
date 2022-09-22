@@ -5,6 +5,7 @@
   <div class="main">
     <div class="video-area">
       <video
+        playsinline
         autoplay
         loop
         muted
@@ -17,14 +18,25 @@
   <div class="container">
     <div class="whatIs">
       <h2>What is Morening?</h2>
-      <div class="text about">
+      <div class="text about text-pc">
         朝の時間、無駄にしていませんか？<br />Moreningは朝活を頑張る人を応援するサイト。<br />ランニング、筋トレ、朝食作り、勉強...<br />Moreningを使って素敵な朝活ライフを過ごしませんか？
       </div>
-      <h2>Moreningでできること</h2>
-      <ul class="text list">
-        <li>起床時間の記録</li>
-        <li>朝活タイマー</li>
-        <li>ポイントを貯める</li>
+      <div class="text about text-mobile">
+        朝の時間、無駄にしていませんか？<br />Moreningは朝活を頑張る人を<br />応援するサイト。
+        <br />ランニング、筋トレ、<br />朝食作り、勉強...<br />
+        Moreningを使って素敵な朝活ライフを<br />過ごしませんか？
+      </div>
+      <h2 class="text-pc">Moreningでできること</h2>
+      <h2 class="text-mobile">Moreningで<br />できること</h2>
+      <ul class="text list text-pc">
+        <li>・起床時間の記録</li>
+        <li>・朝活タイマー</li>
+        <li>・ポイントを貯める</li>
+      </ul>
+      <ul class="text list text-mobile">
+        <li>・起床時間の記録</li>
+        <li>・朝活タイマー</li>
+        <li>・ポイントを貯める</li>
       </ul>
     </div>
     <div class="login">
@@ -193,114 +205,367 @@ export default {
 }
 </script>
 <style>
-.loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99999;
-  animation: loading 1s ease-out 2s forwards;
-}
-@keyframes loading {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-.main {
-  height: 100vh;
-  width: 100%;
-  position: relative;
-}
-.video-area {
-  position: fixed;
-  z-index: -1;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  overflow: hidden;
-}
-.video {
-  position: absolute;
-  z-index: -1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.titleTop {
-  position: absolute;
-  color: white;
-  text-align: left;
-  font-size: 10em;
-}
-.container {
-  letter-spacing: 0.2em;
-  background-color: white;
-  opacity: 90%;
-  width: 100%;
-}
-.whatIs {
-  text-align: left;
-  line-height: 5em;
-}
-h2 {
-  padding: 3% 5% 0 5%;
-  font-size: 3em;
-}
 .text {
-  padding-left: 10%;
-  font-size: 1.5em;
+  word-break: keep-all;
+  line-break: strict;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 .list {
   padding-bottom: 5%;
+  list-style: none;
 }
-.login {
-  background: #d8eefe;
-  width: 50%;
-  border-radius: 42px;
-  margin: 0 auto;
+@media (min-width: 1001px) {
+  .loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    animation: loading 1s ease-out 2s forwards;
+  }
+  @keyframes loading {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+  .main {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+  }
+  .video-area {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+  .video {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .titleTop {
+    position: absolute;
+    color: white;
+    text-align: left;
+    font-size: 10em;
+  }
+  .container {
+    letter-spacing: 0.2em;
+    background-color: white;
+    opacity: 90%;
+    width: 100%;
+  }
+  .whatIs {
+    text-align: left;
+    line-height: 5em;
+  }
+  h2 {
+    padding: 3% 5% 0 5%;
+    font-size: 3em;
+  }
+  .text-mobile {
+    display: none;
+  }
+  .text-pc {
+    display: block;
+  }
+  .text {
+    padding-left: 10%;
+    font-size: 1.5em;
+  }
+  .login {
+    background: #d8eefe;
+    width: 50%;
+    border-radius: 42px;
+    margin: 0 auto;
+  }
+  .input {
+    background: #048abf;
+    color: white;
+    margin: 2% 0;
+    width: 50%;
+    font-size: 1.5em;
+    height: fit-content;
+  }
+  ::placeholder {
+    color: white;
+  }
+  .googleButton {
+    color: #048abf;
+    background-color: transparent;
+    border: none;
+    font-size: 1.5em;
+    margin: 1%;
+    text-decoration: underline;
+  }
+  .loginButton {
+    margin: 3%;
+    width: 20%;
+    height: 2em;
+    text-align: center;
+    font-size: 1.5em;
+    color: white;
+    background-color: #048abf;
+    border-radius: 60px;
+    border-bottom: 5px solid #022340;
+  }
+  .loginButton:hover {
+    padding-top: 3px;
+    border-bottom: 2px solid #022340;
+    transition: 0.3s;
+    color: white;
+  }
+  .first {
+    padding: 2%;
+    font-size: 1.5em;
+  }
 }
-.input {
-  background: #048abf;
-  color: white;
-  margin: 2% 0;
-  width: 50%;
-  font-size: 1.5em;
-  height: fit-content;
+@media (max-width: 1000px) {
+  .loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    animation: loading 1s ease-out 2s forwards;
+  }
+  @keyframes loading {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+  .main {
+    height: 50vh;
+    width: 100%;
+    position: relative;
+  }
+  .video-area {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+  .video {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .titleTop {
+    position: absolute;
+    color: white;
+    text-align: left;
+    font-size: 7em;
+  }
+  .container {
+    letter-spacing: 0.2em;
+    background-color: white;
+    opacity: 90%;
+    width: 100%;
+  }
+  .whatIs {
+    text-align: left;
+    line-height: 5em;
+  }
+  h2 {
+    padding: 3% 2.5% 0 2.5%;
+    font-size: 3em;
+  }
+  .text-mobile {
+    display: none;
+  }
+  .text-pc {
+    display: block;
+  }
+  .text {
+    padding-left: 2.5%;
+    font-size: 1.5em;
+  }
+  .login {
+    background: #d8eefe;
+    width: 75%;
+    border-radius: 42px;
+    margin: 0 auto;
+  }
+  .input {
+    background: #048abf;
+    color: white;
+    margin: 2% 0;
+    width: 75%;
+    font-size: 1.5em;
+    height: fit-content;
+  }
+  ::placeholder {
+    color: white;
+  }
+  .googleButton {
+    color: #048abf;
+    background-color: transparent;
+    border: none;
+    font-size: 1.5em;
+    margin: 1%;
+    text-decoration: underline;
+  }
+  .loginButton {
+    margin: 3%;
+    width: 5em;
+    height: 2em;
+    text-align: center;
+    font-size: 1.5em;
+    color: white;
+    background-color: #048abf;
+    border-radius: 60px;
+    border-bottom: 5px solid #022340;
+  }
+  .loginButton:hover {
+    padding-top: 3px;
+    border-bottom: 2px solid #022340;
+    transition: 0.3s;
+    color: white;
+  }
+  .first {
+    padding: 2%;
+    font-size: 1.5em;
+  }
 }
-::placeholder {
-  color: white;
-}
-.googleButton {
-  color: #048abf;
-  background-color: transparent;
-  border: none;
-  font-size: 1.5em;
-  margin: 1%;
-  text-decoration: underline;
-}
-.loginButton {
-  margin: 3%;
-  width: 20%;
-  height: 2em;
-  text-align: center;
-  font-size: 1.5em;
-  color: white;
-  background-color: #048abf;
-  border-radius: 60px;
-  border-bottom: 5px solid #022340;
-}
-.loginButton:hover {
-  padding-top: 3px;
-  border-bottom: 2px solid #022340;
-  transition: 0.3s;
-  color: white;
-}
-.first {
-  padding: 2%;
-  font-size: 1.5em;
+@media (max-width: 670px) {
+  .loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    animation: loading 1s ease-out 2s forwards;
+  }
+  @keyframes loading {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+  .main {
+    height: 20vh;
+    width: 100%;
+    position: relative;
+  }
+  .video-area {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+  .video {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .titleTop {
+    /* position: absolute; */
+    color: white;
+    text-align: left;
+    font-size: 3em;
+    margin: 0;
+  }
+  .container {
+    letter-spacing: 0.2em;
+    background-color: white;
+    opacity: 90%;
+    width: 100%;
+    padding-bottom: 0.5em;
+  }
+  .whatIs {
+    text-align: left;
+    line-height: 4em;
+  }
+  h2 {
+    padding: 3% 5% 0 2.5%;
+    font-size: 2.5em;
+  }
+  .text-pc {
+    display: none;
+  }
+  .text-mobile {
+    display: block;
+  }
+  ul.text-mobile,
+  div.text-mobile {
+    padding-left: 2.5%;
+    font-size: 0.95em;
+    line-height: 2em;
+  }
+
+  .list {
+    padding-bottom: 5%;
+  }
+  .login {
+    background: #d8eefe;
+    width: 90%;
+    border-radius: 42px;
+    margin: 0 auto;
+  }
+  .input {
+    background: #048abf;
+    color: white;
+    margin: 2% 0;
+    width: 75%;
+    font-size: 1.5em;
+    height: fit-content;
+  }
+  ::placeholder {
+    color: white;
+  }
+  .googleButton {
+    color: #048abf;
+    background-color: transparent;
+    border: none;
+    font-size: 1.5em;
+    margin: 1%;
+    text-decoration: underline;
+  }
+  .loginButton {
+    margin: 3%;
+    width: 5em;
+    height: 2em;
+    text-align: center;
+    font-size: 1.5em;
+    color: white;
+    background-color: #048abf;
+    border-radius: 60px;
+    border-bottom: 5px solid #022340;
+  }
+  .loginButton:hover {
+    padding-top: 3px;
+    border-bottom: 2px solid #022340;
+    transition: 0.3s;
+    color: white;
+  }
+  .first {
+    padding: 2%;
+    font-size: 1.5em;
+  }
 }
 </style>
