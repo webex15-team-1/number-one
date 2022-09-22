@@ -62,13 +62,9 @@
         <button class="loginButton" v-on:click="login">Login</button>
       </div>
     </div>
-    <div class="first">
+    <div class="first" v-on:click="register">
       初めての方はこちらへ
-      <Icon
-        icon="bi:arrow-down-circle-fill"
-        :rotate="4"
-        v-on:click="register"
-      />
+      <Icon icon="bi:arrow-down-circle-fill" :rotate="4" />
     </div>
     <div class="login" v-if="registerAccount">
       <h2>Register</h2>
