@@ -348,7 +348,7 @@ export default {
     }
   }
   .main {
-    height: 50vh;
+    height: 100vh;
     width: 100%;
     position: relative;
   }
@@ -373,6 +373,8 @@ export default {
     color: white;
     text-align: left;
     font-size: 7em;
+    top: 40vh;
+    transform: translate(0%, -50%);
   }
   .container {
     letter-spacing: 0.2em;
@@ -463,7 +465,7 @@ export default {
     }
   }
   .main {
-    height: 20vh;
+    height: 100vh;
     width: 100%;
     position: relative;
   }
@@ -489,6 +491,8 @@ export default {
     text-align: left;
     font-size: 3em;
     margin: 0;
+    top: 40vh;
+    transform: translate(0%, -50%);
   }
   .container {
     letter-spacing: 0.2em;
